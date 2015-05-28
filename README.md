@@ -103,6 +103,7 @@ var styles = StyleSheet.create({
 * [ ] wrap button text
 * [ ] add comments to index.js
 * [ ] add an example gif to this readme
+* [ ] make buttons appear from under each other instead of resizing
 * [X] add onPress prop to buttons
 * [x] center button text
 * [x] fix buggy swipe
