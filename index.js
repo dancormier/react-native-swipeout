@@ -96,6 +96,7 @@ var Swipeout = React.createClass({
       if (btn.color) styleSwipeoutBtn.push([{backgroundColor: btn.color}])
       if (btn.textColor) styleSwipeoutBtnText.push([{color: btn.textColor}])
       return  <TouchableHighlight
+                key={i}
                 style={styleSwipeoutBtn}
                 underlayColor="rgba(0,0,0,.015)"
                 onPress={btn.onPress}>

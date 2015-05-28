@@ -18,7 +18,7 @@ var swipeoutExample = React.createClass({
   render: function() {
     var swipeoutBtns = [
       {
-        text: 'Primary Button'
+        text: 'Primary'
       , type: 'primary'
       }, {
         text: 'Secondary'
