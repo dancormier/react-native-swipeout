@@ -18,17 +18,12 @@ var swipeoutExample = React.createClass({
   render: function() {
     var swipeoutBtns = [
       {
+        text: 'Custom'
+      , color: '#4fba8a'
+      , textColor: '#17807a'
+      }, {
         text: 'Primary'
       , type: 'primary'
-      }, {
-        text: 'Secondary'
-      , type: 'secondary'
-      }, {
-        text: 'Color'
-      , color: '#ffee00'
-      , textColor: 'green'
-      }, {
-        text: 'Default'
       }, {
         text: 'Delete'
       , type: 'delete'
