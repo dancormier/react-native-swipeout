@@ -1,5 +1,6 @@
 # react-native-swipeout
 iOS-style swipeout buttons that appear from behind a component
+![swipeout preview](http://i.imgur.com/YX1seKj.gif)
 
 ## Installation
 ```
@@ -7,7 +8,6 @@ npm install --save react-native-swipeout
 ```
 
 ## Usage notes
-This is a work in progress.
 
 ```
 var Swipeout = require('react-native-swipeout')
@@ -102,8 +102,8 @@ var styles = StyleSheet.create({
 * [ ] lock scroll when swiping
 * [ ] wrap button text
 * [ ] add comments to index.js
-* [ ] add an example gif to this readme
 * [ ] make buttons appear from under each other instead of resizing
+* [x] add an example gif to this readme
 * [X] add onPress prop to buttons
 * [x] center button text
 * [x] fix buggy swipe
