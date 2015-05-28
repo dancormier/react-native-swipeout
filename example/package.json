@@ -1,0 +1,12 @@
+{
+  "name": "swipeoutExample",
+  "version": "0.0.2",
+  "private": true,
+  "scripts": {
+    "start": "node_modules/react-native/packager/packager.sh"
+  },
+  "dependencies": {
+    "react-native": "^0.4.4",
+    "react-native-swipeout": "^0.1.0"
+  }
+}
