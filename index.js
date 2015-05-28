@@ -10,7 +10,7 @@ var Swipeout = React.createClass({
     var {width, height} = Dimensions.get('window');
     return {
       height: height
-    , swipeoutMaxWidth: (width/4)*this.props.btns.length
+    , swipeoutMaxWidth: (width/5)*this.props.btns.length
     , swipeoutOpen: false
     , swipeoutTimeStart: null
     , swiping: false
@@ -41,29 +41,19 @@ var Swipeout = React.createClass({
   }
 , _handlePanResponderMove: function(e: Object, gestureState: Object) {
     var timeDiff = (new Date()).getTime() - this.state.swipeoutTimeStart
-    var swipeoutMaxWidth = this.state.swipeoutMaxWidth
-    var isOpen = this.state.swipeoutOpen
-    if (isOpen) {
-      var xPos = gestureState.dx + this.state.swipeoutMaxWidth
-      var xMin = -1*(this.state.swipeoutMaxWidth)
-    } else {
-      var xPos = gestureState.dx
-      var xMin = 0
-    }
+    var xMin = 0
+    var xPos = gestureState.dx
+    if (this.state.swipeoutOpen) var xPos = gestureState.dx - this.state.swipeoutMaxWidth
     if (this.state.swiping) {
-      if (timeDiff < 100 && xMin-xPos > 20) {
-        console.log('if: ' + xPos)
+      if (timeDiff < 160 && xMin-xPos > 10) {
         this.tweenState('contentLeft', {
           easing: tweenState.easingTypes.easeInOutQuad,
           duration: 200,
-          endValue: -swipeoutMaxWidth
+          endValue: -this.state.swipeoutMaxWidth
         })
-        this.setState({ swiping: false })
       } else if (xPos < 0) {
-        console.log('else if: ' + xPos)
         this.setState({ contentLeft: xPos })
       } else {
-        console.log('else: ' + xPos)
         this.setState({ contentLeft: 0 })
       }
     }
@@ -98,11 +88,15 @@ var Swipeout = React.createClass({
     var styleSwipeoutBtns = [styles.swipeoutBtns]
     styleSwipeoutBtns.push(styleSwipeoutMove.swipeoutBtns)
     var Btns = this.props.btns.map(function(btn, i){
+      var styleSwipeoutBtn = [styles.swipeoutBtn]
+      if (btn.type === 'delete') styleSwipeoutBtn.push(styles.colorDelete)
+      else if (btn.type === 'primary') styleSwipeoutBtn.push(styles.colorPrimary)
+      else if (btn.type === 'secondary') styleSwipeoutBtn.push(styles.colorSecondary)
       return  <TouchableHighlight
-                style={styles.swipeoutBtn}
+                style={styleSwipeoutBtn}
                 underlayColor="rgba(0,0,0,.015)"
                 onPress={btn.onPress}>
-                <Text style={styles.swipeoutBtnText}>{btn.text}</Text>
+                  <Text style={styles.swipeoutBtnText} numberOfLines="3">{btn.text}</Text>
               </TouchableHighlight>
     })
     return (

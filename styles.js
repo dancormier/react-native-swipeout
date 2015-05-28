@@ -4,17 +4,14 @@ var {StyleSheet} = React
 var styles = StyleSheet.create({
   swipeout: {
     flex: 1,
-  },
-  swipeoutBtn: {
-    flex: 1,
-  },
-  swipeoutBtn: {
-    alignItems: 'center',
-    backgroundColor: '#b6bec0',
-    flex: 1,
     overflow: 'hidden',
   },
+  swipeoutBtn: {
+    backgroundColor: '#b6bec0',
+    flex: 1,
+  },
   swipeoutBtnText: {
+    alignSelf: 'center',
     color: '#fff',
   },
   swipeoutBtns: {
@@ -27,6 +24,15 @@ var styles = StyleSheet.create({
   },
   swipeoutContent: {
     flex: 1,
+  },
+  colorDelete: {
+    backgroundColor: '#fb3d38',
+  },
+  colorPrimary: {
+    backgroundColor: '#006fff'
+  },
+  colorSecondary: {
+    backgroundColor: '#fd9427'
   },
 })
 
