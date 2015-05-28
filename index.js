@@ -13,7 +13,8 @@ var Swipeout = React.createClass({
     , swipeoutOpen: false
     , swipeoutTimeStart: null
     , swiping: false
-    , width: 0
+    , width: Dimensions.get('window').width
+    , contentLeft: 0
     }
   }
 , componentWillMount: function() {
@@ -37,7 +38,6 @@ var Swipeout = React.createClass({
   }
 , _handlePanResponderGrant: function(e: Object, gestureState: Object) {
     this.refs.swipeoutContent.measure((ox, oy, width, height) => {
-      console.log('h: '+height+', w: '+width+', swipeoutMax: '+(width/5 - 4)*this.props.btns.length)
       this.setState({
         height: height,
         swiping: true,
@@ -116,10 +116,10 @@ var Swipeout = React.createClass({
     })
     return (
       <View style={styles.swipeout}>
-        <View style={styleSwipeoutBtns}>{Btns}</View>
         <View ref="swipeoutContent" style={styleSwipeoutContent} {...this._panResponder.panHandlers}>
           {this.props.children}
         </View>
+        <View style={styleSwipeoutBtns}>{Btns}</View>
       </View>
     )
   }
