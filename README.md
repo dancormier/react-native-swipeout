@@ -2,7 +2,9 @@
 iOS-style swipeout buttons that appear from behind a component
 
 ## Installation
-`npm install --save react-native-swipeout`
+```
+npm install --save react-native-swipeout
+```
 
 ## Usage notes
 This is a work in progress.
@@ -82,7 +84,7 @@ var styles = StyleSheet.create({
 
 * `btns`: pass an array of buttons to display
 
-### Button props
+#### Button props
 
 * `text`: string (example: 'click me')
 * `type`: default || primary || secondary
@@ -91,8 +93,8 @@ var styles = StyleSheet.create({
 
 ## To Do
 
-[ ] add onPress prop to buttons
-[ ] center button text
-[ ] fix buggy swipe
-[ ] add swipe from left
+* [ ] add onPress prop to buttons
+* [ ] center button text
+* [ ] fix buggy swipe
+* [ ] add swipe from left
 
