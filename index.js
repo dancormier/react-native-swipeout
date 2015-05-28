@@ -10,7 +10,7 @@ var Swipeout = React.createClass({
     var {width, height} = Dimensions.get('window');
     return {
       height: height
-    , swipeoutMaxWidth: (width/5)*this.props.btns.length
+    , swipeoutMaxWidth: (width/5 - 4)*this.props.btns.length
     , swipeoutOpen: false
     , swipeoutTimeStart: null
     , swiping: false
@@ -92,6 +92,7 @@ var Swipeout = React.createClass({
       if (btn.type === 'delete') styleSwipeoutBtn.push(styles.colorDelete)
       else if (btn.type === 'primary') styleSwipeoutBtn.push(styles.colorPrimary)
       else if (btn.type === 'secondary') styleSwipeoutBtn.push(styles.colorSecondary)
+      if (btn.color) styleSwipeoutBtn.push([{backgroundColor: btn.color}])
       return  <TouchableHighlight
                 style={styleSwipeoutBtn}
                 underlayColor="rgba(0,0,0,.015)"
