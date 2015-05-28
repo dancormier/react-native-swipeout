@@ -94,9 +94,14 @@ var styles = StyleSheet.create({
 
 ## To Do
 
+* [ ] open swipeout quickly on quick swipe
+* [ ] overswipe to trigger action
+* [ ] option for swipeout to extend to 100% width
+* [ ] icon support
+* [ ] swipe from left
+* [ ] add an example gif to this readme
+* [ ] lock scroll when swiping
 * [X] add onPress prop to buttons
 * [x] center button text
 * [x] fix buggy swipe
-* [ ] add swipe from left
-* [ ] add an example gif to this readme
 
