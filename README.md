@@ -86,6 +86,7 @@ var styles = StyleSheet.create({
 
 #### Button props
 
+* `onPress`: function (example: `function(){alert('pressed!')}` or `this.btnCallback`)
 * `text`: string (example: 'click me')
 * `type`: default || primary || secondary
 * `color`: color string (example: '#ddfdde')
@@ -93,7 +94,7 @@ var styles = StyleSheet.create({
 
 ## To Do
 
-* [ ] add onPress prop to buttons
+* [X] add onPress prop to buttons
 * [ ] center button text
 * [ ] fix buggy swipe
 * [ ] add swipe from left

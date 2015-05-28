@@ -32,6 +32,7 @@ var swipeoutExample = React.createClass({
       }, {
         text: 'Delete'
       , type: 'delete'
+      , onPress: function(){alert('Delete pressed')}
       }
     ]
     return (
