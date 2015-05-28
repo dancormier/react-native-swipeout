@@ -89,15 +89,17 @@ var Swipeout = React.createClass({
     styleSwipeoutBtns.push(styleSwipeoutMove.swipeoutBtns)
     var Btns = this.props.btns.map(function(btn, i){
       var styleSwipeoutBtn = [styles.swipeoutBtn]
+      var styleSwipeoutBtnText = [styles.swipeoutBtnText]
       if (btn.type === 'delete') styleSwipeoutBtn.push(styles.colorDelete)
       else if (btn.type === 'primary') styleSwipeoutBtn.push(styles.colorPrimary)
       else if (btn.type === 'secondary') styleSwipeoutBtn.push(styles.colorSecondary)
       if (btn.color) styleSwipeoutBtn.push([{backgroundColor: btn.color}])
+      if (btn.textColor) styleSwipeoutBtnText.push([{color: btn.textColor}])
       return  <TouchableHighlight
                 style={styleSwipeoutBtn}
                 underlayColor="rgba(0,0,0,.015)"
                 onPress={btn.onPress}>
-                  <Text style={styles.swipeoutBtnText} numberOfLines="3">{btn.text}</Text>
+                  <Text style={styleSwipeoutBtnText}>{btn.text}</Text>
               </TouchableHighlight>
     })
     return (

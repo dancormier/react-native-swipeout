@@ -25,7 +25,8 @@ var swipeoutExample = React.createClass({
       , type: 'secondary'
       }, {
         text: 'Color'
-      , color: '#ff11cc'
+      , color: '#ffee00'
+      , textColor: 'green'
       }, {
         text: 'Default'
       }, {
