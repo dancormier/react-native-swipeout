@@ -7,14 +7,13 @@ var styles = require('./styles.js')
 var Swipeout = React.createClass({
   mixins: [tweenState.Mixin]
 , getInitialState: function() {
-    var {width, height} = Dimensions.get('window');
     return {
-      height: height
-    , swipeoutMaxWidth: (width/5 - 4)*this.props.btns.length
+      height: 0
+    , swipeoutMaxWidth: 0
     , swipeoutOpen: false
     , swipeoutTimeStart: null
     , swiping: false
-    , width: width
+    , width: 0
     }
   }
 , componentWillMount: function() {
@@ -27,6 +26,9 @@ var Swipeout = React.createClass({
       onPanResponderTerminate: this._handlePanResponderEnd,
     });
   }
+, componentDidMount: function() {
+
+  }
 , _handleStartShouldSetPanResponder: function(e: Object, gestureState: Object): boolean {
     return true;
   }
@@ -34,9 +36,15 @@ var Swipeout = React.createClass({
     return true;
   }
 , _handlePanResponderGrant: function(e: Object, gestureState: Object) {
-    this.setState({
-      swiping: true,
-      swipeoutTimeStart: (new Date()).getTime()
+    this.refs.swipeoutContent.measure((ox, oy, width, height) => {
+      console.log('h: '+height+', w: '+width+', swipeoutMax: '+(width/5 - 4)*this.props.btns.length)
+      this.setState({
+        height: height,
+        swiping: true,
+        swipeoutTimeStart: (new Date()).getTime(),
+        swipeoutMaxWidth: (width/5 - 4)*this.props.btns.length,
+        width: width
+      })
     })
   }
 , _handlePanResponderMove: function(e: Object, gestureState: Object) {
@@ -90,11 +98,12 @@ var Swipeout = React.createClass({
     var Btns = this.props.btns.map(function(btn, i){
       var styleSwipeoutBtn = [styles.swipeoutBtn]
       var styleSwipeoutBtnText = [styles.swipeoutBtnText]
+      styleSwipeoutBtn.push([{ height: self.state.height }])
       if (btn.type === 'delete') styleSwipeoutBtn.push(styles.colorDelete)
       else if (btn.type === 'primary') styleSwipeoutBtn.push(styles.colorPrimary)
       else if (btn.type === 'secondary') styleSwipeoutBtn.push(styles.colorSecondary)
-      if (btn.color) styleSwipeoutBtn.push([{backgroundColor: btn.color}])
-      if (btn.textColor) styleSwipeoutBtnText.push([{color: btn.textColor}])
+      if (btn.color) styleSwipeoutBtn.push([{ backgroundColor: btn.color }])
+      if (btn.textColor) styleSwipeoutBtnText.push([{ color: btn.textColor }])
       return  <TouchableHighlight
                 key={i}
                 style={styleSwipeoutBtn}
@@ -106,7 +115,7 @@ var Swipeout = React.createClass({
     return (
       <View style={styles.swipeout}>
         <View style={styleSwipeoutBtns}>{Btns}</View>
-        <View style={styleSwipeoutContent} {...this._panResponder.panHandlers}>
+        <View ref="swipeoutContent" style={styleSwipeoutContent} {...this._panResponder.panHandlers}>
           {this.props.children}
         </View>
       </View>
