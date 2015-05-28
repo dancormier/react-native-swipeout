@@ -6,6 +6,9 @@ var styles = StyleSheet.create({
     flex: 1,
     overflow: 'hidden',
   },
+  swipeoutBtnTouchable: {
+    flex: 1,
+  },
   swipeoutBtn: {
     justifyContent: 'center',
     alignItems: 'center',
