@@ -97,4 +97,5 @@ var styles = StyleSheet.create({
 * [ ] center button text
 * [ ] fix buggy swipe
 * [ ] add swipe from left
+* [ ] add an example gif to this readme
 
