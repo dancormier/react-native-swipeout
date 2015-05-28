@@ -95,7 +95,7 @@ var styles = StyleSheet.create({
 ## To Do
 
 * [X] add onPress prop to buttons
-* [ ] center button text
+* [x] center button text
 * [ ] fix buggy swipe
 * [ ] add swipe from left
 * [ ] add an example gif to this readme

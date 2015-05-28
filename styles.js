@@ -7,13 +7,13 @@ var styles = StyleSheet.create({
     overflow: 'hidden',
   },
   swipeoutBtn: {
+    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#b6bec0',
     flex: 1,
     overflow: 'hidden',
   },
   swipeoutBtnText: {
-    alignSelf: 'center',
     color: '#fff',
   },
   swipeoutBtns: {
