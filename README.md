@@ -82,16 +82,21 @@ var styles = StyleSheet.create({
 
 ## Props
 
-* `btns`: pass an array of buttons to display
-* `backgroundColor`: color string (seen when "rubber-banding" the swipeout content)
+Prop            | Type   | Optional | Default   | Description
+--------------- | ------ | -------- | --------- | -----------
+autoClose       | bool   | Yes      | false     | auto close on button press
+backgroundColor | string | Yes      | '#dbddde' | 
+btns            | array  | No       | []        | swipeout buttons 
 
-#### Button props (optional)
+#### Button props
 
-* `color`: color string (example: '#ddfdde')
-* `onPress`: function (example: `function(){alert('pressed!')}` or `this.btnCallback`)
-* `text`: string (example: 'click me')
-* `textColor`: color string
-* `type`: default || primary || secondary
+Prop            | Type   | Optional | Default   | Description
+--------------- | ------ | -------- | --------- | -----------
+color           | string | Yes      | '#b6bec0' | background color
+onPress         | func   | Yes      | null      | function executed onPress
+text            | string | No       | ''        | text
+textColor       | string | Yes      | '#ffffff' | text color
+type            | string | Yes      | 'default' | keyword styles (default || primary || secondary)
 
 ## To Do
 
@@ -103,6 +108,7 @@ var styles = StyleSheet.create({
 * [ ] lock scroll when swiping
 * [ ] add comments to index.js
 * [ ] close open other swipeouts when initiating swipeout
+* [ ] change button color prop to backgroundColor
 * [x] add autoClose prop
 * [x] wrap button text
 * [x] make buttons appear from under each other instead of resizing
