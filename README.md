@@ -100,7 +100,6 @@ type            | string | Yes      | 'default' | keyword styles: default, prima
 
 ## To Do
 
-* [ ] open swipeout on quick swipe
 * [ ] overswipe to trigger action
 * [ ] option for swipeout to extend to 100% width
 * [ ] icon support
@@ -108,6 +107,7 @@ type            | string | Yes      | 'default' | keyword styles: default, prima
 * [ ] lock scroll when swiping
 * [ ] add comments to index.js
 * [ ] close open other swipeouts when initiating swipeout
+* [x] open swipeout on quick swipe
 * [x] change button color prop to backgroundColor
 * [x] add autoClose prop
 * [x] wrap button text

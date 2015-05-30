@@ -57,6 +57,7 @@ var Swipeout = React.createClass({
       exposed: false,
       swiping: false,
       tweenDuration: 160,
+      timeSwipeStart: null,
     }
   }
 , componentWillMount: function() {
@@ -83,26 +84,43 @@ var Swipeout = React.createClass({
         contentHeight: height,
         contentWidth: width,
         swiping: true,
+        timeSwipeStart: (new Date()).getTime(),
       })
     })
   }
 , _handlePanResponderMove: function(e: Object, gestureState: Object) {
-    var xPos = gestureState.dx
-    if (this.state.exposed) var xPos = gestureState.dx - this.state.btnsWidth
-    if (this.state.swiping) this.setState({ contentPos: Math.min(xPos, 0) })
+    var posX = gestureState.dx
+    if (this.state.exposed) var posX = gestureState.dx - this.state.btnsWidth
+    if (this.state.swiping) this.setState({ contentPos: Math.min(posX, 0) })      
   }
 , _handlePanResponderEnd: function(e: Object, gestureState: Object) {
-    var contentWidth = this.state.contentWidth
-    var expose = gestureState.dx < -1*(contentWidth*0.33)
+    var timeDiff = (new Date()).getTime() - this.state.timeSwipeStart < 200
     var btnsWidth = -1*(this.state.btnsWidth)
+    var contentWidth = this.state.contentWidth
+    var posX = gestureState.dx
+    var openX = -1*(contentWidth*0.33)
+    var expose = posX < openX
+    if (this.state.exposed) var expose = posX+openX < openX
+
     if (this.state.swiping) {
-      this.tweenState('contentPos', {
-        easing: tweenState.easingTypes.easeInOutQuad,
-        duration: this.state.tweenDuration,
-        endValue: expose ? btnsWidth : 0
-      })
-      if (expose) this.setState({ contentPos: btnsWidth, exposed: true })
-      else this.setState({ contentPos: 0, exposed: false })
+      if (timeDiff) {
+        var expose = posX < openX/10
+        this.tweenState('contentPos', {
+          easing: tweenState.easingTypes.easeInOutQuad,
+          duration: this.state.tweenDuration/2,
+          endValue: expose ? btnsWidth : 0
+        })
+        if (expose) this.setState({ contentPos: btnsWidth, exposed: true })
+        else this.setState({ contentPos: 0, exposed: false })
+      } else {
+        this.tweenState('contentPos', {
+          easing: tweenState.easingTypes.easeInOutQuad,
+          duration: this.state.tweenDuration,
+          endValue: expose ? btnsWidth : 0
+        })
+        if (expose) this.setState({ contentPos: btnsWidth, exposed: true })
+        else this.setState({ contentPos: 0, exposed: false })
+      }
     }
     this.setState({ swiping: false })
   }
