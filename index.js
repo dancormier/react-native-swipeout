@@ -8,6 +8,7 @@ var Swipeout = React.createClass({
   mixins: [tweenState.Mixin]
 , getInitialState: function() {
     return {
+      autoClose: this.props.autoClose || false,
       btnWidth: 0,
       btnsWidth: 0,
       contentHeight: 0,
@@ -15,6 +16,7 @@ var Swipeout = React.createClass({
       contentWidth: Dimensions.get('window').width,
       exposed: false,
       swiping: false,
+      tweenDuration: 160,
     }
   }
 , componentWillMount: function() {
@@ -56,7 +58,7 @@ var Swipeout = React.createClass({
     if (this.state.swiping) {
       this.tweenState('contentPos', {
         easing: tweenState.easingTypes.easeInOutQuad,
-        duration: 160,
+        duration: this.state.tweenDuration,
         endValue: expose ? btnsWidth : 0
       })
       if (expose) this.setState({ contentPos: btnsWidth, exposed: true })
@@ -69,6 +71,18 @@ var Swipeout = React.createClass({
       return lowerLimit - Math.pow(lowerLimit - value, 0.85);
     } 
     return value;
+  }
+, _autoClose: function(i) {
+    var onPress = this.props.btns[i].onPress
+    if (onPress) onPress()
+    if (this.state.autoClose) {
+      this.tweenState('contentPos', {
+        easing: tweenState.easingTypes.easeInOutQuad,
+        duration: this.state.tweenDuration,
+        endValue: 0
+      })
+      this.setState({ exposed: false })
+    }
   }
 , render: function() {
     var self = this
@@ -100,7 +114,7 @@ var Swipeout = React.createClass({
       if (btn.textColor) styleSwipeoutBtnText.push([{ color: btn.textColor }])
       return  <TouchableHighlight
                 key={i}
-                onPress={btn.onPress}
+                onPress={() => self._autoClose(i)}
                 style={styles.swipeoutBtnTouchable}
               >
                 <View style={styleSwipeoutBtn}>

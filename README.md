@@ -103,6 +103,7 @@ var styles = StyleSheet.create({
 * [ ] lock scroll when swiping
 * [ ] add comments to index.js
 * [ ] close open other swipeouts when initiating swipeout
+* [x] add autoClose prop
 * [x] wrap button text
 * [x] make buttons appear from under each other instead of resizing
 * [x] add an example gif to this readme
