@@ -92,10 +92,10 @@ btns            | array  | No       | []        | swipeout buttons
 
 Prop            | Type   | Optional | Default   | Description
 --------------- | ------ | -------- | --------- | -----------
-color           | string | Yes      | '#b6bec0' | background color
+backgroundColor | string | Yes      | '#b6bec0' | background color
+color           | string | Yes      | '#ffffff' | text color
 onPress         | func   | Yes      | null      | function executed onPress
 text            | string | No       | 'Click Me'| text
-textColor       | string | Yes      | '#ffffff' | text color
 type            | string | Yes      | 'default' | keyword styles: default, primary, secondary
 
 ## To Do
@@ -108,7 +108,7 @@ type            | string | Yes      | 'default' | keyword styles: default, prima
 * [ ] lock scroll when swiping
 * [ ] add comments to index.js
 * [ ] close open other swipeouts when initiating swipeout
-* [ ] change button color prop to backgroundColor
+* [x] change button color prop to backgroundColor
 * [x] add autoClose prop
 * [x] wrap button text
 * [x] make buttons appear from under each other instead of resizing

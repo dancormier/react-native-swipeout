@@ -7,11 +7,12 @@ var styles = require('./styles.js')
 var SwipeoutBtn = React.createClass({
   getDefaultProps: function() {
     return {
+      backgroundColor: null,
+      color: null,
       height: 0,
       key: null,
       onPress: null,
       text: 'Click me',
-      textColor: null,
       type: '',
       width: 0,
     }
@@ -27,8 +28,8 @@ var SwipeoutBtn = React.createClass({
     if (btn.type === 'delete') styleSwipeoutBtn.push(styles.colorDelete)
     else if (btn.type === 'primary') styleSwipeoutBtn.push(styles.colorPrimary)
     else if (btn.type === 'secondary') styleSwipeoutBtn.push(styles.colorSecondary)
-    if (btn.color) styleSwipeoutBtn.push([{ backgroundColor: btn.color }])
-    if (btn.textColor) styleSwipeoutBtnText.push([{ color: btn.textColor }])
+    if (btn.backgroundColor) styleSwipeoutBtn.push([{ backgroundColor: btn.backgroundColor }])
+    if (btn.color) styleSwipeoutBtnText.push([{ color: btn.color }])
 
     return  (
       <TouchableHighlight
@@ -156,12 +157,12 @@ var Swipeout = React.createClass({
             self.props.btns.map(function(btn, i){
               return (
                 <SwipeoutBtn
+                  backgroundColor={btn.backgroundColor}
                   color={btn.color}
                   height={self.state.contentHeight}
                   key={i}
                   onPress={() => self._autoClose(i)}
                   text={btn.text}
-                  textColor={btn.textColor}
                   type={btn.type}
                   width={self.state.btnWidth}/>
               )
