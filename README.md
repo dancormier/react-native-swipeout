@@ -1,6 +1,6 @@
 # react-native-swipeout
 iOS-style swipeout buttons that appear from behind a component
-![swipeout preview](http://i.imgur.com/YX1seKj.gif)
+![swipeout preview](http://i.imgur.com/oCQLNFC.gif)
 
 ## Installation
 ```
@@ -83,26 +83,28 @@ var styles = StyleSheet.create({
 ## Props
 
 * `btns`: pass an array of buttons to display
+* `backgroundColor`: color string (seen when "rubber-banding" the swipeout content)
 
-#### Button props
+#### Button props (optional)
 
+* `color`: color string (example: '#ddfdde')
 * `onPress`: function (example: `function(){alert('pressed!')}` or `this.btnCallback`)
 * `text`: string (example: 'click me')
-* `type`: default || primary || secondary
-* `color`: color string (example: '#ddfdde')
 * `textColor`: color string
+* `type`: default || primary || secondary
 
 ## To Do
 
-* [ ] open swipeout quickly on quick swipe
+* [ ] open swipeout on quick swipe
 * [ ] overswipe to trigger action
 * [ ] option for swipeout to extend to 100% width
 * [ ] icon support
 * [ ] swipe from left
 * [ ] lock scroll when swiping
-* [ ] wrap button text
 * [ ] add comments to index.js
-* [ ] make buttons appear from under each other instead of resizing
+* [ ] close open other swipeouts when initiating swipeout
+* [x] wrap button text
+* [x] make buttons appear from under each other instead of resizing
 * [x] add an example gif to this readme
 * [X] add onPress prop to buttons
 * [x] center button text
