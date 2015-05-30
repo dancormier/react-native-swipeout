@@ -36,8 +36,8 @@ var swipeoutExample = React.createClass({
     var swipeoutBtns = [
       {
         text: 'Color',
-        color: '#ddfdde',
-        textColor: 'green'
+        backgroundColor: '#ddfdde',
+        color: 'green'
       }, {
         text: 'Default'
       }, {
