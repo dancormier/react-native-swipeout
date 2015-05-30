@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "start": "node_modules/react-native/packager/packager.sh"
+  , "latest": "npm install react-native-swipeout@* --save"
   },
   "dependencies": {
     "react-native": "^0.4.4",
-    "react-native-swipeout": "^0.1.0"
+    "react-native-swipeout": "^0.3.1"
   }
 }
