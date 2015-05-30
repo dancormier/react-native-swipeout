@@ -4,6 +4,45 @@ var Dimensions = require('Dimensions')
 var {PanResponder, TouchableHighlight, StyleSheet, Text, View} = React
 var styles = require('./styles.js')
 
+var SwipeoutBtn = React.createClass({
+  getDefaultProps: function() {
+    return {
+      height: 0,
+      key: null,
+      onPress: null,
+      text: 'Click me',
+      textColor: null,
+      type: '',
+      width: 0,
+    }
+  }
+, render: function() {
+    var btn = this.props
+    var styleSwipeoutBtn = [styles.swipeoutBtn]
+    var styleSwipeoutBtnText = [styles.swipeoutBtnText]
+    styleSwipeoutBtn.push([{
+      height: btn.height,
+      width: btn.width,
+    }])
+    if (btn.type === 'delete') styleSwipeoutBtn.push(styles.colorDelete)
+    else if (btn.type === 'primary') styleSwipeoutBtn.push(styles.colorPrimary)
+    else if (btn.type === 'secondary') styleSwipeoutBtn.push(styles.colorSecondary)
+    if (btn.color) styleSwipeoutBtn.push([{ backgroundColor: btn.color }])
+    if (btn.textColor) styleSwipeoutBtnText.push([{ color: btn.textColor }])
+
+    return  (
+      <TouchableHighlight
+        onPress={this.props.onPress}
+        style={styles.swipeoutBtnTouchable}
+      >
+        <View style={styleSwipeoutBtn}>
+          <Text style={styleSwipeoutBtnText}>{btn.text}</Text>
+        </View>
+      </TouchableHighlight>
+    )
+  }
+})
+
 var Swipeout = React.createClass({
   mixins: [tweenState.Mixin]
 , getInitialState: function() {
@@ -86,8 +125,12 @@ var Swipeout = React.createClass({
   }
 , render: function() {
     var self = this
+
     var styleSwipeout = [styles.swipeout]
-    if (self.props.backgroundColor) styleSwipeout.push([{ backgroundColor: self.props.backgroundColor }])
+    if (self.props.backgroundColor) {
+      styleSwipeout.push([{ backgroundColor: self.props.backgroundColor }])
+    }
+
     var styleSwipeoutMove = StyleSheet.create({
       swipeoutBtns: {
         left: Math.abs(self.state.contentWidth+ Math.max(self.state.btnsWidth*-1, self.getTweeningValue('contentPos'))),
@@ -96,38 +139,35 @@ var Swipeout = React.createClass({
         left: self._rubberBandEasing(self.getTweeningValue('contentPos'), self.state.btnsWidth*-1),
       }
     })
+
     var styleSwipeoutContent = [styles.swipeoutContent]
     styleSwipeoutContent.push(styleSwipeoutMove.swipeoutContent)
+
     var styleSwipeoutBtns = [styles.swipeoutBtns]
     styleSwipeoutBtns.push(styleSwipeoutMove.swipeoutBtns)
-    var Btns = self.props.btns.map(function(btn, i){
-      var styleSwipeoutBtn = [styles.swipeoutBtn]
-      var styleSwipeoutBtnText = [styles.swipeoutBtnText]
-      styleSwipeoutBtn.push([{
-        height: self.state.contentHeight,
-        width: self.state.btnWidth,
-      }])
-      if (btn.type === 'delete') styleSwipeoutBtn.push(styles.colorDelete)
-      else if (btn.type === 'primary') styleSwipeoutBtn.push(styles.colorPrimary)
-      else if (btn.type === 'secondary') styleSwipeoutBtn.push(styles.colorSecondary)
-      if (btn.color) styleSwipeoutBtn.push([{ backgroundColor: btn.color }])
-      if (btn.textColor) styleSwipeoutBtnText.push([{ color: btn.textColor }])
-      return  <TouchableHighlight
-                key={i}
-                onPress={() => self._autoClose(i)}
-                style={styles.swipeoutBtnTouchable}
-              >
-                <View style={styleSwipeoutBtn}>
-                  <Text style={styleSwipeoutBtnText}>{btn.text}</Text>
-                </View>
-              </TouchableHighlight>
-    })
+
     return (
       <View style={styles.swipeout}>
         <View ref="swipeoutContent" style={styleSwipeoutContent} {...self._panResponder.panHandlers}>
           {self.props.children}
         </View>
-        <View style={styleSwipeoutBtns}>{Btns}</View>
+        <View style={styleSwipeoutBtns}>
+          {
+            self.props.btns.map(function(btn, i){
+              return (
+                <SwipeoutBtn
+                  color={btn.color}
+                  height={self.state.contentHeight}
+                  key={i}
+                  onPress={() => self._autoClose(i)}
+                  text={btn.text}
+                  textColor={btn.textColor}
+                  type={btn.type}
+                  width={self.state.btnWidth}/>
+              )
+            })
+          }
+        </View>
       </View>
     )
   }
