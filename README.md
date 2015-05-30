@@ -107,6 +107,7 @@ type            | string | Yes      | 'default' | keyword styles: default, prima
 * [ ] lock scroll when swiping
 * [ ] add comments to index.js
 * [ ] close open other swipeouts when initiating swipeout
+* [ ] account for device rotation
 * [x] open swipeout on quick swipe
 * [x] change button color prop to backgroundColor
 * [x] add autoClose prop
