@@ -96,7 +96,7 @@ color           | string | Yes      | '#b6bec0' | background color
 onPress         | func   | Yes      | null      | function executed onPress
 text            | string | No       | ''        | text
 textColor       | string | Yes      | '#ffffff' | text color
-type            | string | Yes      | 'default' | keyword styles (default || primary || secondary)
+type            | string | Yes      | 'default' | keyword styles: default, primary, secondary
 
 ## To Do
 
