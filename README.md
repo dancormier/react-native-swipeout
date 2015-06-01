@@ -50,13 +50,4 @@ type            | string | Yes      | 'default' | keyword styles: default, prima
 
 ## To Do
 
-* [ ] prevent scroll when swiping
-* [ ] close open other swipeouts when initiating swipeout
-* [ ] custom button component support
-* [ ] add overswipe to trigger action
-* [ ] add prop to extend swipeout buttons to 100% width
-* [ ] add swipeout from left support
-* [ ] add different examples in example app
-* [ ] add comments to index.js
-* [ ] fix swipeout width on device rotation
-* [ ] update sample gif
+[To Dos](https://github.com/dancormier/react-native-swipeout/issues)
