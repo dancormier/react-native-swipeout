@@ -91,7 +91,7 @@ var Swipeout = React.createClass({
 , _handlePanResponderMove: function(e: Object, gestureState: Object) {
     var posX = gestureState.dx
     if (this.state.exposed) var posX = gestureState.dx - this.state.btnsWidth
-    if (this.state.swiping) this.setState({ contentPos: Math.min(posX, 0) })      
+    if (this.state.swiping) this.setState({ contentPos: Math.min(posX, 0) })
   }
 , _handlePanResponderEnd: function(e: Object, gestureState: Object) {
     var timeDiff = (new Date()).getTime() - this.state.timeSwipeStart < 200
@@ -127,7 +127,7 @@ var Swipeout = React.createClass({
 , _rubberBandEasing: function(value, lowerLimit) {
     if(value < lowerLimit) {
       return lowerLimit - Math.pow(lowerLimit - value, 0.85);
-    } 
+    }
     return value;
   }
 , _autoClose: function(i) {
@@ -166,7 +166,7 @@ var Swipeout = React.createClass({
     styleSwipeoutBtns.push(styleSwipeoutMove.swipeoutBtns)
 
     return (
-      <View style={styles.swipeout}>
+      <View style={styleSwipeout}>
         <View ref="swipeoutContent" style={styleSwipeoutContent} {...self._panResponder.panHandlers}>
           {self.props.children}
         </View>
