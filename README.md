@@ -50,4 +50,4 @@ type            | string | Yes      | 'default' | keyword styles: default, prima
 
 ## To Do
 
-[To Dos](https://github.com/dancormier/react-native-swipeout/issues)
+[https://github.com/dancormier/react-native-swipeout/issues](https://github.com/dancormier/react-native-swipeout/issues)
