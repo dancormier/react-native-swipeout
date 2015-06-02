@@ -8,6 +8,7 @@ var React = require('react-native');
 var {
   AppRegistry,
   StyleSheet,
+  Image,
   Text,
   View,
 } = React;
@@ -60,6 +61,11 @@ var swipeoutExample = React.createClass({
         text: 'Five'
       }
     ]
+    var btnsComponent = [
+      {
+        component: <Image style={styles.imgExample} source={{uri: 'http://facebook.github.io/react/img/logo_og.png'}}/>
+      }
+    ]
     return (
       <View style={styles.container}>
         <View style={styles.liContainer}>
@@ -84,6 +90,9 @@ var swipeoutExample = React.createClass({
           <Swipeout btns={btnsFive} autoClose={true}>
             <Listitem text="Five buttons (full-width) and autoClose={true}"/>
           </Swipeout>
+          <Swipeout btns={btnsComponent}>
+            <Listitem text="Custom button component"/>
+          </Swipeout>
         </View>
       </View>
     );
@@ -107,6 +116,9 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
+  },
+  imgExample: {
+    flex: 1,
   },
   li: {
     backgroundColor: '#fff',

@@ -9,6 +9,7 @@ var SwipeoutBtn = React.createClass({
     return {
       backgroundColor: null,
       color: null,
+      component: null,
       height: 0,
       key: null,
       onPress: null,
@@ -20,8 +21,13 @@ var SwipeoutBtn = React.createClass({
 , render: function() {
     var btn = this.props
     var styleSwipeoutBtn = [styles.swipeoutBtn]
+    var styleSwipeoutBtnComponent = []
     var styleSwipeoutBtnText = [styles.swipeoutBtnText]
     styleSwipeoutBtn.push([{
+      height: btn.height,
+      width: btn.width,
+    }])
+    styleSwipeoutBtnComponent.push([{
       height: btn.height,
       width: btn.width,
     }])
@@ -37,7 +43,10 @@ var SwipeoutBtn = React.createClass({
         style={styles.swipeoutBtnTouchable}
       >
         <View style={styleSwipeoutBtn}>
-          <Text style={styleSwipeoutBtnText}>{btn.text}</Text>
+          {btn.component ? 
+            <View style={styleSwipeoutBtnComponent}>{btn.component}</View>
+          : <Text style={styleSwipeoutBtnText}>{btn.text}</Text>
+          }
         </View>
       </TouchableHighlight>
     )
@@ -177,6 +186,7 @@ var Swipeout = React.createClass({
                 <SwipeoutBtn
                   backgroundColor={btn.backgroundColor}
                   color={btn.color}
+                  component={btn.component}
                   height={self.state.contentHeight}
                   key={i}
                   onPress={() => self._autoClose(i)}
