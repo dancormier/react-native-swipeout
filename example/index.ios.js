@@ -15,10 +15,7 @@ var {
 var Swipeout = require('react-native-swipeout')
 
 var swipeoutExample = React.createClass({
-  renderRow: function (item){
-    return  <Listitem swipeout={true} text={item.name} onPress={this.props.nextPage.bind(null, item)}/>
-  }
-, render: function() {
+  render: function() {
     var btnsDefault = [
       {
         text: 'Button'
@@ -28,6 +25,7 @@ var swipeoutExample = React.createClass({
       {
         text: 'onPress'
       , onPress: function(){alert('button pressed')}
+      , type: 'primary'
       }
     ]
     var btnsTypes = [
