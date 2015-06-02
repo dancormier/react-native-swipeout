@@ -99,7 +99,7 @@ var Swipeout = React.createClass({
     var contentWidth = this.state.contentWidth
     var posX = gestureState.dx
     var openX = -1*(contentWidth*0.33)
-    var expose = posX < openX
+    var expose = posX < openX || posX < btnsWidth
     if (this.state.exposed) var expose = posX+openX < openX
 
     if (this.state.swiping) {
