@@ -69,7 +69,7 @@ var Swipeout = React.createClass({
       exposed: false,
       swiping: false,
       tweenDuration: 160,
-      timeSwipeStart: null,
+      timeStart: null,
     }
   }
 , componentWillMount: function() {
@@ -96,7 +96,7 @@ var Swipeout = React.createClass({
         contentHeight: height,
         contentWidth: width,
         swiping: true,
-        timeSwipeStart: (new Date()).getTime(),
+        timeStart: (new Date()).getTime(),
       })
     })
   }
@@ -106,7 +106,7 @@ var Swipeout = React.createClass({
     if (this.state.swiping) this.setState({ contentPos: Math.min(posX, 0) })
   }
 , _handlePanResponderEnd: function(e: Object, gestureState: Object) {
-    var timeDiff = (new Date()).getTime() - this.state.timeSwipeStart < 200
+    var timeDiff = (new Date()).getTime() - this.state.timeStart < 200
     var btnsWidth = -1*(this.state.btnsWidth)
     var contentWidth = this.state.contentWidth
     var posX = gestureState.dx
