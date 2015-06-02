@@ -110,28 +110,19 @@ var Swipeout = React.createClass({
     var openX = -1*(contentWidth*0.33)
     var expose = posX < openX || posX < btnsWidth/2
     if (this.state.exposed) var expose = posX+openX < openX
-
+    if (timeDiff) var expose = posX < openX/10
     if (this.state.swiping) {
-      if (timeDiff) {
-        var expose = posX < openX/10
-        this.tweenState('contentPos', {
-          easing: tweenState.easingTypes.easeInOutQuad,
-          duration: this.state.tweenDuration/2,
-          endValue: expose ? btnsWidth : 0
-        })
-        if (expose) this.setState({ contentPos: btnsWidth, exposed: true })
-        else this.setState({ contentPos: 0, exposed: false })
-      } else {
-        this.tweenState('contentPos', {
-          easing: tweenState.easingTypes.easeInOutQuad,
-          duration: this.state.tweenDuration,
-          endValue: expose ? btnsWidth : 0
-        })
-        if (expose) this.setState({ contentPos: btnsWidth, exposed: true })
-        else this.setState({ contentPos: 0, exposed: false })
-      }
+      this._tweenContent(expose, btnsWidth, 0)
+      if (expose) this.setState({ contentPos: btnsWidth, exposed: true })
+      else this.setState({ contentPos: 0, exposed: false })
     }
-    this.setState({ swiping: false })
+  }
+, _tweenContent: function(expose, trueValue, falseValue) {
+    this.tweenState('contentPos', {
+      easing: tweenState.easingTypes.easeInOutQuad,
+      duration: this.state.tweenDuration,
+      endValue: expose ? trueValue : falseValue
+    })
   }
 , _rubberBandEasing: function(value, lowerLimit) {
     if(value < lowerLimit) {
@@ -143,11 +134,7 @@ var Swipeout = React.createClass({
     var onPress = this.props.btns[i].onPress
     if (onPress) onPress()
     if (this.state.autoClose) {
-      this.tweenState('contentPos', {
-        easing: tweenState.easingTypes.easeInOutQuad,
-        duration: this.state.tweenDuration,
-        endValue: 0
-      })
+      this._tweenContent(false, 0, 0)
       this.setState({ exposed: false })
     }
   }
