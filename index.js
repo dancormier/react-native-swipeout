@@ -20,21 +20,24 @@ var SwipeoutBtn = React.createClass({
   }
 , render: function() {
     var btn = this.props
+
     var styleSwipeoutBtn = [styles.swipeoutBtn]
-    var styleSwipeoutBtnComponent = []
-    var styleSwipeoutBtnText = [styles.swipeoutBtnText]
-    styleSwipeoutBtn.push([{
-      height: btn.height,
-      width: btn.width,
-    }])
-    styleSwipeoutBtnComponent.push([{
-      height: btn.height,
-      width: btn.width,
-    }])
     if (btn.type === 'delete') styleSwipeoutBtn.push(styles.colorDelete)
     else if (btn.type === 'primary') styleSwipeoutBtn.push(styles.colorPrimary)
     else if (btn.type === 'secondary') styleSwipeoutBtn.push(styles.colorSecondary)
     if (btn.backgroundColor) styleSwipeoutBtn.push([{ backgroundColor: btn.backgroundColor }])
+    styleSwipeoutBtn.push([{
+      height: btn.height,
+      width: btn.width,
+    }])
+
+    var styleSwipeoutBtnComponent = []
+    styleSwipeoutBtnComponent.push([{
+      height: btn.height,
+      width: btn.width,
+    }])
+
+    var styleSwipeoutBtnText = [styles.swipeoutBtnText]
     if (btn.color) styleSwipeoutBtnText.push([{ color: btn.color }])
 
     return  (
