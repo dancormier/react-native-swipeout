@@ -23,28 +23,28 @@ var swipeoutExample = React.createClass({
     ]
     var btnsOnPress = [
       {
-        text: 'onPress'
-      , onPress: function(){alert('button pressed')}
-      , type: 'primary'
+        text: 'onPress',
+        onPress: function(){alert('button pressed')},
+        type: 'primary',
       }
     ]
     var btnsTypes = [
       {
-        text: 'Primary'
-      , type: 'primary'
+        text: 'Primary',
+        type: 'primary',
       }, {
-        text: 'Secondary'
-      , type: 'secondary'
+        text: 'Secondary',
+        type: 'secondary',
       }, {
-        text: 'Delete'
-      , type: 'delete'
+        text: 'Delete',
+        type: 'delete',
       }
     ]
     var btnsCustomStyles = [
       {
-        backgroundColor: '#4fba8a'
-      , color: '#17807a'
-      , text: 'Button'
+        backgroundColor: '#4fba8a',
+        color: '#17807a',
+        text: 'Button',
       }
     ]
     var btnsFive = [
