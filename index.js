@@ -62,11 +62,12 @@ var Swipeout = React.createClass({
     return {
       autoClose: this.props.autoClose || false,
       btnWidth: 0,
-      btnsWidth: 0,
+      btnsLeftWidth: 0,
+      btnsRightWidth: 0,
       contentHeight: 0,
       contentPos: 0,
       contentWidth: Dimensions.get('window').width,
-      exposed: false,
+      openedRight: false,
       swiping: false,
       tweenDuration: 160,
       timeStart: null,
@@ -92,7 +93,8 @@ var Swipeout = React.createClass({
     this.refs.swipeoutContent.measure((ox, oy, width, height) => {
       this.setState({
         btnWidth: (width/5),
-        btnsWidth: (width/5)*this.props.btns.length,
+        btnsLeftWidth: this.props.left ? (width/5)*this.props.left.length : 0,
+        btnsRightWidth: this.props.right ? (width/5)*this.props.right.length : 0,
         contentHeight: height,
         contentWidth: width,
         swiping: true,
@@ -102,91 +104,152 @@ var Swipeout = React.createClass({
   }
 , _handlePanResponderMove: function(e: Object, gestureState: Object) {
     var posX = gestureState.dx
-    if (this.state.exposed) var posX = gestureState.dx - this.state.btnsWidth
-    if (this.state.swiping) this.setState({ contentPos: Math.min(posX, 0) })
+    var leftWidth = this.state.btnsLeftWidth
+    var rightWidth = this.state.btnsRightWidth
+    if (this.state.openedRight) var posX = gestureState.dx - rightWidth
+    else if (this.state.openedLeft) var posX = gestureState.dx + leftWidth
+    if (this.state.swiping) {
+      if (posX < 0 && this.props.right) this.setState({ contentPos: Math.min(posX, 0) })
+      else if (posX > 0 && this.props.left) this.setState({ contentPos: Math.max(posX, 0) })
+    }
   }
 , _handlePanResponderEnd: function(e: Object, gestureState: Object) {
     var timeDiff = (new Date()).getTime() - this.state.timeStart < 200
-    var btnsWidth = -1*(this.state.btnsWidth)
+    var contentPos = this.state.contentPos
     var contentWidth = this.state.contentWidth
     var posX = gestureState.dx
-    var openX = -1*(contentWidth*0.33)
-    var expose = posX < openX || posX < btnsWidth/2
-    if (this.state.exposed) var expose = posX+openX < openX
-    if (timeDiff) var expose = posX < openX/10
+    var openX = contentWidth*0.33
+
+    var btnsLeftWidth = this.state.btnsLeftWidth
+    var openLeft = posX > openX || posX > btnsLeftWidth/2
+
+    var btnsRightWidth = this.state.btnsRightWidth
+    var openRight = posX < -openX || posX < -btnsRightWidth/2
+
+    if (this.state.openedRight) var openRight = posX-openX < -openX
+    if (this.state.openedLeft) var openLeft = posX+openX < openX
+
+    if (timeDiff) {
+      var openRight = posX < -openX/10 && !this.state.openedLeft
+      var openLeft = posX > openX/10 && !this.state.openedRight
+    }
+
     if (this.state.swiping) {
-      this._tweenContent(expose, btnsWidth, 0)
-      if (expose) this.setState({ contentPos: btnsWidth, exposed: true })
-      else this.setState({ contentPos: 0, exposed: false })
+      if (openRight && contentPos < 0 && posX < 0) {
+        this._tweenContent('contentPos', -btnsRightWidth)
+        this.setState({ contentPos: -btnsRightWidth, openedLeft: false, openedRight: true })
+      } else if (openLeft && contentPos > 0 && posX > 0) {
+        this._tweenContent('contentPos', btnsLeftWidth)
+        this.setState({ contentPos: btnsLeftWidth, openedLeft: true, openedRight: false })
+      }
+      else {
+        this._tweenContent('contentPos', 0)
+        this.setState({ contentPos: 0, openedLeft: false, openedRight: false })
+      }
     }
   }
-, _tweenContent: function(expose, trueValue, falseValue) {
-    this.tweenState('contentPos', {
+, _tweenContent: function(state, endValue) {
+    this.tweenState(state, {
       easing: tweenState.easingTypes.easeInOutQuad,
       duration: this.state.tweenDuration,
-      endValue: expose ? trueValue : falseValue
+      endValue: endValue
     })
   }
-, _rubberBandEasing: function(value, lowerLimit) {
-    if(value < lowerLimit) {
-      return lowerLimit - Math.pow(lowerLimit - value, 0.85);
-    }
+, _rubberBandEasing: function(value, limit) {
+    if (value < 0 && value < limit) return limit - Math.pow(limit - value, 0.85);
+    else if (value > 0 && value > limit) return limit + Math.pow(value - limit, 0.85);
     return value;
   }
-, _autoClose: function(i) {
-    var onPress = this.props.btns[i].onPress
+, _autoClose: function(btn) {
+    var onPress = btn.onPress
     if (onPress) onPress()
     if (this.state.autoClose) {
-      this._tweenContent(false, 0, 0)
-      this.setState({ exposed: false })
+      this._tweenContent('contentPos', 0)
+      this.setState({ openedRight: false })
     }
   }
 , render: function() {
     var self = this
+    var posX = self.getTweeningValue('contentPos')
 
     var styleSwipeout = [styles.swipeout]
     if (self.props.backgroundColor) {
       styleSwipeout.push([{ backgroundColor: self.props.backgroundColor }])
     }
 
-    var styleSwipeoutMove = StyleSheet.create({
-      swipeoutBtns: {
-        left: Math.abs(self.state.contentWidth+ Math.max(self.state.btnsWidth*-1, self.getTweeningValue('contentPos'))),
-      },
-      swipeoutContent: {
-        left: self._rubberBandEasing(self.getTweeningValue('contentPos'), self.state.btnsWidth*-1),
+    var limit = -self.state.btnsRightWidth
+    if (posX > 0) var limit = self.state.btnsLeftWidth
+
+    var styleLeftPos = StyleSheet.create({
+      left: {
+        right: Math.abs(self.state.contentWidth - Math.min(limit, posX)),
       }
     })
+    var styleRightPos = StyleSheet.create({
+      right: {
+        left: Math.abs(self.state.contentWidth + Math.max(limit, posX)),
+      }
+    })
+    var styleContentPos = StyleSheet.create({
+      content: {
+        left: self._rubberBandEasing(posX, limit)
+      } 
+    })
 
-    var styleSwipeoutContent = [styles.swipeoutContent]
-    styleSwipeoutContent.push(styleSwipeoutMove.swipeoutContent)
+    var styleContent = [styles.swipeoutContent]
+    styleContent.push(styleContentPos.content)
 
-    var styleSwipeoutBtns = [styles.swipeoutBtns]
-    styleSwipeoutBtns.push(styleSwipeoutMove.swipeoutBtns)
+    var styleRight = [styles.swipeoutBtns]
+    styleRight.push(styleRightPos.right)
+
+    var styleLeft = [styles.swipeoutBtns]
+    styleLeft.push(styleLeftPos.left)
 
     return (
       <View style={styleSwipeout}>
-        <View ref="swipeoutContent" style={styleSwipeoutContent} {...self._panResponder.panHandlers}>
+        <View ref="swipeoutContent" style={styleContent} {...self._panResponder.panHandlers}>
           {self.props.children}
         </View>
-        <View style={styleSwipeoutBtns}>
-          {
-            self.props.btns.map(function(btn, i){
-              return (
-                <SwipeoutBtn
-                  backgroundColor={btn.backgroundColor}
-                  color={btn.color}
-                  component={btn.component}
-                  height={self.state.contentHeight}
-                  key={i}
-                  onPress={() => self._autoClose(i)}
-                  text={btn.text}
-                  type={btn.type}
-                  width={self.state.btnWidth}/>
-              )
-            })
-          }
-        </View>
+        {self.props.right && posX < 0 ?
+          <View style={styleRight}>
+            {
+              self.props.right.map(function(btn, i){
+                return (
+                  <SwipeoutBtn
+                    backgroundColor={btn.backgroundColor}
+                    color={btn.color}
+                    component={btn.component}
+                    height={self.state.contentHeight}
+                    key={i}
+                    onPress={() => self._autoClose(self.props.right[i])}
+                    text={btn.text}
+                    type={btn.type}
+                    width={self.state.btnWidth}/>
+                )
+              })
+            }
+          </View>
+        : <View></View>}
+        {self.props.left && posX > 0 ?
+          <View style={styleLeft}>
+            {
+              self.props.left.map(function(btn, i){
+                return (
+                  <SwipeoutBtn
+                    backgroundColor={btn.backgroundColor}
+                    color={btn.color}
+                    component={btn.component}
+                    height={self.state.contentHeight}
+                    key={i}
+                    onPress={() => self._autoClose(self.props.left[i])}
+                    text={btn.text}
+                    type={btn.type}
+                    width={self.state.btnWidth}/>
+                )
+              })
+            }
+          </View>
+        : <View></View>}
       </View>
     )
   }

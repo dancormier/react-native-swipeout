@@ -69,29 +69,35 @@ var swipeoutExample = React.createClass({
     return (
       <View style={styles.container}>
         <View style={styles.liContainer}>
-          <Swipeout btns={btnsDefault}>
+          <Swipeout right={btnsDefault}>
             <Listitem text="Basic example"/>
           </Swipeout>
-          <Swipeout btns={btnsOnPress}>
+          <Swipeout right={btnsOnPress}>
             <Listitem text="onPress callback"/>
           </Swipeout>
-          <Swipeout btns={btnsTypes}>
+          <Swipeout right={btnsTypes}>
             <Listitem text="Button types"/>
           </Swipeout>
-          <Swipeout btns={btnsCustomStyles}>
+          <Swipeout right={btnsCustomStyles}>
             <Listitem text="Custom button background and text color"/>
           </Swipeout>
-          <Swipeout btns={btnsDefault} backgroundColor="#006fff">
+          <Swipeout right={btnsDefault} backgroundColor="#006fff">
             <Listitem text="Custom background color (drag me far)"/>
           </Swipeout>
-          <Swipeout btns={btnsDefault} autoClose={true}>
+          <Swipeout right={btnsDefault} autoClose={true}>
             <Listitem text="autoClose={true}"/>
           </Swipeout>
-          <Swipeout btns={btnsFive} autoClose={true}>
+          <Swipeout right={btnsFive} autoClose={true}>
             <Listitem text="Five buttons (full-width) and autoClose={true}"/>
           </Swipeout>
-          <Swipeout btns={btnsComponent}>
+          <Swipeout right={btnsComponent}>
             <Listitem text="Custom button component"/>
+          </Swipeout>
+          <Swipeout left={btnsDefault}>
+            <Listitem text="Swipe me right (buttons on left side)"/>
+          </Swipeout>
+          <Swipeout left={btnsTypes} right={btnsTypes}>
+            <Listitem text="Buttons on both sides"/>
           </Swipeout>
         </View>
       </View>

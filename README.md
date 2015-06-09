@@ -22,7 +22,7 @@ var swipeoutBtns = [
 ]
 
 // Swipeout component
-<Swipeout btns={swipeoutBtns}>
+<Swipeout right={swipeoutBtns}>
   <View>
     <Text>Swipe me left</Text>
   </View>
@@ -36,7 +36,8 @@ Prop            | Type   | Optional | Default   | Description
 --------------- | ------ | -------- | --------- | -----------
 autoClose       | bool   | Yes      | false     | auto close on button press
 backgroundColor | string | Yes      | '#dbddde' | 
-btns            | array  | No       | []        | swipeout buttons 
+left            | array  | Yes      | []        | swipeout buttons on left
+right           | array  | Yes      | []        | swipeout buttons on right
 
 ##### Button props
 
