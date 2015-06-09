@@ -127,7 +127,7 @@ var Swipeout = React.createClass({
     var openRight = posX < -openX || posX < -btnsRightWidth/2
 
     if (this.state.openedRight) var openRight = posX-openX < -openX
-    if (this.state.openedLeft) var openLeft = posX+openX < openX
+    if (this.state.openedLeft) var openLeft = posX+openX > openX
 
     if (timeDiff) {
       var openRight = posX < -openX/10 && !this.state.openedLeft
@@ -170,6 +170,7 @@ var Swipeout = React.createClass({
   }
 , render: function() {
     var self = this
+    var contentWidth = self.state.contentWidth
     var posX = self.getTweeningValue('contentPos')
 
     var styleSwipeout = [styles.swipeout]
@@ -182,17 +183,21 @@ var Swipeout = React.createClass({
 
     var styleLeftPos = StyleSheet.create({
       left: {
-        right: Math.abs(self.state.contentWidth - Math.min(limit, posX)),
+        left: 0,
+        right: Math.abs(contentWidth - Math.min(limit, posX)),
+        overflow: 'hidden',
+        width: Math.min(posX, self.state.btnsLeftWidth),
       }
     })
     var styleRightPos = StyleSheet.create({
       right: {
-        left: Math.abs(self.state.contentWidth + Math.max(limit, posX)),
+        left: Math.abs(contentWidth + Math.max(limit, posX)),
+        right: 0,
       }
     })
     var styleContentPos = StyleSheet.create({
       content: {
-        left: self._rubberBandEasing(posX, limit)
+        left: self._rubberBandEasing(posX, limit),
       } 
     })
 
