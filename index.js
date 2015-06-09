@@ -183,9 +183,8 @@ var Swipeout = React.createClass({
 
     var styleLeftPos = StyleSheet.create({
       left: {
-        left: 0,
-        right: Math.abs(contentWidth - Math.min(limit, posX)),
         overflow: 'hidden',
+        right: contentWidth-posX,
         width: Math.min(posX, self.state.btnsLeftWidth),
       }
     })
