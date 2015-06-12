@@ -10,11 +10,14 @@ var {
   StyleSheet,
   Image,
   ListView,
+  StatusBarIOS,
   Text,
   View,
 } = React;
 
 var Swipeout = require('react-native-swipeout')
+
+StatusBarIOS.setStyle(StatusBarIOS.Style['lightContent'])
 
 //  Button examples
 var btnsDefault = [ { text: 'Button' } ]
@@ -59,7 +62,7 @@ var swipeoutExample = React.createClass({
           }
         ],
       }, {
-        text: "Custom overswipe background color (drag me far)",
+        text: "Overswipe background color (drag me far)",
         right: btnsDefault,
         backgroundColor: '#006fff',
       }, {
@@ -114,10 +117,13 @@ var swipeoutExample = React.createClass({
 , render: function() {
     return (
       <View style={styles.container}>
+        <View style={styles.statusbar}/>
+        <View style={styles.navbar}><Text style={styles.navbarTitle}>Swipeout</Text></View>
         <ListView
           dataSource={this.state.dataSource}
           onScroll={this.handleScroll}
-          renderRow={this.renderRow}/>
+          renderRow={this.renderRow}
+          style={styles.listview}/>
       </View>
     );
   }
@@ -135,11 +141,11 @@ var Listitem = React.createClass({
 
 var styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
     backgroundColor: '#f2f2f2',
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
+  },
+  listview: {
+    flex: 1,
   },
   li: {
     backgroundColor: '#fff',
@@ -151,12 +157,27 @@ var styles = StyleSheet.create({
     paddingBottom: 16,
   },
   liContainer: {
-    flex: 1,
+    flex: 2,
   },
   liText: {
     color: '#333',
     fontSize: 16,
   },
+  navbar: {
+    alignItems: 'center',
+    backgroundColor: '#444',
+    justifyContent: 'center',
+    height: 44,
+  },
+  navbarTitle: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: "500",
+  },
+  statusbar: {
+    backgroundColor: '#444',
+    height: 22,
+  }
 });
 
 AppRegistry.registerComponent('swipeoutExample', () => swipeoutExample);
