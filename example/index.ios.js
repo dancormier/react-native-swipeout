@@ -9,97 +9,112 @@ var {
   AppRegistry,
   StyleSheet,
   Image,
+  ListView,
   Text,
   View,
 } = React;
 
 var Swipeout = require('react-native-swipeout')
 
+//  Button examples
+var btnsDefault = [ { text: 'Button' } ]
+var btnsTypes = [
+  { text: 'Primary',    type: 'primary',   },
+  { text: 'Secondary',  type: 'secondary', },
+  { text: 'Delete',     type: 'delete',    }
+]
+
 var swipeoutExample = React.createClass({
-  render: function() {
-    var btnsDefault = [
+  getInitialState: function() {
+    return {
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (r1, r2) => r1 !== r2
+      })
+    }
+  }
+, componentWillMount: function() {
+    this.updateDataSource([
       {
-        text: 'Button'
-      }
-    ]
-    var btnsOnPress = [
-      {
-        text: 'onPress',
-        onPress: function(){alert('button pressed')},
-        type: 'primary',
-      }
-    ]
-    var btnsTypes = [
-      {
-        text: 'Primary',
-        type: 'primary',
+        text: "Basic Example",
+        right: btnsDefault,
       }, {
-        text: 'Secondary',
-        type: 'secondary',
+        text: "onPress Callback",
+        right: [
+          { 
+            text: 'Press Me',
+            onPress: function(){ alert('button pressed') },
+            type: 'primary', 
+          }
+        ],
       }, {
-        text: 'Delete',
-        type: 'delete',
+        text: "Button Types",
+        right: btnsTypes,
+      }, {
+        text: "Button with custom styling",
+        right: [
+          {
+            text: 'Button',
+            backgroundColor: '#4fba8a',
+            color: '#17807a',
+          }
+        ],
+      }, {
+        text: "Custom overswipe background color (drag me far)",
+        right: btnsDefault,
+        backgroundColor: '#006fff',
+      }, {
+        text: "Swipeout autoClose={true}",
+        right: btnsDefault,
+        autoClose: true,
+      }, {
+        text: "Five buttons (full-width) + autoClose={true}",
+        right: [
+          { text: 'One'},
+          { text: 'Two'},
+          { text: 'Three' },
+          { text: 'Four' },
+          { text: 'Five' }
+        ],
+        autoClose: true,
+      }, {
+        text: "Custom button component",
+        right: [
+          {
+            component: <Image style={{flex: 1}} source={{uri: 'http://facebook.github.io/react/img/logo_og.png'}}/>
+          }
+        ],
+      }, {
+        text: "Swipe me right (buttons on left side)",
+        left: btnsDefault,
+      }, {
+        text: "Buttons on both sides",
+        left: btnsTypes,
+        right: btnsTypes,
       }
-    ]
-    var btnsCustomStyles = [
-      {
-        backgroundColor: '#4fba8a',
-        color: '#17807a',
-        text: 'Button',
-      }
-    ]
-    var btnsFive = [
-      {
-        text: 'One'
-      }, {
-        text: 'Two'
-      }, {
-        text: 'Three'
-      }, {
-        text: 'Four'
-      }, {
-        text: 'Five'
-      }
-    ]
-    var btnsComponent = [
-      {
-        component: <Image style={styles.imgExample} source={{uri: 'http://facebook.github.io/react/img/logo_og.png'}}/>
-      }
-    ]
+    ])
+  }
+, updateDataSource: function(data) {
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(data)
+    })
+  }
+, renderRow: function (item) {
+    return <Swipeout
+            autoClose={item.autoClose}
+            backgroundColor={item.backgroundColor}
+            left={item.left}
+            right={item.right}>
+              <View style={styles.li}>
+                <Text style={styles.liText}>{item.text}</Text>
+              </View>
+            </Swipeout>
+  }
+, render: function() {
     return (
       <View style={styles.container}>
-        <View style={styles.liContainer}>
-          <Swipeout right={btnsDefault}>
-            <Listitem text="Basic example"/>
-          </Swipeout>
-          <Swipeout right={btnsOnPress}>
-            <Listitem text="onPress callback"/>
-          </Swipeout>
-          <Swipeout right={btnsTypes}>
-            <Listitem text="Button types"/>
-          </Swipeout>
-          <Swipeout right={btnsCustomStyles}>
-            <Listitem text="Custom button background and text color"/>
-          </Swipeout>
-          <Swipeout right={btnsDefault} backgroundColor="#006fff">
-            <Listitem text="Custom background color (drag me far)"/>
-          </Swipeout>
-          <Swipeout right={btnsDefault} autoClose={true}>
-            <Listitem text="autoClose={true}"/>
-          </Swipeout>
-          <Swipeout right={btnsFive} autoClose={true}>
-            <Listitem text="Five buttons (full-width) and autoClose={true}"/>
-          </Swipeout>
-          <Swipeout right={btnsComponent}>
-            <Listitem text="Custom button component"/>
-          </Swipeout>
-          <Swipeout left={btnsDefault}>
-            <Listitem text="Swipe me right (buttons on left side)"/>
-          </Swipeout>
-          <Swipeout left={btnsTypes} right={btnsTypes}>
-            <Listitem text="Buttons on both sides"/>
-          </Swipeout>
-        </View>
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={this.renderRow}/>
       </View>
     );
   }
@@ -122,9 +137,6 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-  },
-  imgExample: {
-    flex: 1,
   },
   li: {
     backgroundColor: '#fff',
