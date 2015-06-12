@@ -93,6 +93,8 @@ var swipeoutExample = React.createClass({
       }
     ])
   }
+, handleScroll: function() {
+  }
 , updateDataSource: function(data) {
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(data)
@@ -114,6 +116,7 @@ var swipeoutExample = React.createClass({
       <View style={styles.container}>
         <ListView
           dataSource={this.state.dataSource}
+          onScroll={this.handleScroll}
           renderRow={this.renderRow}/>
       </View>
     );

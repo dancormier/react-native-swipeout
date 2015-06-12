@@ -104,6 +104,8 @@ var Swipeout = React.createClass({
   }
 , _handlePanResponderMove: function(e: Object, gestureState: Object) {
     var posX = gestureState.dx
+    var posY = gestureState.dy
+    var moveX = Math.abs(posX) > Math.abs(posY)
     var leftWidth = this.state.btnsLeftWidth
     var rightWidth = this.state.btnsRightWidth
     if (this.state.openedRight) var posX = gestureState.dx - rightWidth
