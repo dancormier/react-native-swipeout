@@ -121,9 +121,10 @@ var Swipeout = React.createClass({
 
     //  prevent scroll if moveX is true
     var moveX = Math.abs(posX) > Math.abs(posY)
-    if (moveX) this.props.scroll(false)
-    else this.props.scroll(true)
-
+    if (this.props.scroll) {
+      if (moveX) this.props.scroll(false)
+      else this.props.scroll(true)
+    }
     if (this.state.swiping) {
       //  move content to reveal swipeout
       if (posX < 0 && this.props.right) this.setState({ contentPos: Math.min(posX, 0) })
@@ -173,7 +174,7 @@ var Swipeout = React.createClass({
     }
 
     //  Allow scroll
-    this.props.scroll(true)
+    if (this.props.scroll) this.props.scroll(true)
   }
 , _tweenContent: function(state, endValue) {
     this.tweenState(state, {
