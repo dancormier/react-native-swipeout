@@ -22,22 +22,31 @@ var SwipeoutBtn = React.createClass({
     var btn = this.props
 
     var styleSwipeoutBtn = [styles.swipeoutBtn]
+
+    //  apply "type" styles (delete || primary || secondary)
     if (btn.type === 'delete') styleSwipeoutBtn.push(styles.colorDelete)
     else if (btn.type === 'primary') styleSwipeoutBtn.push(styles.colorPrimary)
     else if (btn.type === 'secondary') styleSwipeoutBtn.push(styles.colorSecondary)
+ 
+    //  apply background color
     if (btn.backgroundColor) styleSwipeoutBtn.push([{ backgroundColor: btn.backgroundColor }])
+
     styleSwipeoutBtn.push([{
       height: btn.height,
       width: btn.width,
     }])
 
     var styleSwipeoutBtnComponent = []
+
+    //  set button dimensions
     styleSwipeoutBtnComponent.push([{
       height: btn.height,
       width: btn.width,
     }])
 
     var styleSwipeoutBtnText = [styles.swipeoutBtnText]
+
+    //  apply text color
     if (btn.color) styleSwipeoutBtnText.push([{ color: btn.color }])
 
     return  (
@@ -105,37 +114,42 @@ var Swipeout = React.createClass({
 , _handlePanResponderMove: function(e: Object, gestureState: Object) {
     var posX = gestureState.dx
     var posY = gestureState.dy
-    var moveX = Math.abs(posX) > Math.abs(posY)
     var leftWidth = this.state.btnsLeftWidth
     var rightWidth = this.state.btnsRightWidth
     if (this.state.openedRight) var posX = gestureState.dx - rightWidth
     else if (this.state.openedLeft) var posX = gestureState.dx + leftWidth
 
-    //  Prevent scroll if moveX is true
+    //  prevent scroll if moveX is true
+    var moveX = Math.abs(posX) > Math.abs(posY)
     if (moveX) this.props.scroll(false)
     else this.props.scroll(true)
 
     if (this.state.swiping) {
+      //  move content to reveal swipeout
       if (posX < 0 && this.props.right) this.setState({ contentPos: Math.min(posX, 0) })
       else if (posX > 0 && this.props.left) this.setState({ contentPos: Math.max(posX, 0) })
     }
   }
 , _handlePanResponderEnd: function(e: Object, gestureState: Object) {
-    var timeDiff = (new Date()).getTime() - this.state.timeStart < 200
+    var posX = gestureState.dx
     var contentPos = this.state.contentPos
     var contentWidth = this.state.contentWidth
-    var posX = gestureState.dx
+    var btnsLeftWidth = this.state.btnsLeftWidth
+    var btnsRightWidth = this.state.btnsRightWidth
+
+    //  minimum threshold to open swipeout
     var openX = contentWidth*0.33
 
-    var btnsLeftWidth = this.state.btnsLeftWidth
+    //  should open swipeout
     var openLeft = posX > openX || posX > btnsLeftWidth/2
-
-    var btnsRightWidth = this.state.btnsRightWidth
     var openRight = posX < -openX || posX < -btnsRightWidth/2
 
+    //  account for open swipeouts
     if (this.state.openedRight) var openRight = posX-openX < -openX
     if (this.state.openedLeft) var openLeft = posX+openX > openX
 
+    //  reveal swipeout on quick swipe
+    var timeDiff = (new Date()).getTime() - this.state.timeStart < 200
     if (timeDiff) {
       var openRight = posX < -openX/10 && !this.state.openedLeft
       var openLeft = posX > openX/10 && !this.state.openedRight
@@ -143,13 +157,16 @@ var Swipeout = React.createClass({
 
     if (this.state.swiping) {
       if (openRight && contentPos < 0 && posX < 0) {
+        // open swipeout right
         this._tweenContent('contentPos', -btnsRightWidth)
         this.setState({ contentPos: -btnsRightWidth, openedLeft: false, openedRight: true })
       } else if (openLeft && contentPos > 0 && posX > 0) {
+        // open swipeout left
         this._tweenContent('contentPos', btnsLeftWidth)
         this.setState({ contentPos: btnsLeftWidth, openedLeft: true, openedRight: false })
       }
       else {
+        // close swipeout
         this._tweenContent('contentPos', 0)
         this.setState({ contentPos: 0, openedLeft: false, openedRight: false })
       }
@@ -170,6 +187,8 @@ var Swipeout = React.createClass({
     else if (value > 0 && value > limit) return limit + Math.pow(value - limit, 0.85);
     return value;
   }
+
+//  close swipeout on button press
 , _autoClose: function(btn) {
     var onPress = btn.onPress
     if (onPress) onPress()
