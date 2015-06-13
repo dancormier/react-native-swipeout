@@ -10,15 +10,12 @@ var {
   StyleSheet,
   Image,
   ListView,
-  StatusBarIOS,
   Text,
   View,
 } = React;
 var styles = require('./styles.js')
 
 var Swipeout = require('react-native-swipeout')
-
-StatusBarIOS.setStyle(StatusBarIOS.Style['lightContent'])
 
 //  Button examples
 var btnsDefault = [ { text: 'Button' } ]

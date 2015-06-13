@@ -27,17 +27,20 @@ var styles = StyleSheet.create({
   },
   navbar: {
     alignItems: 'center',
-    backgroundColor: '#444',
+    backgroundColor: '#fff',
+    borderBottomColor: '#eee',
+    borderColor: 'transparent',
+    borderWidth: 1,
     justifyContent: 'center',
     height: 44,
   },
   navbarTitle: {
-    color: '#fff',
+    color: '#444',
     fontSize: 16,
     fontWeight: "500",
   },
   statusbar: {
-    backgroundColor: '#444',
+    backgroundColor: '#fff',
     height: 22,
   }
 })
