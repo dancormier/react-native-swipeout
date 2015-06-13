@@ -110,6 +110,11 @@ var Swipeout = React.createClass({
     var rightWidth = this.state.btnsRightWidth
     if (this.state.openedRight) var posX = gestureState.dx - rightWidth
     else if (this.state.openedLeft) var posX = gestureState.dx + leftWidth
+
+    //  Prevent scroll if moveX is true
+    if (moveX) this.props.scroll(false)
+    else this.props.scroll(true)
+
     if (this.state.swiping) {
       if (posX < 0 && this.props.right) this.setState({ contentPos: Math.min(posX, 0) })
       else if (posX > 0 && this.props.left) this.setState({ contentPos: Math.max(posX, 0) })
@@ -149,6 +154,9 @@ var Swipeout = React.createClass({
         this.setState({ contentPos: 0, openedLeft: false, openedRight: false })
       }
     }
+
+    //  Allow scroll
+    this.props.scroll(true)
   }
 , _tweenContent: function(state, endValue) {
     this.tweenState(state, {

@@ -39,6 +39,7 @@ autoClose       | bool   | Yes      | false     | auto close on button press
 backgroundColor | string | Yes      | '#dbddde' | 
 left            | array  | Yes      | []        | swipeout buttons on left
 right           | array  | Yes      | []        | swipeout buttons on right
+scroll          | func   | Yes      |           | prevent parent scroll
 
 ##### Button props
 

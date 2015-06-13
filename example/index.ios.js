@@ -32,7 +32,8 @@ var swipeoutExample = React.createClass({
     return {
       dataSource: new ListView.DataSource({
         rowHasChanged: (r1, r2) => r1 !== r2
-      })
+      }),
+      scrollEnabled: true,
     }
   }
 , componentWillMount: function() {
@@ -96,7 +97,8 @@ var swipeoutExample = React.createClass({
       }
     ])
   }
-, handleScroll: function() {
+, allowScroll: function(scrollEnabled) {
+    this.setState({ scrollEnabled: scrollEnabled })
   }
 , updateDataSource: function(data) {
     this.setState({
@@ -108,7 +110,8 @@ var swipeoutExample = React.createClass({
             autoClose={item.autoClose}
             backgroundColor={item.backgroundColor}
             left={item.left}
-            right={item.right}>
+            right={item.right}
+            scroll={event => this.allowScroll(event)}>
               <View style={styles.li}>
                 <Text style={styles.liText}>{item.text}</Text>
               </View>
@@ -120,8 +123,8 @@ var swipeoutExample = React.createClass({
         <View style={styles.statusbar}/>
         <View style={styles.navbar}><Text style={styles.navbarTitle}>Swipeout</Text></View>
         <ListView
+          scrollEnabled={this.state.scrollEnabled}
           dataSource={this.state.dataSource}
-          onScroll={this.handleScroll}
           renderRow={this.renderRow}
           style={styles.listview}/>
       </View>
