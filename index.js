@@ -67,6 +67,13 @@ var SwipeoutBtn = React.createClass({
 
 var Swipeout = React.createClass({
   mixins: [tweenState.Mixin]
+, getDefaultProps: function() {
+    return {
+      onOpen: function(sectionID, rowID) {console.log('onOpen: '+sectionID+" "+rowID)},
+      rowID: -1,
+      sectionID: -1,
+    }
+  }
 , getInitialState: function() {
     return {
       autoClose: this.props.autoClose || false,
@@ -92,6 +99,9 @@ var Swipeout = React.createClass({
       onPanResponderTerminate: this._handlePanResponderEnd,
     });
   }
+, componentWillReceiveProps: function(nextProps) {
+    if (nextProps.close) this._close()
+  }
 , _handleStartShouldSetPanResponder: function(e: Object, gestureState: Object): boolean {
     return true;
   }
@@ -99,6 +109,7 @@ var Swipeout = React.createClass({
     return true;
   }
 , _handlePanResponderGrant: function(e: Object, gestureState: Object) {
+    this.props.onOpen(this.props.sectionID, this.props.rowID)
     this.refs.swipeoutContent.measure((ox, oy, width, height) => {
       this.setState({
         btnWidth: (width/5),
@@ -179,7 +190,7 @@ var Swipeout = React.createClass({
 , _tweenContent: function(state, endValue) {
     this.tweenState(state, {
       easing: tweenState.easingTypes.easeInOutQuad,
-      duration: this.state.tweenDuration,
+      duration: endValue === 0 ? this.state.tweenDuration*1.5 : this.state.tweenDuration,
       endValue: endValue
     })
   }
@@ -193,10 +204,14 @@ var Swipeout = React.createClass({
 , _autoClose: function(btn) {
     var onPress = btn.onPress
     if (onPress) onPress()
-    if (this.state.autoClose) {
-      this._tweenContent('contentPos', 0)
-      this.setState({ openedRight: false })
-    }
+    if (this.state.autoClose) this._close()
+  }
+, _close: function() {
+    this._tweenContent('contentPos', 0)
+    this.setState({
+      openedRight: false,
+      openedLeft: false,
+    })
   }
 , render: function() {
     var self = this

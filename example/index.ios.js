@@ -25,93 +25,104 @@ var btnsTypes = [
   { text: 'Delete',     type: 'delete',    }
 ]
 
+//  Example row data
+var rows = [
+  {
+    text: "Basic Example",
+    right: btnsDefault,
+  }, {
+    text: "onPress Callback",
+    right: [
+      { 
+        text: 'Press Me',
+        onPress: function(){ alert('button pressed') },
+        type: 'primary', 
+      }
+    ],
+  }, {
+    text: "Button Types",
+    right: btnsTypes,
+  }, {
+    text: "Button with custom styling",
+    right: [
+      {
+        text: 'Button',
+        backgroundColor: '#4fba8a',
+        color: '#17807a',
+      }
+    ],
+  },
+  {
+    text: "Overswipe background color (drag me far)",
+    right: btnsDefault,
+    backgroundColor: '#006fff',
+  }, {
+    text: "Swipeout autoClose={true}",
+    right: btnsDefault,
+    autoClose: true,
+  }, {
+    text: "Five buttons (full-width) + autoClose={true}",
+    right: [
+      { text: 'One'},
+      { text: 'Two'},
+      { text: 'Three' },
+      { text: 'Four' },
+      { text: 'Five' }
+    ],
+    autoClose: true,
+  }, {
+    text: "Custom button component",
+    right: [
+      {
+        component: <Image style={{flex: 1}} source={{uri: 'http://facebook.github.io/react/img/logo_og.png'}} />
+      }
+    ],
+  }, {
+    text: "Swipe me right (buttons on left side)",
+    left: btnsDefault,
+  }, {
+    text: "Buttons on both sides",
+    left: btnsTypes,
+    right: btnsTypes,
+  }
+]
+
 var swipeoutExample = React.createClass({
   getInitialState: function() {
+    var ds = new ListView.DataSource({rowHasChanged: (row1, row2) => true})
     return {
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (r1, r2) => r1 !== r2
-      }),
-      scrollEnabled: true,
+      dataSource: ds.cloneWithRows(rows),
+      scrollEnabled: true
     }
   }
-, componentWillMount: function() {
-    this.updateDataSource([
-      {
-        text: "Basic Example",
-        right: btnsDefault,
-      }, {
-        text: "onPress Callback",
-        right: [
-          { 
-            text: 'Press Me',
-            onPress: function(){ alert('button pressed') },
-            type: 'primary', 
-          }
-        ],
-      }, {
-        text: "Button Types",
-        right: btnsTypes,
-      }, {
-        text: "Button with custom styling",
-        right: [
-          {
-            text: 'Button',
-            backgroundColor: '#4fba8a',
-            color: '#17807a',
-          }
-        ],
-      }, {
-        text: "Overswipe background color (drag me far)",
-        right: btnsDefault,
-        backgroundColor: '#006fff',
-      }, {
-        text: "Swipeout autoClose={true}",
-        right: btnsDefault,
-        autoClose: true,
-      }, {
-        text: "Five buttons (full-width) + autoClose={true}",
-        right: [
-          { text: 'One'},
-          { text: 'Two'},
-          { text: 'Three' },
-          { text: 'Four' },
-          { text: 'Five' }
-        ],
-        autoClose: true,
-      }, {
-        text: "Custom button component",
-        right: [
-          {
-            component: <Image style={{flex: 1}} source={{uri: 'http://facebook.github.io/react/img/logo_og.png'}}/>
-          }
-        ],
-      }, {
-        text: "Swipe me right (buttons on left side)",
-        left: btnsDefault,
-      }, {
-        text: "Buttons on both sides",
-        left: btnsTypes,
-        right: btnsTypes,
-      }
-    ])
-  }
-, allowScroll: function(scrollEnabled) {
+, _allowScroll: function(scrollEnabled) {
     this.setState({ scrollEnabled: scrollEnabled })
   }
-, updateDataSource: function(data) {
+, _handleSwipeout: function(sectionID, rowID) {
+    for (var i = 0; i < rows.length; i++) {
+      if (i != rowID) rows[i].active = false
+      else rows[i].active = true
+    }
+    this._updateDataSource(rows)
+  }
+, _updateDataSource: function(data) {
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(data)
     })
   }
-, renderRow: function (item) {
+, _renderRow: function (rowData: string, sectionID: number, rowID: number) {
     return <Swipeout
-            autoClose={item.autoClose}
-            backgroundColor={item.backgroundColor}
-            left={item.left}
-            right={item.right}
-            scroll={event => this.allowScroll(event)}>
+            left={rowData.left}
+            right={rowData.right}
+            rowID={rowID}
+            sectionID={sectionID}
+            autoClose={rowData.autoClose}
+            backgroundColor={rowData.backgroundColor}
+            close={!rowData.active}
+            onOpen={(sectionID, rowID) => this._handleSwipeout(sectionID, rowID)}
+            scroll={event => this._allowScroll(event)}>
               <View style={styles.li}>
-                <Text style={styles.liText}>{item.text}</Text>
+                <Text style={styles.liText}>{rowData.text}</Text>
               </View>
             </Swipeout>
   }
@@ -123,18 +134,8 @@ var swipeoutExample = React.createClass({
         <ListView
           scrollEnabled={this.state.scrollEnabled}
           dataSource={this.state.dataSource}
-          renderRow={this.renderRow}
+          renderRow={this._renderRow}
           style={styles.listview}/>
-      </View>
-    );
-  }
-});
-
-var Listitem = React.createClass({
-  render: function() {
-    return (
-      <View style={styles.li}>
-        <Text style={styles.liText}>{this.props.text}</Text>
       </View>
     );
   }
