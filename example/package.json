@@ -7,7 +7,7 @@
     "latest": "npm install react-native-swipeout@* --save"
   },
   "dependencies": {
-    "react-native": "^0.4.4",
+    "react-native": "^0.6.0",
     "react-native-swipeout": "^2.0.0"
   }
 }
