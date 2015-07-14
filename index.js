@@ -1,6 +1,5 @@
 var React = require('react-native')
 var tweenState = require('react-tween-state')
-var Dimensions = require('Dimensions')
 var {PanResponder, TouchableHighlight, StyleSheet, Text, View} = React
 var styles = require('./styles.js')
 
@@ -27,7 +26,7 @@ var SwipeoutBtn = React.createClass({
     if (btn.type === 'delete') styleSwipeoutBtn.push(styles.colorDelete)
     else if (btn.type === 'primary') styleSwipeoutBtn.push(styles.colorPrimary)
     else if (btn.type === 'secondary') styleSwipeoutBtn.push(styles.colorSecondary)
- 
+
     //  apply background color
     if (btn.backgroundColor) styleSwipeoutBtn.push([{ backgroundColor: btn.backgroundColor }])
 
@@ -55,7 +54,7 @@ var SwipeoutBtn = React.createClass({
         style={styles.swipeoutBtnTouchable}
       >
         <View style={styleSwipeoutBtn}>
-          {btn.component ? 
+          {btn.component ?
             <View style={styleSwipeoutBtnComponent}>{btn.component}</View>
           : <Text style={styleSwipeoutBtnText}>{btn.text}</Text>
           }
@@ -82,7 +81,7 @@ var Swipeout = React.createClass({
       btnsRightWidth: 0,
       contentHeight: 0,
       contentPos: 0,
-      contentWidth: Dimensions.get('window').width,
+      contentWidth: 0,
       openedRight: false,
       swiping: false,
       tweenDuration: 160,
@@ -242,7 +241,7 @@ var Swipeout = React.createClass({
     var styleContentPos = StyleSheet.create({
       content: {
         left: self._rubberBandEasing(posX, limit),
-      } 
+      }
     })
 
     var styleContent = [styles.swipeoutContent]
