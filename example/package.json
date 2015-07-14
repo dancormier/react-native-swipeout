@@ -8,6 +8,6 @@
   },
   "dependencies": {
     "react-native": "^0.7.1",
-    "react-native-swipeout": "^2.0.4"
+    "react-native-swipeout": "^2.0.5"
   }
 }
