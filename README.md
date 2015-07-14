@@ -10,7 +10,7 @@ npm install --save react-native-swipeout
 ## Usage example
 
 See example/index.ios.js for a more detailed example.
-To use swipeout behind a iOS-style listitem, try [react-native-listitem](https://github.com/dancormier/react-native-listitem).
+To use swipeout behind a iOS-style listitem, try [react-native-listitem](https://github.com/dancormier/react-native-listitem) ([usage](https://github.com/dancormier/react-native-listitem/issues/10)).
 
 ```
 var Swipeout = require('react-native-swipeout')
