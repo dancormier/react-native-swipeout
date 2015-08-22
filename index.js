@@ -51,9 +51,9 @@ var SwipeoutBtn = React.createClass({
 
     return  (
       <TouchableHighlight
-        underlayColor={this.props.underlayColor}
         onPress={this.props.onPress}
         style={styles.swipeoutBtnTouchable}
+        underlayColor={this.props.underlayColor}
       >
         <View style={styleSwipeoutBtn}>
           {btn.component ?
@@ -269,12 +269,12 @@ var Swipeout = React.createClass({
                     backgroundColor={btn.backgroundColor}
                     color={btn.color}
                     component={btn.component}
-                    underlayColor={btn.underlayColor}
                     height={self.state.contentHeight}
                     key={i}
                     onPress={() => self._autoClose(self.props.right[i])}
                     text={btn.text}
                     type={btn.type}
+                    underlayColor={btn.underlayColor}
                     width={self.state.btnWidth}/>
                 )
               })
@@ -290,12 +290,12 @@ var Swipeout = React.createClass({
                     backgroundColor={btn.backgroundColor}
                     color={btn.color}
                     component={btn.component}
-                    underlayColor={btn.underlayColor}
                     height={self.state.contentHeight}
                     key={i}
                     onPress={() => self._autoClose(self.props.left[i])}
                     text={btn.text}
                     type={btn.type}
+                    underlayColor={btn.underlayColor}
                     width={self.state.btnWidth}/>
                 )
               })

@@ -31,6 +31,7 @@ var rows = [
         text: 'Button',
         backgroundColor: '#4fba8a',
         color: '#17807a',
+        underlayColor: "#006fff",
       }
     ],
   },
