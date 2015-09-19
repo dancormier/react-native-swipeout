@@ -173,10 +173,16 @@ var Swipeout = React.createClass({
         // open swipeout right
         this._tweenContent('contentPos', -btnsRightWidth)
         this.setState({ contentPos: -btnsRightWidth, openedLeft: false, openedRight: true })
+        if (this.props.onRightOpen) {
+          this.props.onRightOpen(); 
+        }
       } else if (openLeft && contentPos > 0 && posX > 0) {
         // open swipeout left
         this._tweenContent('contentPos', btnsLeftWidth)
         this.setState({ contentPos: btnsLeftWidth, openedLeft: true, openedRight: false })
+        if (this.props.onLeftOpen) {
+          this.props.onLeftOpen(); 
+        }
       }
       else {
         // close swipeout
