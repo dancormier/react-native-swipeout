@@ -14,6 +14,7 @@ var Swipeout = require('./index.js');
 
 var btn = [
   {
+    autoClose: true,
     text: 'btn!',
     props: {
       onPress: function() {alert('btn.props.onPress func')},
@@ -24,6 +25,7 @@ var btn = [
       underlayColor: '#cc0',
     }
   }, {
+    autoClose: true,
     text: 'btn!',
   },
 ];

@@ -23,6 +23,7 @@ class Swipeout extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      defaultSpeed: 100,
       panX: new Animated.Value(0),
       props: props,
       width: 0,
@@ -42,6 +43,7 @@ class Swipeout extends React.Component {
       onPanResponderRelease: (e, gestureState) => {
 
         let {
+          defaultSpeed,
           panX,
           left,
           leftWidth,
@@ -54,7 +56,7 @@ class Swipeout extends React.Component {
         let velocity = Math.abs(gestureState.vx);
         let velocityMin = 0.3;
         let speed = 200/velocity;
-        let duration = speed > 100 ? Math.min(speed, 200) : 100;
+        let duration = speed > defaultSpeed ? Math.min(speed, 200) : defaultSpeed;
 
         let openLeft = change > leftWidth && !right || change > 0 && left || velocity > velocityMin && !right && change > 0;
         let openRight = change < -rightWidth && !left || change < 0 && right || velocity > velocityMin && !left && change < 0;
@@ -76,6 +78,17 @@ class Swipeout extends React.Component {
   }
   componentDidMount() {
     setTimeout(this.measureSwipeout.bind(this));
+  }
+  handleClose() {
+    let { defaultSpeed, panX } = this.state;
+    Animated.timing(panX, {
+      duration: defaultSpeed*2,
+      toValue: 0
+    }).start();
+  }
+  handleBtnPress(btn) {
+    if (btn.props && btn.props.onPress) btn.props.onPress();
+    if (btn.autoClose) this.handleClose();
   }
   getBtnsWidth(group, defaultWidth) {
     let width = 0
@@ -119,6 +132,8 @@ class Swipeout extends React.Component {
       width: panX.interpolate({inputRange: [-w, 0], outputRange: [w, 0]})
     }
 
+    let self = this;
+
     return (
       <View ref="swipeout" style={[styles.container, customStyle]}>
 
@@ -126,9 +141,15 @@ class Swipeout extends React.Component {
           <Animated.View {...this.state.panResponder.panHandlers}
             style={[styles.btns, styleBtnsLeft]}>
             {
-              props.left.map(function(btn) {
+              props.left.map(function(btn, i) {
                 let btnProps = btn.props ? btn.props : []
-                return <Btn text={btn.text} {...btnProps}/>
+                return (
+                  <Btn
+                    key={i}
+                    text={btn.text}
+                    {...btnProps}
+                    onPress={() => self.handleBtnPress(btn)}/>
+                )
               })
             }
           </Animated.View>
@@ -138,9 +159,15 @@ class Swipeout extends React.Component {
           <Animated.View {...this.state.panResponder.panHandlers}
             style={[styles.btns, styleBtnsRight]}>
             {
-              props.right.map(function(btn) {
+              props.right.map(function(btn, i) {
                 let btnProps = btn.props ? btn.props : []
-                return <Btn text={btn.text} {...btnProps}/>
+                return (
+                  <Btn
+                    key={i}
+                    text={btn.text}
+                    {...btnProps}
+                    onPress={() => self.handleBtnPress(btn)}/>
+                )
               })
             }
           </Animated.View>
