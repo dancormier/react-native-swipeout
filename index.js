@@ -63,10 +63,12 @@ class Swipeout extends React.Component {
 
         panX.flattenOffset();
 
-        Animated.timing(panX, {
-          duration: duration,
-          toValue: openRight ? -rightWidth : openLeft ? leftWidth : 0
-        }).start();
+        if (openRight || openLeft) {
+          let toValue = openRight ? -rightWidth : leftWidth;
+          this.handleOpen(duration, toValue);
+        } else {
+          this.handleClose(defaultSpeed);
+        }
 
         this.setState({
           left: openLeft,
@@ -79,16 +81,24 @@ class Swipeout extends React.Component {
   componentDidMount() {
     setTimeout(this.measureSwipeout.bind(this));
   }
-  handleClose() {
-    let { defaultSpeed, panX } = this.state;
-    Animated.timing(panX, {
-      duration: defaultSpeed*2,
+  handleBtnPress(btn) {
+    let { defaultSpeed } = this.state;
+    if (btn.props && btn.props.onPress) btn.props.onPress();
+    if (btn.autoClose) this.handleClose(defaultSpeed*2);
+  }
+  handleClose(duration) {
+    Animated.timing(this.state.panX, {
+      duration: duration,
       toValue: 0
     }).start();
+    if (this.props.onClose) this.props.onClose();
   }
-  handleBtnPress(btn) {
-    if (btn.props && btn.props.onPress) btn.props.onPress();
-    if (btn.autoClose) this.handleClose();
+  handleOpen(duration, toValue) {
+    Animated.timing(this.state.panX, {
+      duration: duration,
+      toValue: toValue
+    }).start();
+    if (this.props.onOpen) this.props.onOpen();
   }
   getBtnsWidth(group, defaultWidth) {
     let width = 0

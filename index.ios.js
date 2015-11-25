@@ -49,9 +49,14 @@ var swipeout = React.createClass({
       }).cloneWithRows(rows),
     };
   },
+  dummyFunc: function(text) {
+    console.log(text);
+  },
   renderRow: function(rowData: string) {
     return (
       <Swipeout
+        onClose={() => this.dummyFunc('onClose triggered')}
+        onOpen={() => this.dummyFunc('onOpen triggered')}
         right={rowData.right}
         left={rowData.left}>
         <View style={styles.li}><Text>{rowData.contents}</Text></View>
