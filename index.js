@@ -12,7 +12,7 @@ class Btn extends React.Component {
   render() {
     let customStyle = this.props.style || {}
     return (
-      <TouchableHighlight {...this.props} style={[styles.btn, customStyle]} >
+      <TouchableHighlight {...this.props} style={[styles.btn, customStyle]}>
         <Text style={styles.btnText}>{this.props.text}</Text>
       </TouchableHighlight>
     )
@@ -101,6 +101,8 @@ class Swipeout extends React.Component {
   render() {
     let { panX, props, height, width: w } = this.state;
 
+    let customStyle = this.props.style || {}
+
     let xContent = panX.interpolate({
       inputRange: [-w, 0, w],
       outputRange: [props.right ? -w : 0, 0, props.left ? w : 0],
@@ -118,7 +120,7 @@ class Swipeout extends React.Component {
     }
 
     return (
-      <View ref="swipeout" style={styles.container}>
+      <View ref="swipeout" style={[styles.container, customStyle]}>
 
         {props.left && w ?
           <Animated.View {...this.state.panResponder.panHandlers}
