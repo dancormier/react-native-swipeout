@@ -15,15 +15,17 @@ var Swipeout = require('./index.js');
 var btn = [
   {
     text: 'btn!',
-    props: [{
+    props: {
       onPress: function() {alert('btn.props.onPress func')},
       style: {
         backgroundColor: 'green',
         width: 200
       },
       underlayColor: '#cc0',
-    }]
-  }
+    }
+  }, {
+    text: 'btn!',
+  },
 ];
 
 var text = "Sample text";

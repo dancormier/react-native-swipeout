@@ -126,7 +126,7 @@ class Swipeout extends React.Component {
             style={[styles.btns, styleBtnsLeft]}>
             {
               props.left.map(function(btn) {
-                let btnProps = btn.props ? btn.props[0] : []
+                let btnProps = btn.props ? btn.props : []
                 return <Btn text={btn.text} {...btnProps}/>
               })
             }
@@ -138,7 +138,7 @@ class Swipeout extends React.Component {
             style={[styles.btns, styleBtnsRight]}>
             {
               props.right.map(function(btn) {
-                let btnProps = btn.props ? btn.props[0] : []
+                let btnProps = btn.props ? btn.props : []
                 return <Btn text={btn.text} {...btnProps}/>
               })
             }
