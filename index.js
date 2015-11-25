@@ -10,8 +10,7 @@ var {
 
 class Btn extends React.Component {
   render() {
-    console.log(this.props.style)
-    let customStyle = this.props.style || {backgroundColor: 'blue'}
+    let customStyle = this.props.style || {}
     return (
       <TouchableHighlight {...this.props} style={[styles.btn, customStyle]} >
         <Text style={styles.btnText}>{this.props.text}</Text>
@@ -90,8 +89,7 @@ class Swipeout extends React.Component {
     });
   }
   render() {
-    let { panX, props, height, width } = this.state;
-    let w = width
+    let { panX, props, height, width: w } = this.state;
 
     let xContent = panX.interpolate({
       inputRange: [-w, 0, w],
