@@ -10,15 +10,29 @@ var {
 } = React;
 
 //  3rd party dependencies
-var Swipeout = require('./index.js')
+var Swipeout = require('./index.js');
 
-var btn = [{text: 'btn!'}, {text: 'btn!'}]
-var text = "Sample text"
+var btn = [
+  {
+    text: 'btn!',
+    props: [{
+      style: {
+        backgroundColor: 'green'
+      },
+      onPress: function() {alert('btn.props.onPress func')},
+      underlayColor: '#cc0',
+    }]
+  }, {
+    text: 'btn!'
+  }
+];
+
+var text = "Sample text";
 
 var rows = [
-  {contents: text,right: btn, left: btn},
-  {contents: text,right: btn,},
-]
+  {contents: text, right: btn, left: btn},
+  {contents: text, right: btn,},
+];
 
 var swipeout = React.createClass({
   allowScroll: function(scrollEnabled) {

@@ -10,8 +10,10 @@ var {
 
 class Btn extends React.Component {
   render() {
+    console.log(this.props.style)
+    let customStyle = this.props.style || {backgroundColor: 'blue'}
     return (
-      <TouchableHighlight style={[styles.btn]}>
+      <TouchableHighlight {...this.props} style={[styles.btn, customStyle]} >
         <Text style={styles.btnText}>{this.props.text}</Text>
       </TouchableHighlight>
     )
@@ -115,7 +117,8 @@ class Swipeout extends React.Component {
             style={[styles.btns, styleBtnsLeft]}>
             {
               props.left.map(function(btn) {
-                return <Btn text={btn.text} style={[styles.btn]}/>
+                let btnProps = btn.props ? btn.props[0] : []
+                return <Btn text={btn.text} {...btnProps}/>
               })
             }
           </Animated.View>
@@ -126,7 +129,8 @@ class Swipeout extends React.Component {
             style={[styles.btns, styleBtnsRight]}>
             {
               props.right.map(function(btn) {
-                return <Btn text={btn.text} style={[styles.btn]}/>
+                let btnProps = btn.props ? btn.props[0] : []
+                return <Btn text={btn.text} {...btnProps}/>
               })
             }
           </Animated.View>
