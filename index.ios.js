@@ -18,7 +18,8 @@ var btn = [
     props: [{
       onPress: function() {alert('btn.props.onPress func')},
       style: {
-        backgroundColor: 'green'
+        backgroundColor: 'green',
+        width: 200
       },
       underlayColor: '#cc0',
     }]

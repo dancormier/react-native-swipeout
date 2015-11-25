@@ -77,14 +77,25 @@ class Swipeout extends React.Component {
   componentDidMount() {
     setTimeout(this.measureSwipeout.bind(this));
   }
+  getBtnsWidth(group, defaultWidth) {
+    let width = 0
+    group.forEach(btn => {
+      let btnWidth = btn.props ? btn.props[0].style.width ? btn.props[0].style.width : defaultWidth : defaultWidth;
+      width += btnWidth;
+    });
+    return width
+  }
   measureSwipeout() {
     this.refs.swipeout.measure((a, b, width, height, px, py) => {
       let { props } = this.state;
+      let { left, right } = props;
+      let defaultWidth = (width/5) * props.right.length;
+
       this.setState({
         height: height,
         width: width,
-        leftWidth: props.left ? (width/5) * props.left.length : 0,
-        rightWidth: props.right ? (width/5) * props.right.length : 0,
+        leftWidth: props.left ? this.getBtnsWidth(left, defaultWidth) : 0,
+        rightWidth: props.right ? this.getBtnsWidth(right, defaultWidth) : 0,
       });
     });
   }
