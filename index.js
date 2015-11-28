@@ -107,6 +107,9 @@ var Swipeout = React.createClass({
     return true;
   }
 , _handleMoveShouldSetPanResponder: function(e: Object, gestureState: Object): boolean {
+    if (gestureState.dx === 0 || gestureState.dy === 0) {
+      return false;
+    }
     return true;
   }
 , _handlePanResponderGrant: function(e: Object, gestureState: Object) {
