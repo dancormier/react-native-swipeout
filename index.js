@@ -111,7 +111,7 @@ class Swipeout extends React.Component {
     this.refs.swipeout.measure((a, b, width, height, px, py) => {
       let { props } = this.state;
       let { left, right } = props;
-      let defaultWidth = (width/5) * props.right.length;
+      let defaultWidth = width/5;
 
       this.setState({
         height: height,
