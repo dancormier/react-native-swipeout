@@ -10,12 +10,12 @@ var {
 
 class Btn extends React.Component {
   render() {
-    let customStyle = this.props.style || {}
+    let customStyle = this.props.style || {};
     return (
       <TouchableHighlight {...this.props} style={[styles.btn, customStyle]}>
         <Text style={styles.btnText}>{this.props.text}</Text>
       </TouchableHighlight>
-    )
+    );
   }
 }
 
@@ -68,7 +68,7 @@ class Swipeout extends React.Component {
           this.handleOpen(duration, toValue);
         } else {
           this.handleClose(defaultSpeed);
-        }
+        };
 
         this.setState({
           left: openLeft,
@@ -89,19 +89,19 @@ class Swipeout extends React.Component {
   handleClose(duration) {
     Animated.timing(this.state.panX, {
       duration: duration,
-      toValue: 0
+      toValue: 0,
     }).start();
     if (this.props.onClose) this.props.onClose();
   }
   handleOpen(duration, toValue) {
     Animated.timing(this.state.panX, {
       duration: duration,
-      toValue: toValue
+      toValue: toValue,
     }).start();
     if (this.props.onOpen) this.props.onOpen();
   }
   getBtnsWidth(group, defaultWidth) {
-    let width = 0
+    let width = 0;
     group.forEach(btn => {
       width += btn.props && btn.props.style && btn.props.style.width ? btn.props.style.width : defaultWidth;
     });
@@ -124,23 +124,23 @@ class Swipeout extends React.Component {
   render() {
     let { panX, props, height, width: w } = this.state;
 
-    let customStyle = this.props.style || {}
+    let customStyle = this.props.style || {};
 
     let xContent = panX.interpolate({
       inputRange: [-w, 0, w],
       outputRange: [props.right ? -w : 0, 0, props.left ? w : 0],
-    })
+    });
 
     let styleBtnsLeft = {
       height: height,
       left: 0,
-      width: panX.interpolate({inputRange: [0, w], outputRange: [0, w]})
-    }
+      width: panX.interpolate({inputRange: [0, w], outputRange: [0, w]}),
+    };
     let styleBtnsRight = {
       height: height,
       right: 0,
-      width: panX.interpolate({inputRange: [-w, 0], outputRange: [w, 0]})
-    }
+      width: panX.interpolate({inputRange: [-w, 0], outputRange: [w, 0]}),
+    };
 
     let self = this;
 
@@ -152,7 +152,7 @@ class Swipeout extends React.Component {
             style={[styles.btns, styleBtnsLeft]}>
             {
               props.left.map(function(btn, i) {
-                let btnProps = btn.props ? btn.props : []
+                let btnProps = btn.props ? btn.props : [];
                 return (
                   <Btn
                     key={i}
@@ -170,7 +170,7 @@ class Swipeout extends React.Component {
             style={[styles.btns, styleBtnsRight]}>
             {
               props.right.map(function(btn, i) {
-                let btnProps = btn.props ? btn.props : []
+                let btnProps = btn.props ? btn.props : [];
                 return (
                   <Btn
                     key={i}
@@ -192,7 +192,7 @@ class Swipeout extends React.Component {
       </View>
     );
   }
-}
+};
 
 var styles = StyleSheet.create({
   btn: {
@@ -220,4 +220,4 @@ var styles = StyleSheet.create({
   },
 });
 
-module.exports = Swipeout
+module.exports = Swipeout;
