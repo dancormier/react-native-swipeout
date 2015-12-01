@@ -19,14 +19,17 @@ var btn = [
     props: {
       onPress: function() {alert('btn.props.onPress func')},
       style: {
-        backgroundColor: 'green',
-        width: 200
+        backgroundColor: 'blue',
+        width: 200,
       },
       underlayColor: '#cc0',
     }
   }, {
-    autoClose: true,
     text: 'btn!',
+    type: 'secondary',
+  }, {
+    text: 'btn!',
+    type: 'danger',
   },
 ];
 

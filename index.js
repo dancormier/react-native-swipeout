@@ -9,10 +9,30 @@ var {
 } = React
 
 class Btn extends React.Component {
+  setTypeStyle(element) {
+    switch (this.props.type) {
+      case "danger":
+      case "delete":
+        return styles.btnDanger;
+        break;
+      case "primary":
+        return styles.btnPrimary;
+        break;
+      case "secondary":
+        return styles.btnSecondary;
+        break;
+      case "success":
+        return styles.btnSuccess;
+      default:
+        return {};
+        break;
+    }
+  }
   render() {
     let customStyle = this.props.style || {};
+
     return (
-      <TouchableHighlight {...this.props} style={[styles.btn, customStyle]}>
+      <TouchableHighlight {...this.props} style={[styles.btn, this.setTypeStyle(), customStyle]}>
         <Text style={styles.btnText}>{this.props.text}</Text>
       </TouchableHighlight>
     );
@@ -176,6 +196,7 @@ class Swipeout extends React.Component {
                   <Btn
                     key={i}
                     text={btn.text}
+                    type={btn.type}
                     {...btnProps}
                     onPress={() => self.handleBtnPress(btn)}/>
                 )
@@ -202,6 +223,18 @@ var styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     overflow: 'hidden',
+  },
+  btnDanger: {
+    backgroundColor: '#FF3B30',
+  },
+  btnPrimary: {
+    backgroundColor: '#006fff',
+  },
+  btnSecondary: {
+    backgroundColor: '#fd9427',
+  },
+  btnSuccess: {
+    backgroundColor: '#4cd965',
   },
   btnText: {
     color: '#fff',
