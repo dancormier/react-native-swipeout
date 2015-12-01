@@ -52,14 +52,15 @@ class Swipeout extends React.Component {
           start
         } = this.state;
 
-        let change = (gestureState.moveX - gestureState.x0);
+        let moved = gestureState.moveX != 0;
+        let change = gestureState.moveX - gestureState.x0;
         let velocity = Math.abs(gestureState.vx);
         let velocityMin = 0.3;
         let speed = 200/velocity;
         let duration = speed > defaultSpeed ? Math.min(speed, 200) : defaultSpeed;
 
         let openLeft = change > leftWidth && !right || change > 0 && left || velocity > velocityMin && !right && change > 0;
-        let openRight = change < -rightWidth && !left || change < 0 && right || velocity > velocityMin && !left && change < 0;
+        let openRight = change < -rightWidth && !left && moved || change < 0 && right || velocity > velocityMin && !left && change < 0;
 
         panX.flattenOffset();
 
