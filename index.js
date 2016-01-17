@@ -92,25 +92,17 @@ var Swipeout = React.createClass({
   }
 , componentWillMount: function() {
     this._panResponder = PanResponder.create({
-      onStartShouldSetPanResponder: this._handleStartShouldSetPanResponder,
-      onMoveShouldSetPanResponder: this._handleMoveShouldSetPanResponder,
+      onStartShouldSetPanResponder: (event, gestureState) => true,
+      onMoveShouldSetPanResponder: (event, gestureState) => true,
       onPanResponderGrant: this._handlePanResponderGrant,
       onPanResponderMove: this._handlePanResponderMove,
       onPanResponderRelease: this._handlePanResponderEnd,
       onPanResponderTerminate: this._handlePanResponderEnd,
+      onShouldBlockNativeResponder: (event, gestureState) => true,
     });
   }
 , componentWillReceiveProps: function(nextProps) {
     if (nextProps.close) this._close()
-  }
-, _handleStartShouldSetPanResponder: function(e: Object, gestureState: Object): boolean {
-    return true;
-  }
-, _handleMoveShouldSetPanResponder: function(e: Object, gestureState: Object): boolean {
-    if (gestureState.dx === 0 || gestureState.dy === 0) {
-      return false;
-    }
-    return true;
   }
 , _handlePanResponderGrant: function(e: Object, gestureState: Object) {
     this.props.onOpen(this.props.sectionID, this.props.rowID)
@@ -119,8 +111,6 @@ var Swipeout = React.createClass({
         btnWidth: (width/5),
         btnsLeftWidth: this.props.left ? (width/5)*this.props.left.length : 0,
         btnsRightWidth: this.props.right ? (width/5)*this.props.right.length : 0,
-        contentHeight: height,
-        contentWidth: width,
         swiping: true,
         timeStart: (new Date()).getTime(),
       })
@@ -218,17 +208,16 @@ var Swipeout = React.createClass({
     })
   }
 , render: function() {
-    var self = this
-    var contentWidth = self.state.contentWidth
-    var posX = self.getTweeningValue('contentPos')
+    var contentWidth = this.state.contentWidth
+    var posX = this.getTweeningValue('contentPos')
 
     var styleSwipeout = [styles.swipeout]
-    if (self.props.backgroundColor) {
-      styleSwipeout.push([{ backgroundColor: self.props.backgroundColor }])
+    if (this.props.backgroundColor) {
+      styleSwipeout.push([{ backgroundColor: this.props.backgroundColor }])
     }
 
-    var limit = -self.state.btnsRightWidth
-    if (posX > 0) var limit = self.state.btnsLeftWidth
+    var limit = -this.state.btnsRightWidth
+    if (posX > 0) var limit = this.state.btnsLeftWidth
 
     var styleLeftPos = StyleSheet.create({
       left: {
@@ -245,7 +234,7 @@ var Swipeout = React.createClass({
     })
     var styleContentPos = StyleSheet.create({
       content: {
-        left: self._rubberBandEasing(posX, limit),
+        left: this._rubberBandEasing(posX, limit),
       }
     })
 
@@ -258,56 +247,58 @@ var Swipeout = React.createClass({
     var styleLeft = [styles.swipeoutBtns]
     styleLeft.push(styleLeftPos.left)
 
+    var isRightVisible = posX < 0;
+    var isLeftVisible = posX > 0;
+
     return (
       <View style={styleSwipeout}>
-        <View ref="swipeoutContent" style={styleContent} {...self._panResponder.panHandlers}>
-          {self.props.children}
+        <View
+          ref="swipeoutContent"
+          style={styleContent}
+          onLayout={this._onLayout}
+          {...this._panResponder.panHandlers}>
+          {this.props.children}
         </View>
-        {self.props.right && posX < 0 ?
-          <View style={styleRight}>
-            {
-              self.props.right.map(function(btn, i){
-                return (
-                  <SwipeoutBtn
-                    backgroundColor={btn.backgroundColor}
-                    color={btn.color}
-                    component={btn.component}
-                    height={self.state.contentHeight}
-                    key={i}
-                    onPress={() => self._autoClose(self.props.right[i])}
-                    text={btn.text}
-                    type={btn.type}
-                    underlayColor={btn.underlayColor}
-                    width={self.state.btnWidth}/>
-                )
-              })
-            }
-          </View>
-        : <View></View>}
-        {self.props.left && posX > 0 ?
-          <View style={styleLeft}>
-            {
-              self.props.left.map(function(btn, i){
-                return (
-                  <SwipeoutBtn
-                    backgroundColor={btn.backgroundColor}
-                    color={btn.color}
-                    component={btn.component}
-                    height={self.state.contentHeight}
-                    key={i}
-                    onPress={() => self._autoClose(self.props.left[i])}
-                    text={btn.text}
-                    type={btn.type}
-                    underlayColor={btn.underlayColor}
-                    width={self.state.btnWidth}/>
-                )
-              })
-            }
-          </View>
-        : <View></View>}
+        { this._renderButtons(this.props.right, isRightVisible, styleRight) }
+        { this._renderButtons(this.props.left, isLeftVisible, styleLeft) }
       </View>
-    )
-  }
+    )},
+
+    _onLayout: function(event) {
+      var { width, height } = event.nativeEvent.layout;
+      this.setState({
+        contentWidth: width,
+        contentHeight: height
+      });
+    },
+
+    _renderButtons: function(buttons, isVisible, style) {
+      if (buttons && isVisible) {
+        return( <View style={style}>
+          { buttons.map(this._renderButton) }
+        </View>);
+      } else {
+        return (
+          <View/>
+        );
+      }
+    },
+
+    _renderButton: function(btn, i) {
+      return (
+        <SwipeoutBtn
+            backgroundColor={btn.backgroundColor}
+            color={btn.color}
+            component={btn.component}
+            height={this.state.contentHeight}
+            key={i}
+            onPress={() => this._autoClose(btn)}
+            text={btn.text}
+            type={btn.type}
+            underlayColor={btn.underlayColor}
+            width={this.state.btnWidth}/>
+      )
+    }
 })
 
 module.exports = Swipeout
