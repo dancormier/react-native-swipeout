@@ -1,5 +1,6 @@
 # react-native-swipeout
 iOS-style swipeout buttons that appear from behind a component
+
 ![swipeout preview](http://i.imgur.com/oCQLNFC.gif)
 
 ## Installation
