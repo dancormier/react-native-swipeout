@@ -98,7 +98,7 @@ var Swipeout = React.createClass({
       onPanResponderMove: this._handlePanResponderMove,
       onPanResponderRelease: this._handlePanResponderEnd,
       onPanResponderTerminate: this._handlePanResponderEnd,
-      onShouldBlockNativeResponder: (event, gestureState) => true
+      onShouldBlockNativeResponder: (event, gestureState) => true,
     });
   }
 , componentWillReceiveProps: function(nextProps) {
@@ -251,49 +251,53 @@ var Swipeout = React.createClass({
     var isLeftVisible = posX > 0;
 
     return (
-        <View style={styleSwipeout}>
-            <View ref="swipeoutContent" style={styleContent} {...this._panResponder.panHandlers} onLayout={this._onLayout}>
-                {this.props.children}
-            </View>
-            { this._renderButtons(this.props.right, isRightVisible, styleRight) }
-            { this._renderButtons(this.props.left, isLeftVisible, styleLeft) }
+      <View style={styleSwipeout}>
+        <View
+          ref="swipeoutContent"
+          style={styleContent}
+          onLayout={this._onLayout}
+          {...this._panResponder.panHandlers}>
+          {this.props.children}
         </View>
+        { this._renderButtons(this.props.right, isRightVisible, styleRight) }
+        { this._renderButtons(this.props.left, isLeftVisible, styleLeft) }
+      </View>
     )},
 
     _onLayout: function(event) {
-        var { width, height } = event.nativeEvent.layout;
-        this.setState({
-            contentWidth: width,
-            contentHeight: height
-        })
+      var { width, height } = event.nativeEvent.layout;
+      this.setState({
+        contentWidth: width,
+        contentHeight: height
+      });
     },
 
     _renderButtons: function(buttons, isVisible, style) {
-        if (buttons && isVisible) {
-            return( <View style={style}>
-                { buttons.map(this._renderButton) }
-            </View>);
-        } else {
-            return (
-                <View/>
-            );
-        }
+      if (buttons && isVisible) {
+        return( <View style={style}>
+          { buttons.map(this._renderButton) }
+        </View>);
+      } else {
+        return (
+          <View/>
+        );
+      }
     },
 
     _renderButton: function(btn, i) {
-        return (
-            <SwipeoutBtn
-                backgroundColor={btn.backgroundColor}
-                color={btn.color}
-                component={btn.component}
-                height={this.state.contentHeight}
-                key={i}
-                onPress={() => this._autoClose(btn)}
-                text={btn.text}
-                type={btn.type}
-                underlayColor={btn.underlayColor}
-                width={this.state.btnWidth}/>
-        )
+      return (
+        <SwipeoutBtn
+            backgroundColor={btn.backgroundColor}
+            color={btn.color}
+            component={btn.component}
+            height={this.state.contentHeight}
+            key={i}
+            onPress={() => this._autoClose(btn)}
+            text={btn.text}
+            type={btn.type}
+            underlayColor={btn.underlayColor}
+            width={this.state.btnWidth}/>
+      )
     }
 })
 
