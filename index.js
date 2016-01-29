@@ -70,7 +70,7 @@ var Swipeout = React.createClass({
   mixins: [tweenState.Mixin]
 , getDefaultProps: function() {
     return {
-      onOpen: function(sectionID, rowID) {console.log('onOpen: '+sectionID+" "+rowID)},
+      onOpen: function(sectionID, rowID) {},
       rowID: -1,
       sectionID: -1,
     }
