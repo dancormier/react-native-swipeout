@@ -70,7 +70,6 @@ var Swipeout = React.createClass({
   mixins: [tweenState.Mixin]
 , getDefaultProps: function() {
     return {
-      onOpen: function(sectionID, rowID) {console.log('onOpen: '+sectionID+" "+rowID)},
       rowID: -1,
       sectionID: -1,
     }
@@ -105,7 +104,9 @@ var Swipeout = React.createClass({
     if (nextProps.close) this._close()
   }
 , _handlePanResponderGrant: function(e: Object, gestureState: Object) {
-    this.props.onOpen(this.props.sectionID, this.props.rowID)
+    if(this.props.onOpen){
+      this.props.onOpen(this.props.sectionID, this.props.rowID)
+    }
     this.refs.swipeoutContent.measure((ox, oy, width, height) => {
       this.setState({
         btnWidth: (width/5),
