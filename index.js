@@ -220,24 +220,24 @@ var Swipeout = React.createClass({
     var limit = -this.state.btnsRightWidth
     if (posX > 0) var limit = this.state.btnsLeftWidth
 
-    var styleLeftPos = StyleSheet.create({
+    var styleLeftPos = {
       left: {
         left: 0,
         overflow: 'hidden',
         width: Math.min(limit*(posX/limit), limit),
       }
-    })
-    var styleRightPos = StyleSheet.create({
+    }
+    var styleRightPos = {
       right: {
         left: Math.abs(contentWidth + Math.max(limit, posX)),
         right: 0,
       }
-    })
-    var styleContentPos = StyleSheet.create({
+    }
+    var styleContentPos = {
       content: {
         left: this._rubberBandEasing(posX, limit),
       }
-    })
+    }
 
     var styleContent = [styles.swipeoutContent]
     styleContent.push(styleContentPos.content)
