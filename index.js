@@ -70,7 +70,7 @@ var Swipeout = React.createClass({
   mixins: [tweenState.Mixin]
 , getDefaultProps: function() {
     return {
-      onOpen: function(sectionID, rowID) {console.log('onOpen: '+sectionID+" "+rowID)},
+      onOpen: function(sectionID, rowID) {},
       rowID: -1,
       sectionID: -1,
     }
@@ -91,6 +91,7 @@ var Swipeout = React.createClass({
     }
   }
 , componentWillMount: function() {
+    this._isMounted = true;
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder: (event, gestureState) => true,
       onMoveShouldSetPanResponder: (event, gestureState) => !(gestureState.dx === 0 || gestureState.dy === 0),
@@ -101,19 +102,25 @@ var Swipeout = React.createClass({
       onShouldBlockNativeResponder: (event, gestureState) => true,
     });
   }
+, componentWillUnmount: function() {
+  console.log('will unmount swip', this._panResponder)
+  this._isMounted = false;
+}
 , componentWillReceiveProps: function(nextProps) {
     if (nextProps.close) this._close()
   }
 , _handlePanResponderGrant: function(e: Object, gestureState: Object) {
     this.props.onOpen(this.props.sectionID, this.props.rowID)
     this.refs.swipeoutContent.measure((ox, oy, width, height) => {
-      this.setState({
-        btnWidth: (width/5),
-        btnsLeftWidth: this.props.left ? (width/5)*this.props.left.length : 0,
-        btnsRightWidth: this.props.right ? (width/5)*this.props.right.length : 0,
-        swiping: true,
-        timeStart: (new Date()).getTime(),
-      })
+      if (this._isMounted) {
+        this.setState({
+          btnWidth: (width/5),
+          btnsLeftWidth: this.props.left ? (width/5)*this.props.left.length : 0,
+          btnsRightWidth: this.props.right ? (width/5)*this.props.right.length : 0,
+          swiping: true,
+          timeStart: (new Date()).getTime(),
+        })
+      }
     })
   }
 , _handlePanResponderMove: function(e: Object, gestureState: Object) {
@@ -130,7 +137,7 @@ var Swipeout = React.createClass({
       if (moveX) this.props.scroll(false)
       else this.props.scroll(true)
     }
-    if (this.state.swiping) {
+    if (this.state.swiping && this._isMounted) {
       //  move content to reveal swipeout
       if (posX < 0 && this.props.right) this.setState({ contentPos: Math.min(posX, 0) })
       else if (posX > 0 && this.props.left) this.setState({ contentPos: Math.max(posX, 0) })
@@ -161,7 +168,7 @@ var Swipeout = React.createClass({
       var openLeft = posX > openX/10 && !this.state.openedRight
     }
 
-    if (this.state.swiping) {
+    if (this.state.swiping && this._isMounted) {
       if (openRight && contentPos < 0 && posX < 0) {
         // open swipeout right
         this._tweenContent('contentPos', -btnsRightWidth)
@@ -182,11 +189,13 @@ var Swipeout = React.createClass({
     if (this.props.scroll) this.props.scroll(true)
   }
 , _tweenContent: function(state, endValue) {
-    this.tweenState(state, {
-      easing: tweenState.easingTypes.easeInOutQuad,
-      duration: endValue === 0 ? this.state.tweenDuration*1.5 : this.state.tweenDuration,
-      endValue: endValue
-    })
+    if (this._isMounted) {
+      this.tweenState(state, {
+        easing: tweenState.easingTypes.easeInOutQuad,
+        duration: endValue === 0 ? this.state.tweenDuration*1.5 : this.state.tweenDuration,
+        endValue: endValue
+      })
+    }
   }
 , _rubberBandEasing: function(value, limit) {
     if (value < 0 && value < limit) return limit - Math.pow(limit - value, 0.85);
@@ -202,10 +211,12 @@ var Swipeout = React.createClass({
   }
 , _close: function() {
     this._tweenContent('contentPos', 0)
-    this.setState({
-      openedRight: false,
-      openedLeft: false,
-    })
+    if (this._isMounted) {
+      this.setState({
+        openedRight: false,
+        openedLeft: false,
+      })
+    }
   }
 , render: function() {
     var contentWidth = this.state.contentWidth
@@ -266,10 +277,12 @@ var Swipeout = React.createClass({
 
     _onLayout: function(event) {
       var { width, height } = event.nativeEvent.layout;
-      this.setState({
-        contentWidth: width,
-        contentHeight: height
-      });
+      if (this._isMounted) {
+        this.setState({
+          contentWidth: width,
+          contentHeight: height
+        });
+      }
     },
 
     _renderButtons: function(buttons, isVisible, style) {
