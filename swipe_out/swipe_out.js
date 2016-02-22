@@ -11,14 +11,16 @@ import SwipeoutBtn from './swipe_out_btn';
 import styles from './styles.js';
 
 var Swipeout = React.createClass({
-  mixins: [tweenState.Mixin]
-  , getDefaultProps: function () {
+  mixins: [tweenState.Mixin],
+  getDefaultProps: function () {
     return {
       rowID: -1,
-      sectionID: -1
+      sectionID: -1,
+      openedRightCallback: ()=> {},
+      openedLeftCallback: ()=> {}
     }
-  }
-  , getInitialState: function () {
+  },
+  getInitialState () {
     return {
       autoClose: this.props.autoClose || false,
       btnWidth: 0,
@@ -32,8 +34,8 @@ var Swipeout = React.createClass({
       tweenDuration: 160,
       timeStart: null,
     }
-  }
-  , componentWillMount: function () {
+  },
+  componentWillMount () {
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder: (event, gestureState) => true,
       onMoveShouldSetPanResponder: (event, gestureState) => !(gestureState.dx === 0 || gestureState.dy === 0),
@@ -44,10 +46,12 @@ var Swipeout = React.createClass({
       onShouldBlockNativeResponder: (event, gestureState) => true,
     });
   }
-  , componentWillReceiveProps: function (nextProps) {
+  ,
+  componentWillReceiveProps (nextProps) {
     if (nextProps.close) this._close()
   }
-  , _handlePanResponderGrant: function (e:Object, gestureState:Object) {
+  ,
+  _handlePanResponderGrant (e:Object, gestureState:Object) {
     if (this.props.onOpen) {
       this.props.onOpen(this.props.sectionID, this.props.rowID)
     }
@@ -61,7 +65,8 @@ var Swipeout = React.createClass({
       })
     })
   }
-  , _handlePanResponderMove: function (e:Object, gestureState:Object) {
+  ,
+  _handlePanResponderMove (e:Object, gestureState:Object) {
     var posX = gestureState.dx
     var posY = gestureState.dy
     var leftWidth = this.state.btnsLeftWidth
@@ -81,7 +86,8 @@ var Swipeout = React.createClass({
       else if (posX > 0 && this.props.left) this.setState({contentPos: Math.max(posX, 0)})
     }
   }
-  , _handlePanResponderEnd: function (e:Object, gestureState:Object) {
+  ,
+  _handlePanResponderEnd (e:Object, gestureState:Object) {
     var posX = gestureState.dx
     var contentPos = this.state.contentPos
     var contentWidth = this.state.contentWidth
@@ -126,33 +132,38 @@ var Swipeout = React.createClass({
     //  Allow scroll
     if (this.props.scroll) this.props.scroll(true)
   }
-  , _tweenContent: function (state, endValue) {
+  ,
+  _tweenContent (state, endValue) {
     this.tweenState(state, {
       easing: tweenState.easingTypes.easeInOutQuad,
       duration: endValue === 0 ? this.state.tweenDuration * 1.5 : this.state.tweenDuration,
       endValue: endValue
     })
   }
-  , _rubberBandEasing: function (value, limit) {
+  ,
+  _rubberBandEasing (value, limit) {
     if (value < 0 && value < limit) return limit - Math.pow(limit - value, 0.85);
     else if (value > 0 && value > limit) return limit + Math.pow(value - limit, 0.85);
     return value;
   }
 
 //  close swipeout on button press
-  , _autoClose: function (btn) {
+  ,
+  _autoClose (btn) {
     var onPress = btn.onPress
     if (onPress) onPress()
     if (this.state.autoClose) this._close()
   }
-  , _close: function () {
+  ,
+  _close () {
     this._tweenContent('contentPos', 0)
     this.setState({
       openedRight: false,
       openedLeft: false,
     })
   }
-  , render: function () {
+  ,
+  render () {
     var contentWidth = this.state.contentWidth
     var posX = this.getTweeningValue('contentPos')
 
@@ -195,6 +206,17 @@ var Swipeout = React.createClass({
     var isRightVisible = posX < 0;
     var isLeftVisible = posX > 0;
 
+
+    /**
+     *
+     */
+    if (this.state.openedRight) {
+      this.props.openedRightCallback()
+    }
+    if (this.state.openedLeft) {
+      this.props.openedLeftCallback()
+    }
+
     return (
         <View style={styleSwipeout}>
           <View
@@ -208,17 +230,19 @@ var Swipeout = React.createClass({
           { this._renderButtons(this.props.left, isLeftVisible, styleLeft) }
         </View>
     )
-  },
+  }
+  ,
 
-  _onLayout: function (event) {
+  _onLayout (event) {
     var {width, height} = event.nativeEvent.layout;
     this.setState({
       contentWidth: width,
       contentHeight: height
     });
-  },
+  }
+  ,
 
-  _renderButtons: function (buttons, isVisible, style) {
+  _renderButtons (buttons, isVisible, style) {
     if (buttons && isVisible) {
       return ( <View style={style}>
         { buttons.map(this._renderButton) }
@@ -228,9 +252,10 @@ var Swipeout = React.createClass({
           <View/>
       );
     }
-  },
+  }
+  ,
 
-  _renderButton: function (btn, i) {
+  _renderButton (btn, i) {
     return (
         <SwipeoutBtn
             styleButton={btn.styleButton}
