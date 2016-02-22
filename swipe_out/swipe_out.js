@@ -17,6 +17,7 @@ var Swipeout = React.createClass({
       rowID: -1,
       sectionID: -1,
       openedRightCallback: ()=> {},
+      closeRightCallback: ()=> {},
       openedLeftCallback: ()=> {}
     }
   },
@@ -212,6 +213,10 @@ var Swipeout = React.createClass({
      */
     if (this.state.openedRight) {
       this.props.openedRightCallback()
+    } else {
+      if(!this.state.openedLeft){
+        this.props.closeRightCallback()
+      }
     }
     if (this.state.openedLeft) {
       this.props.openedLeftCallback()
