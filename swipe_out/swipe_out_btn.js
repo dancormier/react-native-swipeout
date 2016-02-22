@@ -68,8 +68,12 @@ class SwipeoutBtn extends Component {
 }
 
 SwipeoutBtn.defaultProps = {
-  backgroundColor: null,
-  color: null,
+  styleButton : {
+    backgroundColor: null
+  },
+  styleText : {
+    color: null
+  },
   component: null,
   underlayColor: null,
   height: 0,

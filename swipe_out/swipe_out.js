@@ -233,6 +233,7 @@ var Swipeout = React.createClass({
   _renderButton: function (btn, i) {
     return (
         <SwipeoutBtn
+            styleButton={btn.styleButton}
             backgroundColor={btn.backgroundColor}
             color={btn.color}
             component={btn.component}
