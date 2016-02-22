@@ -1,24 +1,17 @@
 import React, {
     Component,
     Image,
-    LayoutAnimation,
-    TouchableOpacity,
-    TouchableHighlight,
     PanResponder,
     TouchableHighlight,
-    StyleSheet,
     Text,
     View
-    ListView
 } from 'react-native'
-
 import styles from './styles.js'
-
 
 class SwipeoutBtn extends Component {
 
   constructor(props) {
-
+    super(props)
   }
 
   render() {
@@ -32,9 +25,9 @@ class SwipeoutBtn extends Component {
         styleText
     } = this.props;
 
-    var styleSwipeoutBtn = [styles.swipeoutBtn]
-    const styleSwipeoutBtnComponent = [];
-    const styleSwipeoutBtnText = [styles.swipeoutBtnText];
+    let styleSwipeoutBtn = [styles.swipeoutBtn]
+    let styleSwipeoutBtnComponent = [];
+    let styleSwipeoutBtnText = [styles.swipeoutBtnText];
 
     //  apply "type" styles (delete || primary || secondary)
     switch (type) {
@@ -44,7 +37,8 @@ class SwipeoutBtn extends Component {
         styleSwipeoutBtn.push(styles.colorPrimary)
       case 'secondary':
         styleSwipeoutBtn.push(styles.colorSecondary)
-      default:
+      default :
+        styleSwipeoutBtn.push({})
     }
 
     styleSwipeoutBtn.push(styleButton ? styleButton : {})
