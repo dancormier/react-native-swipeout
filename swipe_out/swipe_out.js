@@ -17,7 +17,7 @@ var Swipeout = React.createClass({
       rowID: -1,
       sectionID: -1,
       openedRightCallback: ()=> {},
-      closeRightCallback: ()=> {},
+      closeSwipeoutCallback: ()=> {},
       openedLeftCallback: ()=> {}
     }
   },
@@ -123,13 +123,13 @@ var Swipeout = React.createClass({
         // open swipeout left
         this._tweenContent('contentPos', btnsLeftWidth)
         this.setState({contentPos: btnsLeftWidth, openedLeft: true, openedRight: false})
-        this.props.closeRightCallback()
         this.props.openedLeftCallback()
       }
       else {
         // close swipeout
         this._tweenContent('contentPos', 0)
         this.setState({contentPos: 0, openedLeft: false, openedRight: false})
+        this.props.closeSwipeoutCallback()
       }
     }
 
