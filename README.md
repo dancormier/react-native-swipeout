@@ -63,7 +63,7 @@ There is an example project in `./example`. To run the example:
 
 1. `cd example`
 2. `npm install`
-3. `react-native run-ios` or `react-native run-android` (with you device attached or Android emulator running)
+3. `react-native run-ios` or `react-native run-android` (with your device attached or Android emulator running)
 
 ## To Do
 
