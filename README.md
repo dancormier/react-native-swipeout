@@ -57,6 +57,14 @@ text            | string | Yes      | 'Click Me'| text
 type            | string | Yes      | 'default' | default, primary, secondary
 underlayColor   | string | Yes      | null      | button underlay color on press
 
+## Example project
+
+There is an example project in `./example`. To run the example:
+
+1. `cd example`
+2. `npm install`
+3. `react-native run-ios` or `react-native run-android` (with you device attached or Android emulator running)
+
 ## To Do
 
 [https://github.com/dancormier/react-native-swipeout/issues](https://github.com/dancormier/react-native-swipeout/issues)
