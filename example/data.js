@@ -1,5 +1,4 @@
-var React = require('react-native')
-var {Image} = React
+import React, {Image} from 'react-native'
 
 var btnsDefault = [ { text: 'Button' } ]
 var btnsTypes = [
@@ -15,10 +14,10 @@ var rows = [
   }, {
     text: "onPress Callback",
     right: [
-      { 
+      {
         text: 'Press Me',
         onPress: function(){ alert('button pressed') },
-        type: 'primary', 
+        type: 'primary',
       }
     ],
   }, {

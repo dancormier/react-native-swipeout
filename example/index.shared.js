@@ -1,30 +1,31 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
-'use strict';
-
-var React = require('react-native');
-var {
+import React, {
   AppRegistry,
   StyleSheet,
   ListView,
   Text,
   View,
-} = React;
+} from 'react-native';
 
 //  include react-native-swipeout
-var Swipeout = require('react-native-swipeout')
+import Swipeout from 'react-native-swipeout';
 
 //  example row data (see for json structure)
-var rows = require('./data.js')
+import rows from './data';
 
 //  example styles
-var styles = require('./styles.js')
+import styles from './styles'
 
 //  example swipout app
-var swipeoutExample = React.createClass({
-  getInitialState: function() {
+export default class SwipeoutExample extends React.Component {
+
+  constructor(props) {
+    super(props);
+    console.log('constructor');
+    this.state = this.initialState();
+    console.log(this.state);
+  }
+
+  initialState() {
     //  datasource rerendered when change is made (used to set swipeout to active)
     var ds = new ListView.DataSource({rowHasChanged: (row1, row2) => true})
 
@@ -35,12 +36,12 @@ var swipeoutExample = React.createClass({
   }
 
 //  set scrolling to true/false
-, _allowScroll: function(scrollEnabled) {
+  _allowScroll(scrollEnabled) {
     this.setState({ scrollEnabled: scrollEnabled })
   }
 
 //  set active swipeout item
-, _handleSwipeout: function(sectionID, rowID) {
+  _handleSwipeout(sectionID, rowID) {
     for (var i = 0; i < rows.length; i++) {
       if (i != rowID) rows[i].active = false
       else rows[i].active = true
@@ -48,14 +49,14 @@ var swipeoutExample = React.createClass({
     this._updateDataSource(rows)
   }
 
-, _updateDataSource: function(data) {
+  _updateDataSource(data) {
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(data)
     })
   }
 
-, _renderRow: function (rowData: string, sectionID: number, rowID: number) {
-    return <Swipeout
+  _renderRow (rowData: string, sectionID: number, rowID: number) {
+    return (<Swipeout
             left={rowData.left}
             right={rowData.right}
             rowID={rowID}
@@ -69,9 +70,10 @@ var swipeoutExample = React.createClass({
                 <Text style={styles.liText}>{rowData.text}</Text>
               </View>
             </Swipeout>
+    )
   }
 
-, render: function() {
+  render() {
     return (
       <View style={styles.container}>
         <View style={styles.statusbar}/>
@@ -84,8 +86,4 @@ var swipeoutExample = React.createClass({
       </View>
     )
   }
-})
-
-module.exports = {
-  swipeoutExample: swipeoutExample
 }
