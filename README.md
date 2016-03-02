@@ -35,18 +35,19 @@ var swipeoutBtns = [
 
 ## Props
 
-Prop                     | Type   | Optional | Default   | Description
----------------          | ------ | -------- | --------- | -----------
-autoClose                | bool   | Yes      | false     | auto close on button press
-backgroundColor          | string | Yes      | '#dbddde' |
-close                    | bool   | Yes      |           | close swipeout
-left                     | array  | Yes      | []        | swipeout buttons on left
-onOpen                   | func   | Yes      |           |
-right                    | array  | Yes      | []        | swipeout buttons on right
-scroll                   | func   | Yes      |           | prevent parent scroll
-openedRightCallback      | func   | Yes      |           | when right open
-closeSwipeoutCallback    | func   | Yes      |           | when close
-openedLeftCallback       | func   | Yes      |           | when left open
+Prop                        | Type   | Optional | Default   | Description
+---------------             | ------ | -------- | --------- | -----------
+autoClose                   | bool   | Yes      | false     | auto close on button press
+autoCloseAfterPressButton   | bool   | Yes      | true      | close after press button
+backgroundColor             | string | Yes      | '#dbddde' |
+close                       | bool   | Yes      |           | close swipeout
+left                        | array  | Yes      | []        | swipeout buttons on left
+onOpen                      | func   | Yes      |           |
+right                       | array  | Yes      | []        | swipeout buttons on right
+scroll                      | func   | Yes      |           | prevent parent scroll
+openedRightCallback         | func   | Yes      |           | when right open
+closeSwipeoutCallback       | func   | Yes      |           | when close
+openedLeftCallback          | func   | Yes      |           | when left open
 
 ##### Button props
 
