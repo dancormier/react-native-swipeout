@@ -11,9 +11,11 @@
     "url": "git@github.com:dancormier/react-native-swipeout.git"
   },
   "keywords": [
+    "react-native-component",
     "react-native",
     "react-component",
     "ios",
+    "android",
     "swipeout",
     "button",
     "swipe",
@@ -26,6 +28,6 @@
   },
   "homepage": "https://github.com/dancormier/react-native-swipeout",
   "peerDependencies": {
-    "react-native": "^0.x"
+    "react-native": ">=0.20.0"
   }
 }
