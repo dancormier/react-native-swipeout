@@ -147,8 +147,10 @@ class Swipeout extends React.Component {
     if (onSwipeEnd) onSwipeEnd();
 
     if (moved && !rightOpen && !leftOpen) {
-      if (rightShouldOpen || leftShouldOpen) {
-        this.handleOpen(duration, rightShouldOpen ? -rightWidth : leftWidth);
+      if (rightShouldOpen) {
+        this.handleOpen(duration, -rightWidth);
+      } else if (leftShouldOpen) {
+        this.handleOpen(duration, leftWidth);
       } else {
         this.handleClose(speedDefault);
       }
@@ -156,14 +158,12 @@ class Swipeout extends React.Component {
         leftOpen: leftShouldOpen,
         rightOpen: rightShouldOpen,
       });
-    } else if (moved) {
+    } else {
       this.handleClose(speedDefault);
       this.setState({
         leftOpen: false,
         rightOpen: false,
       });
-    } else {
-      this.handleOpen(0, rightOpen ? -rightWidth : leftWidth);
     }
   }
   handleOpen(duration, toValue) {
