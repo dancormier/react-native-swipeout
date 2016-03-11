@@ -17,15 +17,15 @@ iOS-style swipeout buttons that appear from behind a component
 - [x] Add ability to pass props to buttons
 - [x] Add `onClose` prop (#32)
 - [x] Update button `type` prop
+- [x] Add ability to set custom button widths (#42 - in progress)
+- [x] Reimplement `scroll` prop (considering `Animated` library)
 
 ### Not Done
 
 - [ ] iPhone 6s compatibility (#44)
-- [ ] Add ability to set custom button widths (#42 - in progress)
 - [ ] Add `overswipe` button prop (#10)
 - [ ] Compensate for device rotation (#7)
 - [ ] Reimplement `close` prop
-- [ ] Reimplement `scroll` prop (considering `Animated` library)
 - [ ] Rewrite Readme
   - [ ] Update preview gif (#21)
 - [ ] Update wiki

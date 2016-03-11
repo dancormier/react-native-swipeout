@@ -20,7 +20,7 @@ var btn = [
       onPress: function() {alert('btn.props.onPress func')},
       style: {
         backgroundColor: 'blue',
-        width: 200,
+        width: 150,
       },
       underlayColor: '#cc0',
     }
@@ -41,16 +41,17 @@ var rows = [
 ];
 
 var swipeout = React.createClass({
-  allowScroll: function(scrollEnabled) {
-    this.setState({ scrollEnabled: scrollEnabled })
-  },
   getInitialState: function() {
     return {
       dataSource: new ListView.DataSource({
         rowHasChanged: (r1, r2) => r1 !== r2,
         sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
       }).cloneWithRows(rows),
+      scrollEnabled: true,
     };
+  },
+  allowScroll: function(scrollEnabled) {
+    this.setState({ scrollEnabled: scrollEnabled })
   },
   dummyFunc: function(text) {
     console.log(text);
@@ -58,8 +59,10 @@ var swipeout = React.createClass({
   renderRow: function(rowData: string) {
     return (
       <Swipeout
-        onClose={() => this.dummyFunc('onClose triggered')}
-        onOpen={() => this.dummyFunc('onOpen triggered')}
+        onClose={() => this.dummyFunc('onClose')}
+        onOpen={() => this.dummyFunc('onOpen')}
+        onSwipeStart={() => this.allowScroll(false)}
+        onSwipeEnd={() => this.allowScroll(true)}
         right={rowData.right}
         left={rowData.left}>
         <View style={styles.li}><Text>{rowData.contents}</Text></View>
@@ -67,11 +70,13 @@ var swipeout = React.createClass({
     )
   },
   render: function() {
+    console.log()
     return (
       <View style={styles.container}>
         <ListView
           dataSource={this.state.dataSource}
           renderRow={(rowData) => this.renderRow(rowData)}
+          scrollEnabled={this.state.scrollEnabled}
         />
       </View>
     );

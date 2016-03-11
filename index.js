@@ -1,183 +1,315 @@
-var React = require('react-native');
-var {
+const React = require('react-native');
+const {
   Animated,
   PanResponder,
   StyleSheet,
-  Text,
-  TouchableHighlight,
   View
 } = React
 
-class Btn extends React.Component {
-  setTypeStyle(element) {
-    switch (this.props.type) {
-      case "danger":
-      case "delete":
-        return styles.btnDanger;
-        break;
-      case "primary":
-        return styles.btnPrimary;
-        break;
-      case "secondary":
-        return styles.btnSecondary;
-        break;
-      case "success":
-        return styles.btnSuccess;
-      default:
-        return {};
-        break;
-    }
-  }
-  render() {
-    let customStyle = this.props.style || {};
-
-    return (
-      <TouchableHighlight {...this.props} style={[styles.btn, this.setTypeStyle(), customStyle]}>
-        <Text style={styles.btnText}>{this.props.text}</Text>
-      </TouchableHighlight>
-    );
-  }
-}
+const Btn = require('./components/btn.js');
 
 class Swipeout extends React.Component {
+  componentDidMount() {
+    let { panX } = this.state;
+
+    setTimeout(this.measureSwipeout.bind(this));
+    panX.addListener((value) => this.panListener(value.value));
+  }
+  componentWillUnmount() {
+    let { panX } = this.state;
+
+    panX.removeAllListeners();
+  }
   constructor(props) {
     super(props);
     this.state = {
-      defaultSpeed: 100,
+      height: 0,
+      leftBtnWidthDefault: 0,
+      leftBtnWidths: [],
+      leftOpen: false,
+      leftVisible: false,
+      leftWidth: 0,
       panX: new Animated.Value(0),
-      props: props,
+      rightBtnWidthDefault: 0,
+      rightBtnWidths: [],
+      rightOpen: false,
+      rightVisible: false,
+      rightWidth: 0,
+      scroll: true,
+      self: this,
+      speedDefault: 100,
       width: 0,
     };
+
     this.state.panResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
-
-      onPanResponderGrant: (e, gestureState) => {
-        let { panX } = this.state;
-        panX.setOffset(panX._value);
-      },
-
-      onPanResponderMove: Animated.event([null, {
-        dx: this.state.panX,
-      }]),
-
-      onPanResponderRelease: (e, gestureState) => {
-
+      onPanResponderGrant: () => {
         let {
-          defaultSpeed,
           panX,
-          left,
-          leftWidth,
-          right,
-          rightWidth,
-          start
+          leftOpen,
+          rightOpen,
         } = this.state;
-
-        let moved = gestureState.moveX != 0;
-        let change = gestureState.moveX - gestureState.x0;
-        let velocity = Math.abs(gestureState.vx);
-        let velocityMin = 0.3;
-        let speed = 200/velocity;
-        let duration = speed > defaultSpeed ? Math.min(speed, 200) : defaultSpeed;
-
-        let openLeft = change > leftWidth && !right || change > 0 && left || velocity > velocityMin && !right && change > 0;
-        let openRight = change < -rightWidth && !left && moved || change < 0 && right || velocity > velocityMin && !left && change < 0;
-
-        panX.flattenOffset();
-
-        if (openRight || openLeft) {
-          let toValue = openRight ? -rightWidth : leftWidth;
-          this.handleOpen(duration, toValue);
-        } else {
-          this.handleClose(defaultSpeed);
-        };
-
-        this.setState({
-          left: openLeft,
-          right: openRight
-        });
-
+        if (leftOpen || rightOpen) panX.setOffset(panX._value);
+      },
+      onPanResponderMove: Animated.event(
+        [null, {
+          dx: this.state.panX,
+        }]
+      ),
+      onPanResponderRelease: (e, gestureState) => {
+        this.handleEnd(e, gestureState);
+      },
+      onPanResponderTerminate: (e, gestureState) => {
+        this.handleEnd(e, gestureState);
       },
     });
   }
-  componentDidMount() {
-    setTimeout(this.measureSwipeout.bind(this));
+  btnWidth(btn) {
+    let hasCustomWidth = btn.props && btn.props.style && btn.props.style.width;
+    return hasCustomWidth ? btn.props.style.width : false;
+  }
+  btnsWidthTotal(width, group, side) {
+    let customWidths = [];
+
+    group.forEach(btn => {
+      this.btnWidth(btn) ? customWidths.push(this.btnWidth(btn)) : null;
+    });
+
+    let customWidthTotal = customWidths.reduce((a, b) => a + b, 0);
+    let defaultWidth = (width - customWidthTotal)/(5 - customWidths.length);
+    let defaultWidthsTotal = (group.length - customWidths.length) * defaultWidth;
+
+    this.setState(side === 'left' ?
+      { leftBtnWidthDefault: defaultWidth }
+    : { rightBtnWidthDefault: defaultWidth }
+    )
+
+    return customWidthTotal + defaultWidthsTotal;
+  }
+  setBtnsWidth(left, right) {
+    let {
+      leftBtnWidthDefault: leftDefault,
+      rightBtnWidthDefault: rightDefault,
+    } = this.state;
+    let leftWidths = [];
+    let rightWidths = [];
+
+    left ? left.forEach(btn => {
+      leftWidths.push(this.btnWidth(btn) ? this.btnWidth(btn) : leftDefault);
+    }) : null;
+
+    right ? right.forEach(btn => {
+      rightWidths.push(this.btnWidth(btn) ? this.btnWidth(btn) : rightDefault);
+    }): null;
+
+    this.setState({
+      leftBtnWidths: leftWidths,
+      rightBtnWidths: rightWidths,
+    });
   }
   handleBtnPress(btn) {
-    let { defaultSpeed } = this.state;
+    let { speedDefault } = this.state;
+
     if (btn.props && btn.props.onPress) btn.props.onPress();
-    if (btn.autoClose) this.handleClose(defaultSpeed*2);
+    if (btn.autoClose) this.handleClose(speedDefault*2);
   }
   handleClose(duration) {
+    let { onClose } = this.props;
+    if (onClose) onClose();
+
     Animated.timing(this.state.panX, {
       duration: duration,
       toValue: 0,
     }).start();
-    if (this.props.onClose) this.props.onClose();
+  }
+  handleEnd(e, gestureState) {
+    let { onSwipeEnd } = this.props;
+    let {
+      speedDefault,
+      panX,
+      leftOpen,
+      leftWidth,
+      rightOpen,
+      rightWidth,
+    } = this.state;
+
+    let move = gestureState.moveX;
+    let moved = Math.abs(move) > 0;
+    let change = move - gestureState.x0;
+    let velocity = Math.abs(gestureState.vx);
+    let speed = 200/velocity;
+    let duration = speed > speedDefault ? Math.min(speed, 200) : speedDefault;
+    let leftShouldOpen = change > 0 && move && this.shouldOpen(change, leftWidth, velocity, leftOpen, rightOpen);
+    let rightShouldOpen = change < 0 && move && this.shouldOpen(change, rightWidth, velocity, rightOpen, leftOpen);
+
+    panX.flattenOffset();
+
+    if (onSwipeEnd) onSwipeEnd();
+
+    if (moved && !rightOpen && !leftOpen) {
+      if (rightShouldOpen || leftShouldOpen) {
+        this.handleOpen(duration, rightShouldOpen ? -rightWidth : leftWidth);
+      } else {
+        this.handleClose(speedDefault);
+      }
+      this.setState({
+        leftOpen: leftShouldOpen,
+        rightOpen: rightShouldOpen,
+      });
+    } else if (moved) {
+      this.handleClose(speedDefault);
+      this.setState({
+        leftOpen: false,
+        rightOpen: false,
+      });
+    } else {
+      this.handleOpen(0, rightOpen ? -rightWidth : leftWidth);
+    }
   }
   handleOpen(duration, toValue) {
+    let { onOpen } = this.props;
+    if (onOpen) onOpen();
+
     Animated.timing(this.state.panX, {
       duration: duration,
       toValue: toValue,
     }).start();
-    if (this.props.onOpen) this.props.onOpen();
   }
-  getBtnsWidth(group, defaultWidth) {
-    let width = 0;
-    group.forEach(btn => {
-      width += btn.props && btn.props.style && btn.props.style.width ? btn.props.style.width : defaultWidth;
-    });
-    return width;
+  handleStart() {
+    let { onSwipeStart } = this.props;
+    if (onSwipeStart) onSwipeStart();
   }
   measureSwipeout() {
     this.refs.swipeout.measure((a, b, width, height, px, py) => {
-      let { props } = this.state;
-      let { left, right } = props;
-      let defaultWidth = width/5;
+      let {
+        left,
+        right,
+      } = this.props;
 
       this.setState({
         height: height,
         width: width,
-        leftWidth: props.left ? this.getBtnsWidth(left, defaultWidth) : 0,
-        rightWidth: props.right ? this.getBtnsWidth(right, defaultWidth) : 0,
+        leftWidth: left ? this.btnsWidthTotal(width, left, 'left') : 0,
+        rightWidth: right ? this.btnsWidthTotal(width, right, 'right') : 0,
       });
+
+      this.setBtnsWidth(left, right);
     });
   }
-  render() {
-    let { panX, props, height, width: w } = this.state;
+  panListener(value) {
+    let {
+      leftOpen,
+      rightOpen,
+      scroll,
+    } = this.state;
 
-    let customStyle = this.props.style || {};
+    let leftVisible = value > 5;
+    let rightVisible = value < 5;
+    let panning = leftVisible || rightVisible;
+    if (scroll && panning) this.handleStart();
 
-    let xContent = panX.interpolate({
-      inputRange: [-w, 0, w],
-      outputRange: [props.right ? -w : 0, 0, props.left ? w : 0],
+    this.setState({
+      scroll: !panning,
+      leftVisible: leftOpen || leftVisible,
+      rightVisible: rightOpen || rightVisible,
     });
+  }
+  returnBtnDimensions(i, side) {
+    let {
+      height,
+      leftBtnWidths,
+      leftWidth,
+      panX,
+      rightBtnWidths,
+      rightWidth,
+      scroll,
+      width: w,
+    } = this.state;
 
-    let styleBtnsLeft = {
-      height: height,
-      left: 0,
-      width: panX.interpolate({inputRange: [0, w], outputRange: [0, w]}),
-    };
-    let styleBtnsRight = {
-      height: height,
-      right: 0,
-      width: panX.interpolate({inputRange: [-w, 0], outputRange: [w, 0]}),
-    };
+    let width = !scroll ?
+      panX.interpolate(side === 'left' ?
+        { inputRange: [0, leftWidth], outputRange: [0, leftBtnWidths[i]] }
+      : { inputRange: [-rightWidth, 0], outputRange: [rightBtnWidths[i], 0] }
+      )
+    : 0;
 
-    let self = this;
+    return {
+      height: height,
+      width: width
+    };
+  }
+  shouldOpen(min, width, velocity, isOpen, isOpenOpposite) {
+    let velocityMin = 0.3;
+    let open = isOpen || isOpenOpposite;
+    let minAbs = Math.abs(min);
+    let openMin = minAbs > width/2 && !open;
+    let openFast = velocity > velocityMin && !open && minAbs > 0;
+    let remainOpen = false
+
+    return openMin || openFast || remainOpen;
+  }
+  styleBtns(show, left, right, inputRange, outputRange) {
+    let {
+      height,
+      panX,
+      scroll,
+    } = this.state;
+
+    return {
+      height: height,
+      left: left ? 0 : null,
+      opacity: show ? 1 : 0,
+      right: right ? 0 : null,
+      width: !scroll ? panX.interpolate({inputRange: inputRange, outputRange: outputRange}) : 0,
+    };
+  }
+  render() {
+    let {
+      children,
+      left,
+      right,
+      style,
+    } = this.props;
+
+    let {
+      leftBtnWidths,
+      rightBtnWidths,
+      height,
+      panX,
+      props,
+      scroll,
+      self,
+      leftVisible,
+      rightVisible,
+      width: w,
+    } = this.state;
+
+    let customStyle = style || {};
+
+    let xContent = !scroll ? panX.interpolate({
+      inputRange: [-w, 0, w],
+      outputRange: [right ? -w : 0, 0, left ? w : 0],
+    }) : 0;
+
+    let styleBtnsLeft = this.styleBtns(leftVisible, true, false, [0, w], [0, w]);
+    let styleBtnsRight = this.styleBtns(rightVisible, false, true, [-w, 0], [w, 0]);
 
     return (
       <View ref="swipeout" style={[styles.container, customStyle]}>
 
-        {props.left && w ?
+        {left && leftVisible && w ?
           <Animated.View {...this.state.panResponder.panHandlers}
             style={[styles.btns, styleBtnsLeft]}>
             {
-              props.left.map(function(btn, i) {
+              left.map(function(btn, i) {
                 let btnProps = btn.props ? btn.props : [];
                 return (
                   <Btn
                     key={i}
+                    panDimensions={self.returnBtnDimensions(i, 'left')}
                     text={btn.text}
+                    type={btn.type}
+                    width={leftBtnWidths[i]}
                     {...btnProps}
                     onPress={() => self.handleBtnPress(btn)}/>
                 )
@@ -186,17 +318,19 @@ class Swipeout extends React.Component {
           </Animated.View>
         : <View/>}
 
-        {props.right ?
+        {right && rightVisible && w ?
           <Animated.View {...this.state.panResponder.panHandlers}
             style={[styles.btns, styleBtnsRight]}>
             {
-              props.right.map(function(btn, i) {
+              right.map(function(btn, i) {
                 let btnProps = btn.props ? btn.props : [];
                 return (
                   <Btn
                     key={i}
+                    panDimensions={self.returnBtnDimensions(i, 'right')}
                     text={btn.text}
                     type={btn.type}
+                    width={rightBtnWidths[i]}
                     {...btnProps}
                     onPress={() => self.handleBtnPress(btn)}/>
                 )
@@ -208,7 +342,7 @@ class Swipeout extends React.Component {
         <Animated.View
           {...this.state.panResponder.panHandlers}
           style={{flex: 2, transform: [{translateX: xContent}]}}>
-          {this.props.children}
+          {children}
         </Animated.View>
 
       </View>
@@ -217,28 +351,6 @@ class Swipeout extends React.Component {
 };
 
 var styles = StyleSheet.create({
-  btn: {
-    alignItems: 'center',
-    backgroundColor: '#b6bec0',
-    flex: 1,
-    justifyContent: 'center',
-    overflow: 'hidden',
-  },
-  btnDanger: {
-    backgroundColor: '#FF3B30',
-  },
-  btnPrimary: {
-    backgroundColor: '#006fff',
-  },
-  btnSecondary: {
-    backgroundColor: '#fd9427',
-  },
-  btnSuccess: {
-    backgroundColor: '#4cd965',
-  },
-  btnText: {
-    color: '#fff',
-  },
   btns: {
     backgroundColor: 'blue',
     flex: 1,
