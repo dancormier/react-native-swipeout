@@ -9,7 +9,7 @@ iOS-style swipeout buttons that appear from behind a component
 
 - [x] Android compatibility (#43)
 - [x] Implement `Animated` library
-  - [x] Remove `react-tween-state` dependency (#49)
+  - [x] Remove `react-tween-state` dependency (#49, #73)
 - [x] Add ability to pass props to swipeout parent
   - [x] Including `style`
 - [x] Add ability to pass props to buttons
@@ -17,15 +17,20 @@ iOS-style swipeout buttons that appear from behind a component
 - [x] Add ability to pass props to buttons
 - [x] Add `onClose` prop (#32)
 - [x] Update button `type` prop
-- [x] Add ability to set custom button widths (#42 - in progress)
+- [x] Add ability to set custom button widths (#42)
 - [x] Reimplement `scroll` prop (considering `Animated` library)
+- [x] Reimplement `close`(now `open`) prop (#54)
+
+### Needs Outside Verification
+
+- [ ] iPhone 6s compatibility (#44)
 
 ### Not Done
 
-- [ ] iPhone 6s compatibility (#44)
+- [ ] Test on Android (#60, #78)
+- [ ] Verify performance improvements (#40, #41)
 - [ ] Add `overswipe` button prop (#10)
 - [ ] Compensate for device rotation (#7)
-- [ ] Reimplement `close` prop
 - [ ] Rewrite Readme
   - [ ] Update preview gif (#21)
 - [ ] Update wiki
@@ -63,16 +68,16 @@ var swipeoutBtns = [
 
 All props are *optional*.
 
-Prop            | Type   | Default   | Description
---------------- | ------ | --------- | -----------
-autoClose       | bool   | false     | auto close on button press
-close           | bool   |           | close swipeout
-left            | array  | []        | swipeout buttons on left
-onClose         | func   |           | function when buttons are hidden
-onOpen          | func   |           | function when buttons are exposed
-props           | array  | null      | pass props to swipeout (ex: `style`)
-right           | array  | []        | swipeout buttons on right
-scroll          | func   |           | prevent parent scroll
+Prop            | Type        | Default   | Description
+--------------- | ----------- | --------- | -----------
+autoClose       | bool        | false     | auto close on button press
+open            | string/bool |           | "left", "right", or `false`
+left            | array       | []        | swipeout buttons on left
+onClose         | func        |           | function when buttons are hidden
+onOpen          | func        |           | function when buttons are exposed
+props           | array       | null      | pass props to swipeout (ex: `style`)
+right           | array       | []        | swipeout buttons on right
+scroll          | func        |           | prevent parent scroll
 
 ##### Button props
 
