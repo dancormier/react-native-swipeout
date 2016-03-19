@@ -15,6 +15,18 @@ class Swipeout extends React.Component {
     setTimeout(this.measureSwipeout.bind(this));
     panX.addListener((value) => this.panListener(value.value));
   }
+  componentWillUpdate(nextProps, nextState) {
+    let {open} = this.props;
+    let nextOpen = nextProps.open;
+
+    if (open != nextProps.open) {
+      if(!nextOpen) {
+        this.handleClose(200);
+      } else {
+        this.handleOpen(200, nextOpen === "right" ? -this.state.rightWidth : this.state.leftWidth);
+      }
+    }
+  }
   componentWillUnmount() {
     let { panX } = this.state;
 
@@ -178,6 +190,7 @@ class Swipeout extends React.Component {
   handleStart() {
     let { onSwipeStart } = this.props;
     if (onSwipeStart) onSwipeStart();
+    this.setState({ scroll: false })
   }
   measureSwipeout() {
     this.refs.swipeout.measure((a, b, width, height, px, py) => {
