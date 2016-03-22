@@ -1,6 +1,6 @@
 import React, { PanResponder, TouchableHighlight, StyleSheet, Text, View } from 'react-native';
 import tweenState from 'react-tween-state';
-import styles from './../styles/styles.js';
+import styles from './styles.js';
 
 var SwipeoutBtn = React.createClass({
   getDefaultProps: function() {
