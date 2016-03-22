@@ -42,4 +42,4 @@ var styles = StyleSheet.create({
   },
 })
 
-export default styles;
+module.exports = styles;
