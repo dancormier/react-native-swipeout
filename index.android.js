@@ -14,7 +14,7 @@ var {
 } = React;
 
 //  include react-native-swipeout
-var Swipeout = require('./index.js')
+var Swipeout = require('./src/index.js')
 
 //  example row data (see for json structure)
 var rows = require('./example/data.js')

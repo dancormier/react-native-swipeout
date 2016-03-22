@@ -2,9 +2,11 @@
   "name": "react-native-swipeout",
   "version": "2.0.12",
   "description": "iOS-style swipeout buttons behind component",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "transpile": "babel src --out-dir lib",
+    "watch": "watch 'npm run transpile' src"
   },
   "repository": {
     "type": "git",
@@ -30,5 +32,10 @@
   },
   "peerDependencies": {
     "react-native": "^0.x"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.6.5",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-preset-react": "^6.5.0"
   }
 }
