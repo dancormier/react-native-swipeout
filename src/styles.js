@@ -1,5 +1,4 @@
-var React = require('react-native')
-var {StyleSheet} = React
+import React, { StyleSheet } from 'react-native';
 
 var styles = StyleSheet.create({
   swipeout: {
@@ -43,4 +42,4 @@ var styles = StyleSheet.create({
   },
 })
 
-module.exports = styles
+module.exports = styles;
