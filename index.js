@@ -3,6 +3,11 @@ var tweenState = require('react-tween-state')
 var {PanResponder, TouchableHighlight, StyleSheet, Text, View} = React
 var styles = require('./styles.js')
 
+var componentsIndex = 0;
+var hashKey = function(s) {
+  return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);
+};
+
 var SwipeoutBtn = React.createClass({
   getDefaultProps: function() {
     return {
@@ -99,6 +104,11 @@ var Swipeout = React.createClass({
       onPanResponderTerminate: this._handlePanResponderEnd,
       onShouldBlockNativeResponder: (event, gestureState) => true,
     });
+
+    if (this.props.mutualExclusionSet) {
+      this.mutualExclusionKey = hashKey(`swipeout:${componentsIndex++}`);
+      this.props.mutualExclusionSet.push(this);
+    }
   }
 , componentWillReceiveProps: function(nextProps) {
     if (nextProps.close) this._close()
@@ -106,6 +116,13 @@ var Swipeout = React.createClass({
 , _handlePanResponderGrant: function(e: Object, gestureState: Object) {
     if(this.props.onOpen){
       this.props.onOpen(this.props.sectionID, this.props.rowID)
+    }
+    if (this.props.mutualExclusionSet) {
+      this.props.mutualExclusionSet.forEach((item)=>{
+        if (this.mutualExclusionKey != item.mutualExclusionKey && item.state.contentPos != 0) {
+          item._close();
+        }
+      })
     }
     this.refs.swipeoutContent.measure((ox, oy, width, height) => {
       this.setState({
