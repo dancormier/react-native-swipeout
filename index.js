@@ -14,6 +14,16 @@ import React, {
 
 const SwipeoutBtn = React.createClass({
 
+  propTypes: {
+    backgroundColor: PropTypes.string,
+    color: PropTypes.string,
+    component: PropTypes.node,
+    onPress: PropTypes.func,
+    text: PropTypes.string,
+    type: PropTypes.string,
+    underlayColor: PropTypes.string,
+  },
+
   getDefaultProps: function() {
     return {
       backgroundColor: null,
@@ -81,6 +91,16 @@ const SwipeoutBtn = React.createClass({
 
 const Swipeout = React.createClass({
   mixins: [tweenState.Mixin],
+
+  propTypes: {
+    autoClose: PropTypes.bool,
+    backgroundColor: PropTypes.string,
+    close: PropTypes.bool,
+    left: PropTypes.array,
+    onOpen: PropTypes.func,
+    right: PropTypes.array,
+    scroll: PropTypes.func,
+  },
 
   getDefaultProps: function() {
     return {
