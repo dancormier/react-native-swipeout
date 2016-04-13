@@ -44,6 +44,7 @@ left            | array  | Yes      | []        | swipeout buttons on left
 onOpen          | func   | Yes      |           |
 right           | array  | Yes      | []        | swipeout buttons on right
 scroll          | func   | Yes      |           | prevent parent scroll
+onPress         | func   | Yes      |           | call function when pressing Swipeout
 
 ##### Button props
 
