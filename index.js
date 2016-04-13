@@ -139,6 +139,7 @@ var Swipeout = React.createClass({
   }
 , _handlePanResponderEnd: function(e: Object, gestureState: Object) {
     var posX = gestureState.dx
+    var posY = gestureState.dy
     var contentPos = this.state.contentPos
     var contentWidth = this.state.contentWidth
     var btnsLeftWidth = this.state.btnsLeftWidth
@@ -163,6 +164,11 @@ var Swipeout = React.createClass({
     }
 
     if (this.state.swiping) {
+      if (posX == 0 && posY == 0) {
+        var onPress = this.props.onPress;
+        if (onPress) onPress();
+      }
+
       if (openRight && contentPos < 0 && posX < 0) {
         // open swipeout right
         this._tweenContent('contentPos', -btnsRightWidth)
