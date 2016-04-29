@@ -33,6 +33,7 @@ const SwipeoutBtn = React.createClass({
       height: 0,
       key: null,
       onPress: null,
+      disabled: false,
       text: 'Click me',
       type: '',
       width: 0,
@@ -75,6 +76,7 @@ const SwipeoutBtn = React.createClass({
         onPress={this.props.onPress}
         style={styles.swipeoutBtnTouchable}
         underlayColor={this.props.underlayColor}
+        disabled={this.props.disabled}
         style={styleSwipeoutBtn}
         textStyle={styleSwipeoutBtnText}>
         {
@@ -331,11 +333,13 @@ const Swipeout = React.createClass({
   },
 
   _renderButton: function(btn, i) {
+    console.log('DISABLED: ' + btn.disabled);
     return (
       <SwipeoutBtn
           backgroundColor={btn.backgroundColor}
           color={btn.color}
           component={btn.component}
+          disabled={btn.disabled}
           height={this.state.contentHeight}
           key={i}
           onPress={() => this._autoClose(btn)}
