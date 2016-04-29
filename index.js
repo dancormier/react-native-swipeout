@@ -333,7 +333,6 @@ const Swipeout = React.createClass({
   },
 
   _renderButton: function(btn, i) {
-    console.log('DISABLED: ' + btn.disabled);
     return (
       <SwipeoutBtn
           backgroundColor={btn.backgroundColor}
