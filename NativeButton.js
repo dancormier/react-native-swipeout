@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   opacity: {
-    opacity: 0.5,
+    opacity: 0.8,
   },
 });
 
