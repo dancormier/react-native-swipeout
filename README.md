@@ -56,6 +56,7 @@ onPress         | func   | Yes      | null      | function executed onPress
 text            | string | Yes      | 'Click Me'| text
 type            | string | Yes      | 'default' | default, primary, secondary
 underlayColor   | string | Yes      | null      | button underlay color on press
+disabled        | bool   | Yes      | false     | disable button
 
 ## To Do
 
