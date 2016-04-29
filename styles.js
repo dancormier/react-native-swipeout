@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
     top: 0,
   },
   swipeoutContent: {
-    flex: 1,
   },
   colorDelete: {
     backgroundColor: '#fb3d38',
