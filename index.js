@@ -12,7 +12,7 @@ class Swipeout extends React.Component {
   componentDidMount() {
     let { panX } = this.state;
 
-    setTimeout(this.measureSwipeout.bind(this));
+    this.measureTimeout = setTimeout(this.measureSwipeout.bind(this));
     panX.addListener((value) => this.panListener(value.value));
   }
   componentWillUpdate(nextProps, nextState) {
@@ -31,6 +31,7 @@ class Swipeout extends React.Component {
     let { panX } = this.state;
 
     panX.removeAllListeners();
+    clearTimeout(this.measureTimeout);
   }
   constructor(props) {
     super(props);
