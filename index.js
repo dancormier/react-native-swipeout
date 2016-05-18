@@ -102,6 +102,7 @@ const Swipeout = React.createClass({
     onOpen: PropTypes.func,
     right: PropTypes.array,
     scroll: PropTypes.func,
+    style: View.propTypes.style,
   },
 
   getDefaultProps: function() {
@@ -258,7 +259,7 @@ const Swipeout = React.createClass({
     var contentWidth = this.state.contentWidth;
     var posX = this.getTweeningValue('contentPos');
 
-    var styleSwipeout = [styles.swipeout];
+    var styleSwipeout = [styles.swipeout, this.props.style];
     if (this.props.backgroundColor) {
       styleSwipeout.push([{ backgroundColor: this.props.backgroundColor }]);
     }
