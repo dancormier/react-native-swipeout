@@ -4,12 +4,15 @@ import styles from './styles';
 
 import React, {
   Component,
+  PropTypes,
+} from 'react';
+
+import {
   PanResponder,
   TouchableHighlight,
   StyleSheet,
   Text,
   View,
-  PropTypes,
 } from 'react-native';
 
 const SwipeoutBtn = React.createClass({

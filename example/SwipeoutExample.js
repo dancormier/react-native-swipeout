@@ -5,14 +5,8 @@ import rows from './data';
 //  example styles
 import styles from './styles';
 
-import React, {
-  Component,
-  AppRegistry,
-  StyleSheet,
-  ListView,
-  Text,
-  View,
-} from 'react-native';
+import React, {Component} from 'react';
+import {AppRegistry, StyleSheet, ListView, Text, View} from 'react-native';
 
 //  example swipout app
 class SwipeoutExample extends Component {
