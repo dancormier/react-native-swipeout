@@ -44,7 +44,8 @@ left            | array  | Yes      | []        | swipeout buttons on left
 onOpen          | func   | Yes      |           |
 right           | array  | Yes      | []        | swipeout buttons on right
 scroll          | func   | Yes      |           | prevent parent scroll
-styles          | style  | Yes      |           | style of the container
+style           | style  | Yes      |           | style of the container
+sensitivity     | number | Yes      | 0         | change the sensitivity of gesture
 
 ##### Button props
 

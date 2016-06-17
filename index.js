@@ -106,12 +106,14 @@ const Swipeout = React.createClass({
     right: PropTypes.array,
     scroll: PropTypes.func,
     style: View.propTypes.style,
+    sensitivity: PropTypes.number,
   },
 
   getDefaultProps: function() {
     return {
       rowID: -1,
       sectionID: -1,
+      sensitivity: 0,
     };
   },
 
@@ -132,9 +134,12 @@ const Swipeout = React.createClass({
   },
 
   componentWillMount: function() {
+    console.log('sensitivity: ', this.props.sensitivity);
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder: (event, gestureState) => true,
-      onMoveShouldSetPanResponder: (event, gestureState) => !(gestureState.dx === 0 || gestureState.dy === 0),
+      onMoveShouldSetPanResponder: (event, gestureState) =>
+        Math.abs(gestureState.dx) > this.props.sensitivity &&
+        Math.abs(gestureState.dy) > this.props.sensitivity,
       onPanResponderGrant: this._handlePanResponderGrant,
       onPanResponderMove: this._handlePanResponderMove,
       onPanResponderRelease: this._handlePanResponderEnd,
