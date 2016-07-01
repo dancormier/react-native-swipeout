@@ -1,12 +1,13 @@
-var React = require('react-native')
-var {Image} = React
+import React from 'react';
+import {Image} from 'react-native';
 
-var btnsDefault = [ { text: 'Button' } ]
+var btnsDefault = [ { text: 'Button' } ];
+
 var btnsTypes = [
   { text: 'Primary',    type: 'primary',   },
   { text: 'Secondary',  type: 'secondary', },
   { text: 'Delete',     type: 'delete',    }
-]
+];
 
 var rows = [
   {
@@ -15,10 +16,10 @@ var rows = [
   }, {
     text: "onPress Callback",
     right: [
-      { 
+      {
         text: 'Press Me',
         onPress: function(){ alert('button pressed') },
-        type: 'primary', 
+        type: 'primary',
       }
     ],
   }, {
@@ -67,7 +68,7 @@ var rows = [
     text: "Buttons on both sides",
     left: btnsTypes,
     right: btnsTypes,
-  }
-]
+  },
+];
 
-module.exports = rows
+export default rows;
