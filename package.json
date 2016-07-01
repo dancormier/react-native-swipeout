@@ -26,9 +26,6 @@
   },
   "homepage": "https://github.com/dancormier/react-native-swipeout",
   "dependencies": {
-    "react-tween-state": "^0.1.3"
-  },
-  "peerDependencies": {
-    "react-native": "^0.x"
+    "react-tween-state": "^0.1.5"
   }
 }
