@@ -1,18 +1,19 @@
-const React = require('react-native');
+const React = require('react');
+const ReactNative = require('react-native');
 const {
   Animated,
   PanResponder,
   StyleSheet,
-  View
-} = React
+  View,
+} = ReactNative;
 
-const Btn = require('./components/btn.js');
+const Btn = require('./components/btn');
 
 class Swipeout extends React.Component {
   componentDidMount() {
     let { panX } = this.state;
 
-    setTimeout(this.measureSwipeout.bind(this));
+    this.measureTimeout = setTimeout(this.measureSwipeout.bind(this));
     panX.addListener((value) => this.panListener(value.value));
   }
   componentWillUpdate(nextProps, nextState) {
@@ -29,7 +30,7 @@ class Swipeout extends React.Component {
   }
   componentWillUnmount() {
     let { panX } = this.state;
-
+    clearTimeout(this.measureTimeout);
     panX.removeAllListeners();
   }
   constructor(props) {
