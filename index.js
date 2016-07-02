@@ -55,6 +55,7 @@ class Swipeout extends React.Component {
 
     this.state.panResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder: () => true,
       onPanResponderGrant: () => {
         let {
           panX,
