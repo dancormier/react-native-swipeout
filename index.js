@@ -101,8 +101,10 @@ const Swipeout = React.createClass({
     autoClose: PropTypes.bool,
     backgroundColor: PropTypes.string,
     close: PropTypes.bool,
+    open: PropTypes.bool,
     left: PropTypes.array,
     onOpen: PropTypes.func,
+    onClose: PropTypes.func,
     right: PropTypes.array,
     scroll: PropTypes.func,
     style: View.propTypes.style,
@@ -127,6 +129,7 @@ const Swipeout = React.createClass({
       contentPos: 0,
       contentWidth: 0,
       openedRight: false,
+      openedLeft: false,
       swiping: false,
       tweenDuration: 160,
       timeStart: null,
@@ -149,12 +152,10 @@ const Swipeout = React.createClass({
 
   componentWillReceiveProps: function(nextProps) {
     if (nextProps.close) this._close();
+    if (nextProps.open) this._open();
   },
 
   _handlePanResponderGrant: function(e: Object, gestureState: Object) {
-    if(this.props.onOpen){
-      this.props.onOpen(this.props.sectionID, this.props.rowID);
-    }
     this.refs.swipeoutContent.measure((ox, oy, width, height) => {
       this.setState({
         btnWidth: (width/5),
@@ -214,15 +215,24 @@ const Swipeout = React.createClass({
 
     if (this.state.swiping) {
       if (openRight && contentPos < 0 && posX < 0) {
+        if(this.props.onOpen && !this.state.openedRight){
+          this.props.onOpen(this.props.sectionID, this.props.rowID);
+        }
         // open swipeout right
         this._tweenContent('contentPos', -btnsRightWidth);
         this.setState({ contentPos: -btnsRightWidth, openedLeft: false, openedRight: true });
       } else if (openLeft && contentPos > 0 && posX > 0) {
+        if(this.props.onOpen && !this.state.openedLeft){
+          this.props.onOpen(this.props.sectionID, this.props.rowID);
+        }
         // open swipeout left
         this._tweenContent('contentPos', btnsLeftWidth);
         this.setState({ contentPos: btnsLeftWidth, openedLeft: true, openedRight: false });
       }
       else {
+        if(this.props.onClose && (this.state.openedLeft || this.state.openedRight)){
+          this.props.onClose(this.props.sectionID, this.props.rowID);
+        }
         // close swipeout
         this._tweenContent('contentPos', 0);
         this.setState({ contentPos: 0, openedLeft: false, openedRight: false });
@@ -251,7 +261,12 @@ const Swipeout = React.createClass({
   _autoClose: function(btn) {
     var onPress = btn.onPress;
     if (onPress) onPress();
-    if (this.state.autoClose) this._close();
+    if (this.state.autoClose) {
+      if(this.props.onClose){
+        this.props.onClose(this.props.sectionID, this.props.rowID);
+      }
+      this._close();
+    }
   },
 
   _close: function() {
@@ -259,6 +274,24 @@ const Swipeout = React.createClass({
     this.setState({
       openedRight: false,
       openedLeft: false,
+    });
+  },
+
+  _open: function() {
+    this.refs.swipeoutContent.measure((ox, oy, width, height) => {
+      var btnsLeftWidth = this.props.left ? (width/5)*this.props.left.length : 0;
+      var btnsRightWidth = this.props.right ? (width/5)*this.props.right.length : 0;
+      if (this.props.right) {
+        // open swipeout right
+        this._tweenContent('contentPos', -btnsRightWidth);
+        this.setState({ btnsRightWidth: btnsRightWidth, btnsLeftWidth: btnsLeftWidth, btnWidth: (width/5),
+          contentPos: -btnsRightWidth, openedLeft: false, openedRight: true });
+      } else if (this.props.left) {
+        // open swipeout left
+        this._tweenContent('contentPos', btnsLeftWidth);
+        this.setState({ btnsRightWidth: btnsRightWidth, btnsLeftWidth: btnsLeftWidth, btnWidth: (width/5),
+          contentPos: btnsLeftWidth, openedLeft: true, openedRight: false });
+      }
     });
   },
 
