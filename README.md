@@ -40,8 +40,10 @@ Prop            | Type   | Optional | Default   | Description
 autoClose       | bool   | Yes      | false     | auto close on button press
 backgroundColor | string | Yes      | '#dbddde' |
 close           | bool   | Yes      |           | close swipeout
+open            | bool   | Yes      |           | open swipeout
 left            | array  | Yes      | []        | swipeout buttons on left
 onOpen          | func   | Yes      |           |
+onClose         | func   | Yes      |           |
 right           | array  | Yes      | []        | swipeout buttons on right
 scroll          | func   | Yes      |           | prevent parent scroll
 style           | style  | Yes      |           | style of the container
