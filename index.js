@@ -15,6 +15,9 @@ import {
   View,
 } from 'react-native';
 
+const DIRECTION_RIGHT = 'right';
+const DIRECTION_LEFT = 'left';
+
 const SwipeoutBtn = React.createClass({
 
   propTypes: {
@@ -216,14 +219,14 @@ const Swipeout = React.createClass({
     if (this.state.swiping) {
       if (openRight && contentPos < 0 && posX < 0) {
         if(this.props.onOpen && !this.state.openedRight){
-          this.props.onOpen(this.props.sectionID, this.props.rowID, 'right');
+          this.props.onOpen(this.props.sectionID, this.props.rowID, DIRECTION_RIGHT);
         }
         // open swipeout right
         this._tweenContent('contentPos', -btnsRightWidth);
         this.setState({ contentPos: -btnsRightWidth, openedLeft: false, openedRight: true });
       } else if (openLeft && contentPos > 0 && posX > 0) {
         if(this.props.onOpen && !this.state.openedLeft){
-          this.props.onOpen(this.props.sectionID, this.props.rowID, 'left');
+          this.props.onOpen(this.props.sectionID, this.props.rowID, DIRECTION_LEFT);
         }
         // open swipeout left
         this._tweenContent('contentPos', btnsLeftWidth);
