@@ -42,7 +42,7 @@ backgroundColor | string | Yes      | '#dbddde' |
 close           | bool   | Yes      |           | close swipeout
 open            | bool   | Yes      |           | open swipeout
 left            | array  | Yes      | []        | swipeout buttons on left
-onOpen          | func   | Yes      |           | function parameters: sectionID, rowID, direction ('left' || 'right')
+onOpen          | func   | Yes      |           | function parameters: sectionID, rowID, direction ('left' / 'right')
 onClose         | func   | Yes      |           |
 right           | array  | Yes      | []        | swipeout buttons on right
 scroll          | func   | Yes      |           | prevent parent scroll
