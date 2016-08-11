@@ -42,6 +42,7 @@ backgroundColor | string | Yes      | '#dbddde' |
 close           | bool   | Yes      |           | close swipeout
 left            | array  | Yes      | []        | swipeout buttons on left
 onOpen          | func   | Yes      |           |
+onMove          | func   | Yes      |           |	dragging position
 right           | array  | Yes      | []        | swipeout buttons on right
 scroll          | func   | Yes      |           | prevent parent scroll
 style           | style  | Yes      |           | style of the container
