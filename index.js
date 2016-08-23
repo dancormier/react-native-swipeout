@@ -103,6 +103,7 @@ const Swipeout = React.createClass({
     close: PropTypes.bool,
     left: PropTypes.array,
     onOpen: PropTypes.func,
+    onSwipe: PropTypes.func,
     right: PropTypes.array,
     scroll: PropTypes.func,
     style: View.propTypes.style,
@@ -215,10 +216,16 @@ const Swipeout = React.createClass({
     if (this.state.swiping) {
       if (openRight && contentPos < 0 && posX < 0) {
         // open swipeout right
+        if(this.props.onSwipe){
+          this.props.onSwipe(this.props.sectionID, this.props.rowID);
+        }
         this._tweenContent('contentPos', -btnsRightWidth);
         this.setState({ contentPos: -btnsRightWidth, openedLeft: false, openedRight: true });
       } else if (openLeft && contentPos > 0 && posX > 0) {
         // open swipeout left
+        if(this.props.onSwipe){
+          this.props.onSwipe(this.props.sectionID, this.props.rowID);
+        }
         this._tweenContent('contentPos', btnsLeftWidth);
         this.setState({ contentPos: btnsLeftWidth, openedLeft: true, openedRight: false });
       }
