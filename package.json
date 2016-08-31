@@ -1,5 +1,5 @@
 {
-  "name": "react-native-swipeout",
+  "name": "@pod-point-open-source/react-native-swipeout",
   "version": "2.0.12",
   "description": "iOS-style swipeout buttons behind component",
   "main": "lib/index.js",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:dancormier/react-native-swipeout.git"
+    "url": "git@github.com:Pod-Point-Open-Source/react-native-swipeout.git"
   },
   "keywords": [
     "react-native",
@@ -21,12 +21,12 @@
     "swipe",
     "ui"
   ],
-  "author": "Dan Cormier",
+  "author": "POD Point",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/dancormier/react-native-swipeout/issues"
+    "url": "https://github.com/Pod-Point-Open-Source/react-native-swipeout/issues"
   },
-  "homepage": "https://github.com/dancormier/react-native-swipeout",
+  "homepage": "https://github.com/Pod-Point-Open-Source/react-native-swipeout",
   "dependencies": {
     "react-tween-state": "^0.1.3"
   },
