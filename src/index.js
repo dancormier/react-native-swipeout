@@ -1,4 +1,5 @@
-import React, { PanResponder, TouchableHighlight, StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { PanResponder, TouchableHighlight, StyleSheet, Text, View } from 'react-native';
 import tweenState from 'react-tween-state';
 import styles from './styles.js';
 
