@@ -107,6 +107,7 @@ const Swipeout = React.createClass({
     scroll: PropTypes.func,
     style: View.propTypes.style,
     sensitivity: PropTypes.number,
+    orientation: PropTypes.string,
   },
 
   getDefaultProps: function() {
@@ -114,6 +115,7 @@ const Swipeout = React.createClass({
       rowID: -1,
       sectionID: -1,
       sensitivity: 0,
+      orientation: 'row'
     };
   },
 
@@ -155,11 +157,22 @@ const Swipeout = React.createClass({
     if(this.props.onOpen){
       this.props.onOpen(this.props.sectionID, this.props.rowID);
     }
+
     this.refs.swipeoutContent.measure((ox, oy, width, height) => {
+      let btnsLeftWidth = 0;
+      let btnsRightWidth = 0;
+      if (this.props.orientation == 'column') {
+        btnsLeftWidth = this.props.left ? (width/5) : 0;
+        btnsRightWidth = this.props.right ? (width/5) : 0;
+      } else {
+        btnsLeftWidth = this.props.left ? (width/5)*this.props.left.length : 0;
+        btnsRightWidth = this.props.right ? (width/5)*this.props.right.length : 0;
+      }
+
       this.setState({
         btnWidth: (width/5),
-        btnsLeftWidth: this.props.left ? (width/5)*this.props.left.length : 0,
-        btnsRightWidth: this.props.right ? (width/5)*this.props.right.length : 0,
+        btnsLeftWidth: btnsLeftWidth,
+        btnsRightWidth: btnsRightWidth,
         swiping: true,
         timeStart: (new Date()).getTime(),
       });
@@ -330,6 +343,7 @@ const Swipeout = React.createClass({
 
   _renderButtons: function(buttons, isVisible, style) {
     if (buttons && isVisible) {
+      this.props.orientation == "column" ? style.push({flexDirection: "column"}) : null;
       return( <View style={style}>
         { buttons.map(this._renderButton) }
       </View>);
@@ -340,14 +354,16 @@ const Swipeout = React.createClass({
     }
   },
 
-  _renderButton: function(btn, i) {
+  _renderButton: function(btn, i, btns) {
+    let btnHeight = this.props.orientation == 'column' && btns.length > 0 ? this.state.contentHeight/btns.length : this.state.contentHeight;
+
     return (
       <SwipeoutBtn
           backgroundColor={btn.backgroundColor}
           color={btn.color}
           component={btn.component}
           disabled={btn.disabled}
-          height={this.state.contentHeight}
+          height={btnHeight}
           key={i}
           onPress={() => this._autoClose(btn)}
           text={btn.text}
