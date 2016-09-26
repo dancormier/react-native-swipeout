@@ -46,7 +46,7 @@ right           | array  | Yes      | []        | swipeout buttons on right
 scroll          | func   | Yes      |           | prevent parent scroll
 style           | style  | Yes      |           | style of the container
 sensitivity     | number | Yes      | 0         | change the sensitivity of gesture
-orientation     | string | Yes      | 'row'     | swipout buttons orientation, 'row' or 'column'
+orientation     | string | Yes      | 'row'     | swipeout buttons orientation, 'row' or 'column'
 
 ##### Button props
 
