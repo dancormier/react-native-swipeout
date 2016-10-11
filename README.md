@@ -55,6 +55,7 @@ backgroundColor | string | Yes      | '#b6bec0' | background color
 color           | string | Yes      | '#ffffff' | text color
 component       | string | Yes      | null      | pass custom component to button
 onPress         | func   | Yes      | null      | function executed onPress
+onSwipe         | func   | Yes      | null      | function executed onSwipe
 text            | string | Yes      | 'Click Me'| text
 type            | string | Yes      | 'default' | default, primary, secondary
 underlayColor   | string | Yes      | null      | button underlay color on press
