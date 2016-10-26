@@ -104,6 +104,7 @@ const Swipeout = React.createClass({
     left: PropTypes.array,
     onOpen: PropTypes.func,
     onMove: PropTypes.func,
+    onEnd: PropTypes.func,
     right: PropTypes.array,
     scroll: PropTypes.func,
     style: View.propTypes.style,
@@ -199,6 +200,9 @@ const Swipeout = React.createClass({
   },
 
   _handlePanResponderEnd: function(e: Object, gestureState: Object) {
+    if(this.props.onEnd){
+      this.props.onEnd(this.props.sectionID, this.props.rowID);
+    }
     var posX = gestureState.dx;
     var contentPos = this.state.contentPos;
     var contentWidth = this.state.contentWidth;
