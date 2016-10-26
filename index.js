@@ -103,10 +103,12 @@ const Swipeout = React.createClass({
     close: PropTypes.bool,
     left: PropTypes.array,
     onOpen: PropTypes.func,
+    onMove: PropTypes.func,
     right: PropTypes.array,
     scroll: PropTypes.func,
     style: View.propTypes.style,
     sensitivity: PropTypes.number,
+    threshold: PropTypes.number,
   },
 
   getDefaultProps: function() {
@@ -114,6 +116,7 @@ const Swipeout = React.createClass({
       rowID: -1,
       sectionID: -1,
       sensitivity: 0,
+      threshold:10
     };
   },
 
@@ -167,6 +170,14 @@ const Swipeout = React.createClass({
   },
 
   _handlePanResponderMove: function(e: Object, gestureState: Object) {
+    if(this.props.onMove &&
+      (Math.sqrt(
+        (gestureState.moveX-gestureState.x0)*(gestureState.moveX-gestureState.x0)
+        + (gestureState.moveY-gestureState.y0)*(gestureState.moveY-gestureState.y0)
+      )>this.props.threshold)
+    ){
+      this.props.onMove(this.props.sectionID, this.props.rowID);
+    }
     var posX = gestureState.dx;
     var posY = gestureState.dy;
     var leftWidth = this.state.btnsLeftWidth;
