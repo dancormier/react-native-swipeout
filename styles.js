@@ -1,19 +1,19 @@
-import {
-  StyleSheet,
-} from 'react-native';
+var React = require('react-native')
+var {StyleSheet} = React
 
-const styles = StyleSheet.create({
+var styles = StyleSheet.create({
   swipeout: {
     backgroundColor: '#dbddde',
+    //flex: 1,
     overflow: 'hidden',
   },
   swipeoutBtnTouchable: {
-    flex: 1,
+    //flex: 1,
   },
   swipeoutBtn: {
     alignItems: 'center',
     backgroundColor: '#b6bec0',
-    flex: 1,
+    //flex: 1,
     justifyContent: 'center',
     overflow: 'hidden',
   },
@@ -23,13 +23,14 @@ const styles = StyleSheet.create({
   },
   swipeoutBtns: {
     bottom: 0,
-    flex: 1,
+    //flex: 1,
     flexDirection: 'row',
     position: 'absolute',
     right: 0,
     top: 0,
   },
   swipeoutContent: {
+    //flex: 1,
   },
   colorDelete: {
     backgroundColor: '#fb3d38',
@@ -42,4 +43,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default styles;
+module.exports = styles
