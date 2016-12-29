@@ -276,9 +276,8 @@ const Swipeout = React.createClass({
 
     var styleLeftPos = {
       left: {
-        left: 0,
-        overflow: 'hidden',
-        width: Math.min(limit*(posX/limit), limit),
+        left: Math.min(posX - limit, 0),
+        width: limit
       },
     };
     var styleRightPos = {
