@@ -69,6 +69,8 @@ var SwipeoutBtn = React.createClass({
 
 var Swipeout = React.createClass({
   mixins: [tweenState.Mixin]
+, yStart: null
+, timestampStart: null
 , getDefaultProps: function() {
     return {
       onOpen: function(sectionID, rowID) {console.log('onOpen: '+sectionID+" "+rowID)},
@@ -106,6 +108,9 @@ var Swipeout = React.createClass({
     if (nextProps.close) this._close()
   }
 , _handlePanResponderGrant: function(e: Object, gestureState: Object) {
+    this.yStart = gestureState.moveY;
+    this.timestampStart = Date.now();
+
     this.props.onOpen(this.props.sectionID, this.props.rowID)
     this.refs.swipeoutContent.measure((ox, oy, width, height) => {
       this.setState({
@@ -120,6 +125,11 @@ var Swipeout = React.createClass({
 , _handlePanResponderMove: function(e: Object, gestureState: Object) {
     var posX = gestureState.dx
     var posY = gestureState.dy
+    if (posX > -8 && posX < 8) {
+      if (gestureState.moveY - 15 < this.yStart && gestureState.moveY + 15 > this.yStart) {
+        this.props.children.props.onPress();
+      }
+    }
     var leftWidth = this.state.btnsLeftWidth
     var rightWidth = this.state.btnsRightWidth
     if (this.state.openedRight) var posX = gestureState.dx - rightWidth
