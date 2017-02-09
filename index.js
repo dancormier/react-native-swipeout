@@ -96,12 +96,12 @@ var Swipeout = React.createClass({
 , componentWillMount: function() {
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder: (event, gestureState) => true,
-      onMoveShouldSetPanResponder: (event, gestureState) => !(gestureState.dx === 0 || gestureState.dy === 0),
+      onMoveShouldSetPanResponder: (event, gestureState) => Math.abs(gestureState.dx) > 15 && Math.abs(gestureState.dy) <5,
       onPanResponderGrant: this._handlePanResponderGrant,
       onPanResponderMove: this._handlePanResponderMove,
       onPanResponderRelease: this._handlePanResponderEnd,
       onPanResponderTerminate: this._handlePanResponderEnd,
-      onShouldBlockNativeResponder: (event, gestureState) => true,
+      onShouldBlockNativeResponder: (event, gestureState) => false,
     });
   }
 , componentWillReceiveProps: function(nextProps) {
@@ -126,8 +126,9 @@ var Swipeout = React.createClass({
     var posX = gestureState.dx
     var posY = gestureState.dy
     if (posX > -8 && posX < 8) {
-      if (gestureState.moveY - 15 < this.yStart && gestureState.moveY + 15 > this.yStart) {
-        this.props.children.props.onPress();
+      if (gestureState.moveY - 8 < this.yStart && gestureState.moveY + 8 > this.yStart) {
+        return false; 
+        //this.props.children.props.onPress();
       }
     }
     var leftWidth = this.state.btnsLeftWidth
