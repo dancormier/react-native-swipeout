@@ -139,6 +139,9 @@ var Swipeout = React.createClass({
   }
 , _handlePanResponderEnd: function(e: Object, gestureState: Object) {
     var posX = gestureState.dx
+    if (posX > -5 && posX <= 0) {
+      this.props.children.props.onPress();
+    }
     var contentPos = this.state.contentPos
     var contentWidth = this.state.contentWidth
     var btnsLeftWidth = this.state.btnsLeftWidth
