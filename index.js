@@ -361,4 +361,4 @@ const Swipeout = React.createClass({
 Swipeout.NativeButton = NativeButton;
 Swipeout.SwipeoutButton = SwipeoutBtn;
 
-export default Swipeout;
+module.exports = Swipeout;
