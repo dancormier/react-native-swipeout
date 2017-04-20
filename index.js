@@ -34,7 +34,6 @@ const SwipeoutBtn = React.createClass({
       component: null,
       underlayColor: null,
       height: 0,
-      key: null,
       onPress: null,
       disabled: false,
       text: 'Click me',
