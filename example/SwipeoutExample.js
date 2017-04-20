@@ -19,28 +19,7 @@ class SwipeoutExample extends Component {
 
     this.state = {
       dataSource: ds.cloneWithRows(rows),
-      scrollEnabled: true,
     };
-  }
-
-  //  set scrolling to true/false
-  _allowScroll(scrollEnabled) {
-    this.setState({ scrollEnabled: scrollEnabled });
-  }
-
-  //  set active swipeout item
-  _handleSwipeout(sectionID, rowID) {
-    for (var i = 0; i < rows.length; i++) {
-      if (i != rowID) rows[i].active = false;
-      else rows[i].active = true;
-    }
-    this._updateDataSource(rows);
-  }
-
-  _updateDataSource(data) {
-    this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(data),
-    });
   }
 
   _renderRow(rowData: string, sectionID: number, rowID: number) {
@@ -53,8 +32,9 @@ class SwipeoutExample extends Component {
         autoClose={rowData.autoClose}
         backgroundColor={rowData.backgroundColor}
         close={!rowData.active}
-        onOpen={(sectionID, rowID) => this._handleSwipeout(sectionID, rowID) }
-        scroll={event => this._allowScroll(event)}>
+        onOpen={(sectionID, rowID) => console.log(sectionID, rowID) }
+        scroll={event => console.log('scroll event')}
+      >
         <View style={styles.li}>
           <Text style={styles.liText}>{rowData.text}</Text>
         </View>
@@ -68,10 +48,11 @@ class SwipeoutExample extends Component {
         <View style={styles.statusbar}/>
         <View style={styles.navbar}><Text style={styles.navbarTitle}>Swipeout</Text></View>
         <ListView
-          scrollEnabled={this.state.scrollEnabled}
+          scrollEnabled
           dataSource={this.state.dataSource}
           renderRow={this._renderRow.bind(this)}
-          style={styles.listview}/>
+          style={styles.listview}
+        />
       </View>
     );
   }
