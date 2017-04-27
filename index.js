@@ -294,7 +294,7 @@ const Swipeout = React.createClass({
         });
       });
     }).then(() =>{
-      this._tweenContent('contentPos', -this.state.btnsRightWidth);
+      this._tweenContent('contentPos', this.state.btnsLeftWidth);
       this.setState({ 
         contentPos: this.state.btnsLeftWidth, 
         openedLeft: true, 
