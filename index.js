@@ -135,7 +135,7 @@ const Swipeout = React.createClass({
   componentWillMount: function() {
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder: (event, gestureState) => true,
-      onMoveShouldSetPanResponder: (event, gestureState) =>
+      onMoveShouldSetPanResponderCapture: (event, gestureState) => 
         Math.abs(gestureState.dx) > this.props.sensitivity &&
         Math.abs(gestureState.dy) > this.props.sensitivity,
       onPanResponderGrant: this._handlePanResponderGrant,
@@ -354,8 +354,6 @@ const Swipeout = React.createClass({
           style={styleContent}
           onLayout={this._onLayout}
           {...this._panResponder.panHandlers}
-          onStartShouldSetResponderCapture={() => (this.state.openedLeft || this.state.openedRight)}
-          onMoveShouldSetResponderCapture={() => true}
         >
           {this.props.children}
         </View>
