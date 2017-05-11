@@ -106,10 +106,12 @@ const Swipeout = React.createClass({
     scroll: PropTypes.func,
     style: View.propTypes.style,
     sensitivity: PropTypes.number,
+    disabled: PropTypes.bool,
   },
 
   getDefaultProps: function() {
     return {
+      disabled: false,
       rowID: -1,
       sectionID: -1,
       sensitivity: 0,
@@ -153,6 +155,7 @@ const Swipeout = React.createClass({
   },
 
   _handlePanResponderGrant: function(e: Object, gestureState: Object) {
+    if (this.props.disabled) return;
     this.refs.swipeoutContent.measure((ox, oy, width, height) => {
       this.setState({
         btnWidth: (width/5),
@@ -165,6 +168,7 @@ const Swipeout = React.createClass({
   },
 
   _handlePanResponderMove: function(e: Object, gestureState: Object) {
+    if (this.props.disabled) return;
     var posX = gestureState.dx;
     var posY = gestureState.dy;
     var leftWidth = this.state.btnsLeftWidth;
@@ -189,6 +193,7 @@ const Swipeout = React.createClass({
   },
 
   _handlePanResponderEnd: function(e: Object, gestureState: Object) {
+    if (this.props.disabled) return;
     var posX = gestureState.dx;
     var contentPos = this.state.contentPos;
     var contentWidth = this.state.contentWidth;
