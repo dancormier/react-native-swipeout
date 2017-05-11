@@ -114,7 +114,7 @@ const Swipeout = React.createClass({
       disabled: false,
       rowID: -1,
       sectionID: -1,
-      sensitivity: 0,
+      sensitivity: 50,
     };
   },
 
@@ -141,7 +141,7 @@ const Swipeout = React.createClass({
         this.state.openedLeft || this.state.openedRight,
       onMoveShouldSetPanResponder: (event, gestureState) =>
         Math.abs(gestureState.dx) > this.props.sensitivity &&
-        Math.abs(gestureState.dy) > this.props.sensitivity,
+        Math.abs(gestureState.dy) <= this.props.sensitivity,
       onPanResponderGrant: this._handlePanResponderGrant,
       onPanResponderMove: this._handlePanResponderMove,
       onPanResponderRelease: this._handlePanResponderEnd,
