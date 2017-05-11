@@ -1,14 +1,16 @@
 {
-  "name": "swipeoutExample",
-  "version": "0.0.2",
-  "private": true,
-  "scripts": {
-    "start": "node_modules/react-native/packager/packager.sh",
-    "latest": "npm install react-native-swipeout@* --save"
-  },
-  "dependencies": {
-    "react": "^0.14.5",
-    "react-native": "^0.22.2",
-    "react-native-swipeout": "file:../"
-  }
+	"name": "swipeoutExample",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"start": "node node_modules/react-native/local-cli/cli.js start"
+	},
+	"dependencies": {
+		"react": "~15.4.0",
+		"react-native": "0.41.2",
+		"react-native-swipeout": "file:../"
+	},
+	"devDependencies": {
+		"babel-preset-react-native": "1.9.1"
+	}
 }
