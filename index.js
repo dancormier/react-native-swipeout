@@ -147,6 +147,7 @@ const Swipeout = React.createClass({
       onPanResponderRelease: this._handlePanResponderEnd,
       onPanResponderTerminate: this._handlePanResponderEnd,
       onShouldBlockNativeResponder: (event, gestureState) => false,
+      onPanResponderTerminationRequest: () => false,
     });
   },
 
