@@ -6,7 +6,7 @@ import rows from './data';
 import styles from './styles';
 
 import React, {Component} from 'react';
-import {AppRegistry, StyleSheet, ListView, Text, View} from 'react-native';
+import {AppRegistry, StyleSheet, ListView, Text, View, TouchableWithoutFeedback} from 'react-native';
 
 //  example swipout app
 class SwipeoutExample extends Component {
@@ -32,12 +32,15 @@ class SwipeoutExample extends Component {
         autoClose={rowData.autoClose}
         backgroundColor={rowData.backgroundColor}
         close={!rowData.active}
-        onOpen={(sectionID, rowID) => console.log(sectionID, rowID) }
-        scroll={event => console.log('scroll event')}
+        onOpen={(sectionID, rowID) => console.log('---open: sectionID:' + sectionID + 'rowid:' + rowID) }
+        onClose={() => console.log('===close') }
+        scroll={event => console.log('scroll event') }
       >
-        <View style={styles.li}>
-          <Text style={styles.liText}>{rowData.text}</Text>
-        </View>
+        <TouchableWithoutFeedback onPress={() => console.log('press children')}>
+          <View style={styles.li} >
+            <Text style={styles.liText}>{rowData.text}</Text>
+          </View>
+        </TouchableWithoutFeedback>
       </Swipeout>
     );
   }
