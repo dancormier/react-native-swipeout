@@ -19,20 +19,27 @@ class SwipeoutExample extends Component {
 
     this.state = {
       dataSource: ds.cloneWithRows(rows),
+      sectionID: null,
+      rowID: null,
     };
   }
 
   _renderRow(rowData: string, sectionID: number, rowID: number) {
     return (
       <Swipeout
+        close={!(this.state.sectionID === sectionID && this.state.rowID === rowID)}
         left={rowData.left}
         right={rowData.right}
         rowID={rowID}
         sectionID={sectionID}
         autoClose={rowData.autoClose}
         backgroundColor={rowData.backgroundColor}
-        close={!rowData.active}
-        onOpen={(sectionID, rowID) => console.log('---open: sectionID:' + sectionID + 'rowid:' + rowID) }
+        onOpen={(sectionID, rowID) => {
+          this.setState({
+            sectionID,
+            rowID,
+          })
+        }}
         onClose={() => console.log('===close') }
         scroll={event => console.log('scroll event') }
       >
