@@ -58,7 +58,7 @@ const NativeButton = React.createClass({
     }
 
     return (
-      <Text style={ [ styles.textButton, this.props.textStyle ] }>
+      <Text numberOfLines={1} ellipsizeMode="clip"  style={ [ styles.textButton, this.props.textStyle ] }>
         { this.props.children }
       </Text>
     );
