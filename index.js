@@ -142,7 +142,7 @@ const Swipeout = createReactClass({
       onStartShouldSetPanResponder: (event, gestureState) => true,
       onStartShouldSetPanResponderCapture: (event, gestureState) =>
         this.state.openedLeft || this.state.openedRight,
-      onMoveShouldSetPanResponder: (event, gestureState) =>
+      onMoveShouldSetPanResponderCapture: (event, gestureState) =>
         Math.abs(gestureState.dx) > this.props.sensitivity &&
         Math.abs(gestureState.dy) <= this.props.sensitivity,
       onPanResponderGrant: this._handlePanResponderGrant,
@@ -156,10 +156,17 @@ const Swipeout = createReactClass({
 
   componentWillReceiveProps: function(nextProps) {
     if (nextProps.close) this._close();
+    if (nextProps.openRight) this._openRight();
+    if (nextProps.openLeft) this._openLeft();
   },
 
   _handlePanResponderGrant: function(e: Object, gestureState: Object) {
     if (this.props.disabled) return;
+    if (!this.state.openedLeft && !this.state.openedRight) {
+      this._callOnOpen();
+    } else {
+      this._callOnClose();
+    }
     this.refs.swipeoutContent.measure((ox, oy, width, height) => {
       let buttonWidth = this.props.buttonWidth || (width/5);
       this.setState({
@@ -278,10 +285,55 @@ const Swipeout = createReactClass({
       onClose(sectionID, rowID, direction);
     }
     this._tweenContent('contentPos', 0);
+    this._callOnClose();
     this.setState({
       openedRight: false,
       openedLeft: false,
       swiping: false,
+    });
+  },
+
+  _callOnClose: function() {
+    if (this.props.onClose) this.props.onClose(this.props.sectionID, this.props.rowID);
+  },
+
+  _callOnOpen: function() {
+    if (this.props.onOpen) this.props.onOpen(this.props.sectionID, this.props.rowID);
+  },
+
+  _openRight: function() {
+    this.refs.swipeoutContent.measure((ox, oy, width, height) => {
+      this.setState({
+        btnWidth: (width/5),
+        btnsRightWidth: this.props.right ? (width/5)*this.props.right.length : 0,
+      }, () => {
+        this._tweenContent('contentPos', -this.state.btnsRightWidth);
+        this._callOnOpen();
+        this.setState({ 
+          contentPos: -this.state.btnsRightWidth, 
+          openedLeft: false, 
+          openedRight: true, 
+          swiping: false 
+        });
+      });
+    });
+  },
+
+  _openLeft: function() {
+    this.refs.swipeoutContent.measure((ox, oy, width, height) => {
+      this.setState({
+        btnWidth: (width/5),
+        btnsLeftWidth: this.props.left ? (width/5)*this.props.left.length : 0,
+      }, () => {
+        this._tweenContent('contentPos', this.state.btnsLeftWidth);
+        this._callOnOpen();
+        this.setState({ 
+          contentPos: this.state.btnsLeftWidth, 
+          openedLeft: true, 
+          openedRight: false, 
+          swiping: false 
+        });
+      });
     });
   },
 
