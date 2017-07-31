@@ -1,5 +1,9 @@
 # History
 
+# 2.2.0
+
+- feature: swipe menu manual open, add `openLeft/openRight` properties. (https://github.com/dancormier/react-native-swipeout/pull/161)
+
 # 2.1.5
 
 -  fix: Added missing react import (https://github.com/dancormier/react-native-swipeout/pull/196)
