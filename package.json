@@ -1,6 +1,6 @@
 {
   "name": "react-native-swipeout",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "iOS-style swipeout buttons behind component",
   "main": "index.js",
   "scripts": {

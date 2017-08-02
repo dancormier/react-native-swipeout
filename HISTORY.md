@@ -1,5 +1,9 @@
 # History
 
+# 2.2.2
+
+- fix: support old version react-native, support both `View.propTypes` and `ViewPropTypes`
+
 # 2.2.1
 
 - fix: add missing `prop-types` `create-react-class`
