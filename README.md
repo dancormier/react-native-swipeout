@@ -40,7 +40,7 @@ Prop            | Type   | Optional | Default   | Description
 autoClose       | bool   | Yes      | false     | auto close on button press
 backgroundColor | string | Yes      | '#dbddde' |
 close           | bool   | Yes      |           | close swipeout
-disabled        | bool   | Yes      |  false    | whether to diable the swipeout  
+disabled        | bool   | Yes      |  false    | whether to disable the swipeout  
 left            | array  | Yes      | []        | swipeout buttons on left
 onOpen          | func   | Yes      |           | (sectionID, rowId, direction: string) => void
 onClose          | func   | Yes      |           | (sectionID, rowId, direction: string) => void
