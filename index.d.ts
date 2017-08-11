@@ -4,10 +4,10 @@ declare module 'react-native-swipeout' {
     export interface SwipeoutButtonProperties {
         backgroundColor?: string;
         color?: string;
-        component?: React.Element;
+        component?: React.ComponentClass;
         onPress?(): void;
         text?: string;
-        type?: "default", "delete", "primary", "secondary";
+        type?: 'default'|'delete'|'primary'|'secondary';
         underlayColor?: string;
         disabled?: boolean;
     }
@@ -25,7 +25,9 @@ declare module 'react-native-swipeout' {
         style?: Object;
         sensitivity?: number;
         buttonWidth?: number;
+        rowId?: number;
+        sectionId?: number;
     }
 
-    export default class Swipeout extends React.Compoennt<SwipeoutProperties,any> {}
+    export default class Swipeout extends React.Component<SwipeoutProperties,any> {}
 }
