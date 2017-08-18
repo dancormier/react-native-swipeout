@@ -3,6 +3,7 @@
   "version": "2.2.2",
   "description": "iOS-style swipeout buttons behind component",
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
