@@ -15,7 +15,7 @@ See the [Wiki](https://github.com/dancormier/react-native-swipeout/wiki) usage t
 To use swipeout behind a iOS-style listitem, try [react-native-listitem](https://github.com/dancormier/react-native-listitem).
 
 ```js
-var Swipeout = require('react-native-swipeout')
+import Swipeout from 'react-native-swipeout';
 
 // Buttons
 var swipeoutBtns = [
