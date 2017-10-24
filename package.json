@@ -1,11 +1,11 @@
 {
   "name": "react-native-swipeout",
-  "version": "2.2.2",
+  "version": "2.3.0",
   "description": "iOS-style swipeout buttons behind component",
   "main": "dist/index.js",
   "types": "index.d.ts",
   "scripts": {
-    "build": "cross-env BABEL_ENV=commonjs babel-changed src --out-dir dist",
+    "build": "rm -rf dist && cross-env BABEL_ENV=commonjs babel src --out-dir dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -33,7 +33,7 @@
     "create-react-class": "^15.6.0"
   },
   "devDependencies": {
-    "babel-changed": "^7.0.0",
+    "babel-cli": "^6.11.4",
     "babel-eslint": "^8.0.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",

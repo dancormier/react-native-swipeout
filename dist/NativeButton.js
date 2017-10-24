@@ -69,7 +69,7 @@ var NativeButton = (0, _createReactClass2.default)({
 
     return _react2.default.createElement(
       _reactNative.Text,
-      { numberOfLines: 1, style: [styles.textButton, this.props.textStyle] },
+      { numberOfLines: 1, ellipsizeMode: _reactNative.Platform.OS === 'ios' ? 'clip' : 'tail', style: [styles.textButton, this.props.textStyle] },
       this.props.children
     );
   },
