@@ -213,7 +213,11 @@ var Swipeout = (0, _createReactClass2.default)({
     var posY = gestureState.dy;
     var leftWidth = this.state.btnsLeftWidth;
     var rightWidth = this.state.btnsRightWidth;
-    if (this.state.openedRight) var posX = gestureState.dx - rightWidth;else if (this.state.openedLeft) var posX = gestureState.dx + leftWidth;
+    if (this.state.openedRight){
+      var posX = gestureState.dx - rightWidth;
+    }else if(this.state.openedLeft){
+      var posX = gestureState.dx + leftWidth;
+    }
 
     //  prevent scroll if moveX is true
     var moveX = Math.abs(posX) > Math.abs(posY);
@@ -239,18 +243,21 @@ var Swipeout = (0, _createReactClass2.default)({
     var btnsRightWidth = this.state.btnsRightWidth;
 
     //  minimum threshold to open swipeout
-    var openX = contentWidth * 0.33;
+    //var openX = contentWidth * 0.33;
+    var openX = contentWidth * 2;
 
     //  should open swipeout
     var openLeft = posX > openX || posX > btnsLeftWidth / 2;
-    var openRight = posX < -openX || posX < -btnsRightWidth / 2;
+    //var openRight = posX < -openX || posX < -btnsRightWidth / 2;
+    var openRight = posX < -openX || posX < -btnsRightWidth;
 
     //  account for open swipeouts
     if (this.state.openedRight) var openRight = posX - openX < -openX;
     if (this.state.openedLeft) var openLeft = posX + openX > openX;
 
     //  reveal swipeout on quick swipe
-    var timeDiff = new Date().getTime() - this.state.timeStart < 200;
+    var setTimeDiff = new Date().getTime() - this.state.timeStart;
+    var timeDiff = setTimeDiff < 200 && setTimeDiff > 80;
     if (timeDiff) {
       var openRight = posX < -openX / 10 && !this.state.openedLeft;
       var openLeft = posX > openX / 10 && !this.state.openedRight;
@@ -375,6 +382,7 @@ var Swipeout = (0, _createReactClass2.default)({
   },
 
   render: function render() {
+
     var contentWidth = this.state.contentWidth;
     var posX = this.getTweeningValue('contentPos');
 
