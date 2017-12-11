@@ -24,7 +24,7 @@ const SwipeoutBtn = createReactClass({
     color: PropTypes.string,
     component: PropTypes.node,
     onPress: PropTypes.func,
-    text: PropTypes.string,
+    text: PropTypes.node,
     type: PropTypes.string,
     underlayColor: PropTypes.string,
   },
@@ -309,11 +309,11 @@ const Swipeout = createReactClass({
       }, () => {
         this._tweenContent('contentPos', -this.state.btnsRightWidth);
         this._callOnOpen();
-        this.setState({ 
-          contentPos: -this.state.btnsRightWidth, 
-          openedLeft: false, 
-          openedRight: true, 
-          swiping: false 
+        this.setState({
+          contentPos: -this.state.btnsRightWidth,
+          openedLeft: false,
+          openedRight: true,
+          swiping: false
         });
       });
     });
@@ -327,11 +327,11 @@ const Swipeout = createReactClass({
       }, () => {
         this._tweenContent('contentPos', this.state.btnsLeftWidth);
         this._callOnOpen();
-        this.setState({ 
-          contentPos: this.state.btnsLeftWidth, 
-          openedLeft: true, 
-          openedRight: false, 
-          swiping: false 
+        this.setState({
+          contentPos: this.state.btnsLeftWidth,
+          openedLeft: true,
+          openedRight: false,
+          swiping: false
         });
       });
     });

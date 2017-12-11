@@ -6,7 +6,7 @@ declare module 'react-native-swipeout' {
         color?: string;
         component?: JSX.Element;
         onPress?(): void;
-        text?: string;
+        text?: React.ReactNode;
         type?: 'default'|'delete'|'primary'|'secondary';
         underlayColor?: string;
         disabled?: boolean;
