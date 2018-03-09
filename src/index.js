@@ -110,6 +110,8 @@ const Swipeout = createReactClass({
     sensitivity: PropTypes.number,
     buttonWidth: PropTypes.number,
     disabled: PropTypes.bool,
+    swipeoutVerticalOffset: PropTypes.number,
+    swipeoutRotateZ: PropTypes.number,
   },
 
   getDefaultProps: function() {
@@ -118,6 +120,8 @@ const Swipeout = createReactClass({
       rowID: -1,
       sectionID: -1,
       sensitivity: 50,
+      swipeoutVerticalOffset: 0,
+      swipeoutRotateZ: 0,
     };
   },
 
@@ -353,11 +357,13 @@ const Swipeout = createReactClass({
     var limit = -this.state.btnsRightWidth;
     if (posX > 0) var limit = this.state.btnsLeftWidth;
 
+    var progress = posX/limit;
+
     var styleLeftPos = {
       left: {
         left: 0,
         overflow: 'hidden',
-        width: Math.min(limit*(posX/limit), limit),
+        width: Math.min(limit*progress, limit),
       },
     };
     var styleRightPos = {
@@ -369,6 +375,10 @@ const Swipeout = createReactClass({
     var styleContentPos = {
       content: {
         left: this._rubberBandEasing(posX, limit),
+        top: this._rubberBandEasing(progress*this.props.swipeoutVerticalOffset, this.props.swipeoutVerticalOffset),
+        transform: [
+          { rotateZ: this._rubberBandEasing(progress*this.props.swipeoutRotateZ, this.props.swipeoutRotateZ) + 'deg' }
+        ],
       },
     };
 

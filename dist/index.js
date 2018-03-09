@@ -43,7 +43,7 @@ var SwipeoutBtn = (0, _createReactClass2.default)({
     color: _propTypes2.default.string,
     component: _propTypes2.default.node,
     onPress: _propTypes2.default.func,
-    text: _propTypes2.default.string,
+    text: _propTypes2.default.node,
     type: _propTypes2.default.string,
     underlayColor: _propTypes2.default.string
   },
@@ -126,7 +126,9 @@ var Swipeout = (0, _createReactClass2.default)({
     style: (_reactNative.ViewPropTypes || _reactNative.View.propTypes).style,
     sensitivity: _propTypes2.default.number,
     buttonWidth: _propTypes2.default.number,
-    disabled: _propTypes2.default.bool
+    disabled: _propTypes2.default.bool,
+    swipeoutVerticalOffset: _propTypes2.default.number,
+    swipeoutRotateZ: _propTypes2.default.number
   },
 
   getDefaultProps: function getDefaultProps() {
@@ -134,7 +136,9 @@ var Swipeout = (0, _createReactClass2.default)({
       disabled: false,
       rowID: -1,
       sectionID: -1,
-      sensitivity: 50
+      sensitivity: 50,
+      swipeoutVerticalOffset: 0,
+      swipeoutRotateZ: 0
     };
   },
 
@@ -338,9 +342,11 @@ var Swipeout = (0, _createReactClass2.default)({
     var _this3 = this;
 
     this.refs.swipeoutContent.measure(function (ox, oy, width, height) {
+      var btnWidth = _this3.props.buttonWidth || width / 5;
+
       _this3.setState({
-        btnWidth: width / 5,
-        btnsRightWidth: _this3.props.right ? width / 5 * _this3.props.right.length : 0
+        btnWidth: btnWidth,
+        btnsRightWidth: _this3.props.right ? btnWidth * _this3.props.right.length : 0
       }, function () {
         _this3._tweenContent('contentPos', -_this3.state.btnsRightWidth);
         _this3._callOnOpen();
@@ -358,9 +364,11 @@ var Swipeout = (0, _createReactClass2.default)({
     var _this4 = this;
 
     this.refs.swipeoutContent.measure(function (ox, oy, width, height) {
+      var btnWidth = _this4.props.buttonWidth || width / 5;
+
       _this4.setState({
-        btnWidth: width / 5,
-        btnsLeftWidth: _this4.props.left ? width / 5 * _this4.props.left.length : 0
+        btnWidth: btnWidth,
+        btnsLeftWidth: _this4.props.left ? btnWidth * _this4.props.left.length : 0
       }, function () {
         _this4._tweenContent('contentPos', _this4.state.btnsLeftWidth);
         _this4._callOnOpen();
@@ -386,11 +394,13 @@ var Swipeout = (0, _createReactClass2.default)({
     var limit = -this.state.btnsRightWidth;
     if (posX > 0) var limit = this.state.btnsLeftWidth;
 
+    var progress = posX / limit;
+
     var styleLeftPos = {
       left: {
         left: 0,
         overflow: 'hidden',
-        width: Math.min(limit * (posX / limit), limit)
+        width: Math.min(limit * progress, limit)
       }
     };
     var styleRightPos = {
@@ -401,7 +411,9 @@ var Swipeout = (0, _createReactClass2.default)({
     };
     var styleContentPos = {
       content: {
-        left: this._rubberBandEasing(posX, limit)
+        left: this._rubberBandEasing(posX, limit),
+        top: this._rubberBandEasing(progress * this.props.swipeoutVerticalOffset, this.props.swipeoutVerticalOffset),
+        transform: [{ rotateZ: this._rubberBandEasing(progress * this.props.swipeoutRotateZ, this.props.swipeoutRotateZ) + 'deg' }]
       }
     };
 
