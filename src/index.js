@@ -173,8 +173,8 @@ const Swipeout = createReactClass({
       let buttonWidth = this.props.buttonWidth || (width/5);
       this.setState({
         btnWidth: buttonWidth,
-        btnsLeftWidth: this.props.left ? (this.props.orientation == 'row' ?  buttonWidth*this.props.left.length : (width/5) ): 0,
-        btnsRightWidth: this.props.right ? (this.props.orientation == 'row' ? buttonWidth*this.props.right.length : (width/5) ) : 0,
+        btnsLeftWidth: this.props.left ? (this.props.orientation == 'column' ?  (width/5) : buttonWidth*this.props.left.length ): 0,
+        btnsRightWidth: this.props.right ? (this.props.orientation == 'column' ? (width/5) : buttonWidth*this.props.right.length ) : 0,
         swiping: true,
         timeStart: (new Date()).getTime(),
       });
