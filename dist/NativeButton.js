@@ -42,11 +42,11 @@ var NativeButton = (0, _createReactClass2.default)({
 
 
   propTypes: _extends({}, _reactNative.TouchableWithoutFeedback.propTypes, {
-    textStyle: _reactNative.Text.propTypes.style,
-    disabledStyle: _reactNative.Text.propTypes.style,
+    textStyle: _propTypes.object,
+    disabledStyle: _propTypes.object,
     children: _propTypes2.default.node.isRequired,
     underlayColor: _propTypes2.default.string,
-    background: _reactNative.TouchableNativeFeedback.propTypes ? _reactNative.TouchableNativeFeedback.propTypes.background : _propTypes2.default.any
+    background: _propTypes.object.any
   }),
 
   statics: {
