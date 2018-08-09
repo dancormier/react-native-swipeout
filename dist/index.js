@@ -43,7 +43,7 @@ var SwipeoutBtn = (0, _createReactClass2.default)({
     color: _propTypes2.default.string,
     component: _propTypes2.default.node,
     onPress: _propTypes2.default.func,
-    text: _propTypes2.default.string,
+    text: _propTypes2.default.node,
     type: _propTypes2.default.string,
     underlayColor: _propTypes2.default.string
   },
@@ -87,10 +87,10 @@ var SwipeoutBtn = (0, _createReactClass2.default)({
       width: btn.width
     }]);
 
-    var styleSwipeoutBtnText = [_styles2.default.swipeoutBtnText];
+    var styleSwipeoutBtnText = _extends({}, _styles2.default.swipeoutBtnText);
 
     //  apply text color
-    if (btn.color) styleSwipeoutBtnText.push([{ color: btn.color }]);
+    if (btn.color) styleSwipeoutBtnText = _extends({}, styleSwipeoutBtnText, { color: btn.color });
 
     return _react2.default.createElement(
       _NativeButton2.default,
@@ -338,9 +338,11 @@ var Swipeout = (0, _createReactClass2.default)({
     var _this3 = this;
 
     this.refs.swipeoutContent.measure(function (ox, oy, width, height) {
+      var btnWidth = _this3.props.buttonWidth || width / 5;
+
       _this3.setState({
-        btnWidth: width / 5,
-        btnsRightWidth: _this3.props.right ? width / 5 * _this3.props.right.length : 0
+        btnWidth: btnWidth,
+        btnsRightWidth: _this3.props.right ? btnWidth * _this3.props.right.length : 0
       }, function () {
         _this3._tweenContent('contentPos', -_this3.state.btnsRightWidth);
         _this3._callOnOpen();
@@ -358,9 +360,11 @@ var Swipeout = (0, _createReactClass2.default)({
     var _this4 = this;
 
     this.refs.swipeoutContent.measure(function (ox, oy, width, height) {
+      var btnWidth = _this4.props.buttonWidth || width / 5;
+
       _this4.setState({
-        btnWidth: width / 5,
-        btnsLeftWidth: _this4.props.left ? width / 5 * _this4.props.left.length : 0
+        btnWidth: btnWidth,
+        btnsLeftWidth: _this4.props.left ? btnWidth * _this4.props.left.length : 0
       }, function () {
         _this4._tweenContent('contentPos', _this4.state.btnsLeftWidth);
         _this4._callOnOpen();
@@ -401,7 +405,7 @@ var Swipeout = (0, _createReactClass2.default)({
     };
     var styleContentPos = {
       content: {
-        transform: [{ translateX: this._rubberBandEasing(posX, limit) }],
+        transform: [{ translateX: this._rubberBandEasing(posX, limit) }]
       }
     };
 
