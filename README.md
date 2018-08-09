@@ -49,6 +49,7 @@ scroll          | func   | Yes      |           | prevent parent scroll
 style           | style  | Yes      |           | style of the container
 sensitivity     | number | Yes      | 50         | change the sensitivity of gesture
 buttonWidth     | number | Yes      |            | each button width
+orientation     | 'row' or 'column' | Yes     | 'row'    | swipeout buttons display orientation
 
 ##### Button props
 

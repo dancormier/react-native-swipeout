@@ -27,6 +27,7 @@ const SwipeoutBtn = createReactClass({
     text: PropTypes.node,
     type: PropTypes.string,
     underlayColor: PropTypes.string,
+    orientation: PropTypes.oneOf(['row', 'column']),
   },
 
   getDefaultProps: function() {
@@ -41,6 +42,7 @@ const SwipeoutBtn = createReactClass({
       text: 'Click me',
       type: '',
       width: 0,
+      orientation: 'row',
     };
   },
 
@@ -171,8 +173,8 @@ const Swipeout = createReactClass({
       let buttonWidth = this.props.buttonWidth || (width/5);
       this.setState({
         btnWidth: buttonWidth,
-        btnsLeftWidth: this.props.left ? buttonWidth*this.props.left.length : 0,
-        btnsRightWidth: this.props.right ? buttonWidth*this.props.right.length : 0,
+        btnsLeftWidth: this.props.left ? (this.props.orientation == 'column' ?  (width/5) : buttonWidth*this.props.left.length ): 0,
+        btnsRightWidth: this.props.right ? (this.props.orientation == 'column' ? (width/5) : buttonWidth*this.props.right.length ) : 0,
         swiping: true,
         timeStart: (new Date()).getTime(),
       });
@@ -410,6 +412,7 @@ const Swipeout = createReactClass({
 
   _renderButtons: function(buttons, isVisible, style) {
     if (buttons && isVisible) {
+      this.props.orientation == "column" ? style.push({flexDirection: "column"}) : null;
       return( <View style={style}>
         { buttons.map(this._renderButton) }
       </View>);
@@ -420,14 +423,14 @@ const Swipeout = createReactClass({
     }
   },
 
-  _renderButton: function(btn, i) {
+  _renderButton: function(btn, i, btns) {
     return (
       <SwipeoutBtn
         backgroundColor={btn.backgroundColor}
         color={btn.color}
         component={btn.component}
         disabled={btn.disabled}
-        height={this.state.contentHeight}
+        height={this.props.orientation == 'column' && btns.length > 0 ? this.state.contentHeight/btns.length : this.state.contentHeight}
         key={i}
         onPress={() => this._autoClose(btn)}
         text={btn.text}
