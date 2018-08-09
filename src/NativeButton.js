@@ -32,7 +32,7 @@ const NativeButton = createReactClass({
   propTypes: {
     // Extract parent props
     ...TouchableWithoutFeedback.propTypes,
-    textStyle: PropTypes.object,
+    textStyle: PropTypes.any,
     disabledStyle: PropTypes.object,
     children: PropTypes.node.isRequired,
     underlayColor: PropTypes.string,
