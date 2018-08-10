@@ -87,10 +87,10 @@ var SwipeoutBtn = (0, _createReactClass2.default)({
       width: btn.width
     }]);
 
-    var styleSwipeoutBtnText = _extends({}, _styles2.default.swipeoutBtnText);
+    var styleSwipeoutBtnText = [_styles2.default.swipeoutBtnText];
 
     //  apply text color
-    if (btn.color) styleSwipeoutBtnText = _extends({}, styleSwipeoutBtnText, { color: btn.color });
+    if (btn.color) styleSwipeoutBtnText.push({ color: btn.color });
 
     return _react2.default.createElement(
       _NativeButton2.default,
