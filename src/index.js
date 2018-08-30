@@ -110,6 +110,7 @@ const Swipeout = createReactClass({
     sensitivity: PropTypes.number,
     buttonWidth: PropTypes.number,
     disabled: PropTypes.bool,
+    enableScroll: PropTypes.bool
   },
 
   getDefaultProps: function () {
@@ -118,6 +119,7 @@ const Swipeout = createReactClass({
       rowID: -1,
       sectionID: -1,
       sensitivity: 50,
+      enableScroll: true
     };
   },
 
@@ -253,6 +255,9 @@ const Swipeout = createReactClass({
   },
 
   _rubberBandEasing: function (value, limit) {
+    if(!this.props.enableScroll){
+      return 0;
+    }
     if (value < 0 && value < limit) return limit - Math.pow(limit - value, 0.85);
     else if (value > 0 && value > limit) return limit + Math.pow(value - limit, 0.85);
     return value;
