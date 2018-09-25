@@ -1,0 +1,27 @@
+{
+  "name": "swipeoutExample",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "ios": "react-native run-ios",
+    "android": "react-native run-android",
+    "start": "watchman watch-del-all; node node_modules/react-native/local-cli/cli.js start --reset-cache",
+    "test": "jest",
+    "clear": "npm cache clear --force; watchman watch-del-all;"
+  },
+  "dependencies": {
+    "@babel/runtime": "7.0.0-beta.55",
+    "react": "16.5.0",
+    "react-native": "0.57.1",
+    "react-native-swipeout": "2.3.6"
+  },
+  "devDependencies": {
+    "babel-jest": "23.6.0",
+    "jest": "23.6.0",
+    "metro-react-native-babel-preset": "0.46.0",
+    "react-test-renderer": "16.5.0"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
