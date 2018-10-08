@@ -27,6 +27,7 @@ const SwipeoutBtn = createReactClass({
     text: PropTypes.node,
     type: PropTypes.string,
     underlayColor: PropTypes.string,
+    testID: PropTypes.string,
   },
 
   getDefaultProps: function () {
@@ -41,6 +42,7 @@ const SwipeoutBtn = createReactClass({
       text: 'Click me',
       type: '',
       width: 0,
+      testID: null,
     };
   },
 
@@ -81,6 +83,7 @@ const SwipeoutBtn = createReactClass({
         underlayColor={this.props.underlayColor}
         disabled={this.props.disabled}
         style={[styles.swipeoutBtnTouchable, styleSwipeoutBtn]}
+        testID={this.props.testID}
         textStyle={styleSwipeoutBtnText}>
         {
           (btn.component ?
@@ -434,6 +437,7 @@ const Swipeout = createReactClass({
         type={btn.type}
         underlayColor={btn.underlayColor}
         width={this.state.btnWidth}
+        testID={btn.testID}
       />
     );
   }
