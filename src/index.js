@@ -16,6 +16,7 @@ import {
   View,
   ViewPropTypes,
 } from 'react-native';
+import { testProps } from './TestProps';
 
 const SwipeoutBtn = createReactClass({
 
@@ -27,6 +28,7 @@ const SwipeoutBtn = createReactClass({
     text: PropTypes.node,
     type: PropTypes.string,
     underlayColor: PropTypes.string,
+    testID: PropTypes.string
   },
 
   getDefaultProps: function () {
@@ -41,6 +43,7 @@ const SwipeoutBtn = createReactClass({
       text: 'Click me',
       type: '',
       width: 0,
+      testID: null
     };
   },
 
@@ -84,7 +87,11 @@ const SwipeoutBtn = createReactClass({
         textStyle={styleSwipeoutBtnText}>
         {
           (btn.component ?
-            <View style={styleSwipeoutBtnComponent}>{btn.component}</View>
+            <View
+              style={styleSwipeoutBtnComponent}
+              {...testProps(btn.testID)}
+            >
+              {btn.component}</View>
             :
             btn.text
           )
@@ -434,6 +441,7 @@ const Swipeout = createReactClass({
         type={btn.type}
         underlayColor={btn.underlayColor}
         width={this.state.btnWidth}
+        testID={btn.testID}
       />
     );
   }
