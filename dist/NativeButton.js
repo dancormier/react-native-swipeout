@@ -46,7 +46,8 @@ var NativeButton = (0, _createReactClass2.default)({
     disabledStyle: _propTypes2.default.any,
     children: _propTypes2.default.node.isRequired,
     underlayColor: _propTypes2.default.string,
-    background: _propTypes2.default.any
+    background: _propTypes2.default.any,
+    testID: _propTypes2.default.string
   }),
 
   statics: {
@@ -57,7 +58,8 @@ var NativeButton = (0, _createReactClass2.default)({
     return {
       textStyle: null,
       disabledStyle: null,
-      underlayColor: null
+      underlayColor: null,
+      testID: null
     };
   },
 
@@ -69,7 +71,11 @@ var NativeButton = (0, _createReactClass2.default)({
 
     return _react2.default.createElement(
       _reactNative.Text,
-      { numberOfLines: 1, ellipsizeMode: _reactNative.Platform.OS === 'ios' ? 'clip' : 'tail', style: [styles.textButton, this.props.textStyle] },
+      {
+        numberOfLines: 1,
+        ellipsizeMode: _reactNative.Platform.OS === 'ios' ? 'clip' : 'tail',
+        style: [styles.textButton, this.props.textStyle], testID: this.props.testID
+      },
       this.props.children
     );
   },

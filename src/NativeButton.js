@@ -37,6 +37,7 @@ const NativeButton = createReactClass({
     children: PropTypes.node.isRequired,
     underlayColor: PropTypes.string,
     background: PropTypes.any,
+    testID: PropTypes.string,
   },
 
   statics: {
@@ -48,6 +49,7 @@ const NativeButton = createReactClass({
       textStyle: null,
       disabledStyle: null,
       underlayColor: null,
+      testID: null,
     };
   },
 
@@ -58,7 +60,11 @@ const NativeButton = createReactClass({
     }
 
     return (
-      <Text numberOfLines={1} ellipsizeMode={Platform.OS === 'ios' ? 'clip' : 'tail'} style={[styles.textButton, this.props.textStyle]}>
+      <Text
+        numberOfLines={1}
+        ellipsizeMode={Platform.OS === 'ios' ? 'clip' : 'tail'}
+        style={[styles.textButton, this.props.textStyle]} testID={this.props.testID}
+      >
         {this.props.children}
       </Text>
     );
