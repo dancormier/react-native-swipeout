@@ -118,7 +118,7 @@ const Swipeout = createReactClass({
       disabled: false,
       rowID: -1,
       sectionID: -1,
-      sensitivity: Platform.Select({ android: 50, ios: 0 })
+      sensitivity: Platform.select({ android: 50, ios: 0 })
     };
   },
 
