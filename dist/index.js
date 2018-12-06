@@ -145,7 +145,6 @@ var Swipeout = (0, _createReactClass2.default)({
 
   getInitialState: function getInitialState() {
     return {
-      hasMoved: false,
       autoClose: this.props.autoClose || false,
       btnWidth: 0,
       btnsLeftWidth: 0,
@@ -216,7 +215,6 @@ var Swipeout = (0, _createReactClass2.default)({
 
   _handlePanResponderMove: function _handlePanResponderMove(e, gestureState) {
     if (this.props.disabled) return;
-    this.setState({ hasMoved: true });
     var posX = gestureState.dx;
     var posY = gestureState.dy;
     var leftWidth = this.state.btnsLeftWidth;
@@ -274,7 +272,7 @@ var Swipeout = (0, _createReactClass2.default)({
       }
     }
 
-    if (!this.state.swiping && !this.props.disabled) {
+    if (this.state.contentPos === 0 && !this.props.disabled) {
       this.props.onPress();
     }
 
