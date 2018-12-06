@@ -13,6 +13,7 @@ import {
   TouchableHighlight,
   StyleSheet,
   Text,
+  Platform,
   View,
   ViewPropTypes,
 } from 'react-native';
@@ -117,7 +118,7 @@ const Swipeout = createReactClass({
       disabled: false,
       rowID: -1,
       sectionID: -1,
-      sensitivity: 0,
+      sensitivity: Platform.Select({ android: 50, ios: 0 })
     };
   },
 
