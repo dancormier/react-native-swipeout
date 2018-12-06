@@ -118,6 +118,8 @@ const Swipeout = createReactClass({
       disabled: false,
       rowID: -1,
       sectionID: -1,
+      disabled: false,
+      onPress: () => null,
       sensitivity: Platform.select({ android: 50, ios: 0 })
     };
   },
@@ -240,6 +242,10 @@ const Swipeout = createReactClass({
       } else {
         this._close();
       }
+    }
+
+    if (this.state.contentPos === 0 && !this.props.disabled) {
+      this.props.onPress()
     }
 
     //  Allow scroll

@@ -34,6 +34,8 @@ var _reactNative = require('react-native');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var SwipeoutBtn = (0, _createReactClass2.default)({
   displayName: 'SwipeoutBtn',
 
@@ -130,16 +132,20 @@ var Swipeout = (0, _createReactClass2.default)({
   },
 
   getDefaultProps: function getDefaultProps() {
-    return {
+    var _ref;
+
+    return _ref = {
       disabled: false,
       rowID: -1,
-      sectionID: -1,
-      sensitivity: _reactNative.Platform.select({ android: 50, ios: 0 })
-    };
+      sectionID: -1
+    }, _defineProperty(_ref, 'disabled', false), _defineProperty(_ref, 'onPress', function onPress() {
+      return null;
+    }), _defineProperty(_ref, 'sensitivity', _reactNative.Platform.select({ android: 50, ios: 0 })), _ref;
   },
 
   getInitialState: function getInitialState() {
     return {
+      hasMoved: false,
       autoClose: this.props.autoClose || false,
       btnWidth: 0,
       btnsLeftWidth: 0,
@@ -210,6 +216,7 @@ var Swipeout = (0, _createReactClass2.default)({
 
   _handlePanResponderMove: function _handlePanResponderMove(e, gestureState) {
     if (this.props.disabled) return;
+    this.setState({ hasMoved: true });
     var posX = gestureState.dx;
     var posY = gestureState.dy;
     var leftWidth = this.state.btnsLeftWidth;
@@ -265,6 +272,10 @@ var Swipeout = (0, _createReactClass2.default)({
       } else {
         this._close();
       }
+    }
+
+    if (!this.state.swiping && !this.props.disabled) {
+      this.props.onPress();
     }
 
     //  Allow scroll
