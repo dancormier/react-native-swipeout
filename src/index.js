@@ -15,6 +15,7 @@ import {
   Text,
   View,
   ViewPropTypes,
+  I18nManager,
 } from 'react-native';
 
 const SwipeoutBtn = createReactClass({
@@ -181,12 +182,12 @@ const Swipeout = createReactClass({
 
   _handlePanResponderMove: function (e: Object, gestureState: Object) {
     if (this.props.disabled) return;
-    var posX = gestureState.dx;
+    var posX = gestureState.dx * (I18nManager.isRTL ? -1 : 1);
     var posY = gestureState.dy;
     var leftWidth = this.state.btnsLeftWidth;
     var rightWidth = this.state.btnsRightWidth;
-    if (this.state.openedRight) var posX = gestureState.dx - rightWidth;
-    else if (this.state.openedLeft) var posX = gestureState.dx + leftWidth;
+    if (this.state.openedRight) var posX = (gestureState.dx * (I18nManager.isRTL ? -1 : 1)) - rightWidth;
+    else if (this.state.openedLeft) var posX = (gestureState.dx * (I18nManager.isRTL ? -1 : 1)) + leftWidth;
 
     //  prevent scroll if moveX is true
     var moveX = Math.abs(posX) > Math.abs(posY);
@@ -206,7 +207,7 @@ const Swipeout = createReactClass({
 
   _handlePanResponderEnd: function (e: Object, gestureState: Object) {
     if (this.props.disabled) return;
-    var posX = gestureState.dx;
+    var posX = gestureState.dx * (I18nManager.isRTL ? -1 : 1);
     var contentPos = this.state.contentPos;
     var contentWidth = this.state.contentWidth;
     var btnsLeftWidth = this.state.btnsLeftWidth;
@@ -253,6 +254,10 @@ const Swipeout = createReactClass({
   },
 
   _rubberBandEasing: function (value, limit) {
+    if (I18nManager.isRTL) {
+      value *= -1
+      limit *= -1
+    }
     if (value < 0 && value < limit) return limit - Math.pow(limit - value, 0.85);
     else if (value > 0 && value > limit) return limit + Math.pow(value - limit, 0.85);
     return value;
