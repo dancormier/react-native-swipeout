@@ -99,9 +99,8 @@ const NativeButton = React.createClass({
           </View>
         </TouchableNativeFeedback>
       );
-    } else if (NativeButton.isIOS) {
-      console.log("not really supported")
-    }
+    } 
+
 
     // Render default button
     return (
