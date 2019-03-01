@@ -192,11 +192,11 @@ var Swipeout = (0, _createReactClass2.default)({
     var _this2 = this;
 
     if (this.props.disabled) return;
-    if (!this.state.openedLeft && !this.state.openedRight) {
-      this._callOnOpen();
-    } else {
-      this._callOnClose();
-    }
+    // if (!this.state.openedLeft && !this.state.openedRight) {
+    //   this._callOnOpen();
+    // } else {
+    //   this._callOnClose();
+    // }
     this.refs.swipeoutContent.measure(function (ox, oy, width, height) {
       var buttonWidth = _this2.props.buttonWidth || width / 5;
       _this2.setState({
