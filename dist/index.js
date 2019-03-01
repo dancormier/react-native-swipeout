@@ -124,7 +124,8 @@ var Swipeout = (0, _createReactClass2.default)({
     right: _propTypes2.default.array,
     scroll: _propTypes2.default.func,
     style: (_reactNative.ViewPropTypes || _reactNative.View.propTypes).style,
-    sensitivity: _propTypes2.default.number,
+    sensitivityX: _propTypes2.default.number,
+    sensitivityY: _propTypes2.default.number,
     buttonWidth: _propTypes2.default.number,
     disabled: _propTypes2.default.bool
   },
@@ -134,7 +135,8 @@ var Swipeout = (0, _createReactClass2.default)({
       disabled: false,
       rowID: -1,
       sectionID: -1,
-      sensitivity: 50
+      sensitivityX: 50,
+      sensitivityY: 50
     };
   },
 
@@ -165,7 +167,7 @@ var Swipeout = (0, _createReactClass2.default)({
         return _this.state.openedLeft || _this.state.openedRight;
       },
       onMoveShouldSetPanResponderCapture: function onMoveShouldSetPanResponderCapture(event, gestureState) {
-        return Math.abs(gestureState.dx) > _this.props.sensitivity && Math.abs(gestureState.dy) <= _this.props.sensitivity;
+        return Math.abs(gestureState.dx) > _this.props.sensitivityX && Math.abs(gestureState.dy) <= _this.props.sensitivityY;
       },
       onPanResponderGrant: this._handlePanResponderGrant,
       onPanResponderMove: this._handlePanResponderMove,
