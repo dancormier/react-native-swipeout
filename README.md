@@ -1,3 +1,6 @@
+# DEPRECATED
+this is no longer supported, please consider using https://github.com/jemise111/react-native-swipe-list-view instead.
+
 # react-native-swipeout
 iOS-style swipeout buttons that appear from behind a component
 
