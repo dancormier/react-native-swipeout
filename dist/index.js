@@ -165,7 +165,7 @@ var Swipeout = (0, _createReactClass2.default)({
         return _this.state.openedLeft || _this.state.openedRight;
       },
       onMoveShouldSetPanResponderCapture: function onMoveShouldSetPanResponderCapture(event, gestureState) {
-        return Math.abs(gestureState.dx) > _this.props.sensitivity && Math.abs(gestureState.dy) <= _this.props.sensitivity;
+        return Math.abs(gestureState.dx*(_reactNative.I18nManager.isRTL?-1:1)) > _this.props.sensitivity && Math.abs(gestureState.dy) <= _this.props.sensitivity;
       },
       onPanResponderGrant: this._handlePanResponderGrant,
       onPanResponderMove: this._handlePanResponderMove,
@@ -209,11 +209,11 @@ var Swipeout = (0, _createReactClass2.default)({
 
   _handlePanResponderMove: function _handlePanResponderMove(e, gestureState) {
     if (this.props.disabled) return;
-    var posX = gestureState.dx;
+    var posX = gestureState.dx*(_reactNative.I18nManager.isRTL?-1:1);
     var posY = gestureState.dy;
     var leftWidth = this.state.btnsLeftWidth;
     var rightWidth = this.state.btnsRightWidth;
-    if (this.state.openedRight) var posX = gestureState.dx - rightWidth;else if (this.state.openedLeft) var posX = gestureState.dx + leftWidth;
+    if (this.state.openedRight) var posX = gestureState.dx*(_reactNative.I18nManager.isRTL?-1:1) - rightWidth;else if (this.state.openedLeft) var posX = gestureState.dx*(_reactNative.I18nManager.isRTL?-1:1) + leftWidth;
 
     //  prevent scroll if moveX is true
     var moveX = Math.abs(posX) > Math.abs(posY);
@@ -232,7 +232,7 @@ var Swipeout = (0, _createReactClass2.default)({
 
   _handlePanResponderEnd: function _handlePanResponderEnd(e, gestureState) {
     if (this.props.disabled) return;
-    var posX = gestureState.dx;
+    var posX = gestureState.dx*(_reactNative.I18nManager.isRTL?-1:1);
     var contentPos = this.state.contentPos;
     var contentWidth = this.state.contentWidth;
     var btnsLeftWidth = this.state.btnsLeftWidth;
