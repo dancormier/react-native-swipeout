@@ -13,6 +13,7 @@ import {
   TouchableHighlight,
   StyleSheet,
   Text,
+  Platform,
   View,
   ViewPropTypes,
 } from 'react-native';
@@ -117,7 +118,9 @@ const Swipeout = createReactClass({
       disabled: false,
       rowID: -1,
       sectionID: -1,
-      sensitivity: 50,
+      disabled: false,
+      onPress: () => null,
+      sensitivity: Platform.select({ android: 50, ios: 0 })
     };
   },
 
@@ -131,6 +134,7 @@ const Swipeout = createReactClass({
       contentPos: 0,
       contentWidth: 0,
       openedRight: false,
+      openedLeft: false,
       swiping: false,
       tweenDuration: 160,
       timeStart: null,
@@ -145,11 +149,11 @@ const Swipeout = createReactClass({
       onMoveShouldSetPanResponderCapture: (event, gestureState) =>
         Math.abs(gestureState.dx) > this.props.sensitivity &&
         Math.abs(gestureState.dy) <= this.props.sensitivity,
-      onPanResponderGrant: this._handlePanResponderGrant,
+    onPanResponderGrant: this._handlePanResponderGrant,
       onPanResponderMove: this._handlePanResponderMove,
       onPanResponderRelease: this._handlePanResponderEnd,
       onPanResponderTerminate: this._handlePanResponderEnd,
-      onShouldBlockNativeResponder: (event, gestureState) => false,
+      onShouldBlockNativeResponder: (event, gestureState) => true,
       onPanResponderTerminationRequest: () => false,
     });
   },
@@ -238,6 +242,10 @@ const Swipeout = createReactClass({
       } else {
         this._close();
       }
+    }
+
+    if (this.state.contentPos === 0 && !this.props.disabled) {
+      this.props.onPress()
     }
 
     //  Allow scroll

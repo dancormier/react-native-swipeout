@@ -30,6 +30,7 @@
   "dependencies": {
     "create-react-class": "^15.6.0",
     "prop-types": "^15.5.10",
+    "react-native-swipeout": "git+https://github.com/TareqElMasri/react-native-swipeout.git",
     "react-tween-state": "^0.1.5"
   },
   "devDependencies": {
