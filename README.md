@@ -46,7 +46,9 @@ close           | bool   | Yes      |           | close swipeout
 disabled        | bool   | Yes      |  false    | whether to disable the swipeout  
 left            | array  | Yes      | []        | swipeout buttons on left
 onOpen          | func   | Yes      |           | (sectionID, rowId, direction: string) => void
-onClose          | func   | Yes      |           | (sectionID, rowId, direction: string) => void
+onClose         | func   | Yes      |           | (sectionID, rowId, direction: string) => void
+openRight       | bool   | Yes      | undefined | set to true to show right buttons
+openLeft        | bool   | Yes      | undefined | set to true to show left buttons
 right           | array  | Yes      | []        | swipeout buttons on right
 scroll          | func   | Yes      |           | prevent parent scroll
 style           | style  | Yes      |           | style of the container
