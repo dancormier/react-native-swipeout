@@ -126,7 +126,8 @@ var Swipeout = (0, _createReactClass2.default)({
     style: (_reactNative.ViewPropTypes || _reactNative.View.propTypes).style,
     sensitivity: _propTypes2.default.number,
     buttonWidth: _propTypes2.default.number,
-    disabled: _propTypes2.default.bool
+    disabled: _propTypes2.default.bool,
+    enableScroll: _propTypes2.default.bool
   },
 
   getDefaultProps: function getDefaultProps() {
@@ -134,7 +135,8 @@ var Swipeout = (0, _createReactClass2.default)({
       disabled: false,
       rowID: -1,
       sectionID: -1,
-      sensitivity: 50
+      sensitivity: 50,
+      enableScroll: true
     };
   },
 
@@ -279,6 +281,9 @@ var Swipeout = (0, _createReactClass2.default)({
   },
 
   _rubberBandEasing: function _rubberBandEasing(value, limit) {
+    if (!this.props.enableScroll) {
+      return 0;
+    }
     if (value < 0 && value < limit) return limit - Math.pow(limit - value, 0.85);else if (value > 0 && value > limit) return limit + Math.pow(value - limit, 0.85);
     return value;
   },
