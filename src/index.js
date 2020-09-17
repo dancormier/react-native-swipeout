@@ -118,6 +118,7 @@ const Swipeout = createReactClass({
       rowID: -1,
       sectionID: -1,
       sensitivity: 50,
+      buttonWidth: 80,
     };
   },
 
@@ -168,7 +169,7 @@ const Swipeout = createReactClass({
       this._callOnClose();
     }
     this.swipeoutContent.measure((ox, oy, width, height) => {
-      let buttonWidth = this.props.buttonWidth || (width / 5);
+      let buttonWidth = this.props.buttonWidth;
       this.setState({
         btnWidth: buttonWidth,
         btnsLeftWidth: this.props.left ? buttonWidth * this.props.left.length : 0,
@@ -303,7 +304,7 @@ const Swipeout = createReactClass({
 
   _openRight: function () {
     this.swipeoutContent.measure((ox, oy, width, height) => {
-      let btnWidth = this.props.buttonWidth || (width / 5);
+      let btnWidth = this.props.buttonWidth;
 
       this.setState({
         btnWidth,
@@ -323,7 +324,7 @@ const Swipeout = createReactClass({
 
   _openLeft: function () {
     this.swipeoutContent.measure((ox, oy, width, height) => {
-      let btnWidth = this.props.buttonWidth || (width / 5);
+      let btnWidth = this.props.buttonWidth;
 
       this.setState({
         btnWidth,
