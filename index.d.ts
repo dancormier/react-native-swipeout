@@ -1,13 +1,20 @@
 import * as React from 'react';
 
 declare module 'react-native-swipeout' {
+    export enum ButtonType {
+        default = "default",
+        delete = "delete",
+        primary = "primary",
+        secondary = "secondary"
+    }
+
     export interface SwipeoutButtonProperties {
         backgroundColor?: string;
         color?: string;
         component?: JSX.Element;
         onPress?(): void;
         text?: React.ReactNode;
-        type?: 'default'|'delete'|'primary'|'secondary';
+        type?: ButtonType | keyof typeof ButtonType;
         underlayColor?: string;
         disabled?: boolean;
     }
